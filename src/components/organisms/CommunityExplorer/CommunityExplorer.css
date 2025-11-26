@@ -1,0 +1,59 @@
+.groupExplorer-filter-bar {
+    @apply flex justify-between pb-4 w-full;
+}
+
+.groupExplorer-title {
+    @apply flex w-full items-center justify-between gap-2;
+    
+    .groupExplorer-title-text {
+        color: var(--headerText);
+    }
+
+    .input-container {
+        width: auto;
+
+        .input-container-inner {
+            width: auto;
+        }
+    }
+    
+
+    .groupExplorer-dropdown-button {
+        font-size: 15px !important;
+        line-height: 20px !important;
+    }
+}
+
+.cta-buttons {
+    @apply flex justify-center p-4 gap-2;
+    
+    > * {
+        @apply cg-text-lg-500;
+    }
+}
+
+.group-explorer-tag-list {
+    @apply flex flex-wrap gap-2;
+
+    .active {
+        @apply cursor-pointer;
+    }
+
+    button {
+        font-weight: 500;
+    }
+}
+
+.mobile-layout {
+    .group-explorer-tag-container {
+        display: block;
+        scroll-snap-type: none;
+        width: 100vw;
+        margin-left: -16px;
+    }
+
+    .group-explorer-tag-list {
+        padding-left: 16px;
+        width: 1320px;
+    }
+}

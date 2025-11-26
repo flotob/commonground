@@ -1,0 +1,174 @@
+.bottom-nav-articles-container {
+  @apply flex items-center justify-center w-full;
+  grid-column: start / end;
+  grid-row: article-bottom-bar-start / article-bottom-bar-end;
+
+  &.bottom-nav-articles-container-mobile {
+    @apply mb-2 flex-col;
+
+    .bottom-nav-articles {
+      @apply w-full px-4 gap-1;
+      background: none;
+      border: none;
+      border-radius: 0;
+
+      .nav-left button {
+        height: 39px;
+      }
+
+      .bottom-nav-articles-back-btn {
+        @apply mr-1;
+      }
+    }
+
+    .save-state {
+      @apply flex items-center justify-end gap-2 w-full py-2 px-4 pt-2 cg-text-lg-500;
+      border-top: 1px solid var(--cardBorder);
+      
+      &.init {
+        color: var(--cardTextSecondary);
+
+        svg > path {
+          fill: var(--cardTextSecondary);
+        }
+      }
+
+      &.saving {
+        color: var(--cardTextMain);
+
+        svg > path {
+          fill: var(--cardTextMain);
+        }
+      }
+
+      &.saved {
+        color: var(--successColor);
+        background-color: var(--successBg);
+
+        svg > path {
+          fill: var(--successColor);
+        }
+      }
+
+      &.published {
+        color: var(--successColor);
+        background-color: var(--successBg);
+
+        svg > path {
+          fill: var(--successColor);
+        }
+      }
+
+      &.unpublished {
+        color: var(--successColor);
+        background-color: var(--successBg);
+
+        svg > path {
+          fill: var(--successColor);
+        }
+      }
+
+      &.error {
+        color: var(--errorColor);
+        background-color: var(--errorBg);
+
+        svg > path {
+          fill: var(--errorColor);
+        }
+
+        .error-retry-btn {
+          @apply cg-text-lg-500;
+          color: var(--cardTextMain);
+          text-decoration-line: underline;
+        }
+      }
+    }
+  }
+}
+.bottom-nav-articles {
+  @apply flex flex-row w-full justify-between items-center p-4 font-normal;  
+  background: var(--cardSubBg);
+  border-bottom: solid 1px var(--cardBorder);
+  color: var(--cardTextMain);
+
+  > div {
+    @apply flex items-center gap-2;
+  }
+
+  .save-state {
+    @apply flex items-center flex-none order-none flex-grow-0 cg-text-md-500;
+    height: 19px;
+    color: var(--cardTextSecondary);   
+  }
+  .save-state.init {
+    color: var(--cardTextSecondary);
+  }
+  .save-state.saving {
+    color: var(--cardTextSecondary);
+  }
+  .save-state.deleting {
+    color: var(--cardTextSecondary);
+  }
+  .save-state.saved {
+    color: var(--successColor);
+    --iconPrimary: var(--successColor);
+  }
+  .save-state.deleted {
+    color: var(--successColor);
+    --iconPrimary: var(--successColor);
+  }
+  .save-state.published {
+    color: var(--successColor);
+    --iconPrimary: var(--successColor);
+  }
+  .save-state.error {
+    color: var(--errorColor);
+    --iconPrimary: var(--errorColor);
+  }
+
+  .visibility-dropdown {
+    max-width: 350px;
+
+    .dropdown-item {
+      gap: 8px;
+    }
+  }
+
+  .visibility-trigger {
+    flex-grow: 1;
+    justify-self: center;
+  }
+}
+
+.desktop-layout {
+  .bottom-nav-articles-container {
+    @apply px-4;
+  }
+
+  .bottom-nav-articles {
+    @apply px-0 justify-between gap-4;
+    max-width: 800px;
+    background: transparent;
+    border: none;
+  }
+
+  .bottom-nav-articles-container-mobile {
+    @apply px-0;
+    max-width: 800px;
+    background: transparent;
+    border: none;
+  }
+
+  .save-state {
+    border: none !important;
+  }
+}
+
+.permission-popup-tooltip {
+  @apply p-0;
+  background: var(--bgColor);
+}
+
+.permission-popup-container-desktop {
+  max-height: 75vh;
+}

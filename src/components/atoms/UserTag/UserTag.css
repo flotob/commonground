@@ -1,0 +1,27 @@
+.user-tag {
+  @apply flex gap-1;
+  transition: background-color 0.3s;
+  @apply flex items-center justify-start px-1 pr-3 py-2 rounded;
+
+  .access-level {
+    @apply px-1 py-0.5;
+    font-size: 14px;
+    color: var(--cardTextSecondary);
+    background: var(--cardBgHover);
+    border-radius: 6px;
+  }
+}
+
+.user-tag-clickable {
+  @apply cursor-pointer;
+  border-radius: 6px;
+
+  &.no-bg {
+    padding: 0 !important;
+    background: none !important;
+  }
+}
+
+.user-tag-clickable:hover {
+  background: var(--cardBgHover);
+}

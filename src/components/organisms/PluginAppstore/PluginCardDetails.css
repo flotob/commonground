@@ -1,0 +1,4 @@
+.plugin-card-details-modal {
+    @apply relative;
+    max-width: 800px !important;
+}

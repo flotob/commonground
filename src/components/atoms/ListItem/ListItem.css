@@ -1,0 +1,56 @@
+.list-item-dropdown {
+    @apply px-4 py-2 flex items-center cursor-pointer;
+    color: var(--dropdownPrimaryText);
+    gap: 16px;
+
+    .list-item-dropdown-icon {
+        @apply flex items-center;
+    }
+
+    .list-item-dropdown-right-side {
+        @apply flex flex-col w-full;
+        gap: 2px;
+
+        .list-item-dropdown-title {
+            @apply flex justify-between cg-text-lg-500;
+        }
+
+        .list-item-dropdown-subtitle {
+            @apply cg-text-lg-400;
+            color: var(--dropdownSubtitle);
+        }
+
+        .list-item-dropdown-description {
+            @apply cg-text-md-400;
+            color: var(--dropdownSecondaryText);
+        }
+    }
+}
+.list-item-dropdown:first-of-type {
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+.list-item-dropdown:last-of-type {
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+.list-item-dropdown:not(:last-of-type) {
+    border-bottom: solid 1px var(--border-divider, rgba(0, 0, 0, 0.10));
+}
+
+.list-item-dropdown:hover,
+.list-item-dropdown.selected {
+    background: var(--dropdownHoverBg);
+}
+
+.list-item-dropdown.disabled {
+    @apply cursor-not-allowed;
+    .list-item-dropdown-title,
+    .list-item-dropdown-description {
+        color: var(--dropdownDisabledText);
+    }
+}
+
+.list-item-dropdown.wide {
+    @apply py-3;
+}

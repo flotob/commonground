@@ -1,0 +1,54 @@
+.audio-devices-management {
+  @apply flex flex-col items-start self-stretch py-4 gap-8 flex-none order-1 flex-grow;
+
+  .user-profile-management-title {
+    @apply cg-heading-2;
+    color: var(--headerText);
+  }
+
+  .audio-input-devices {
+    @apply flex flex-col justify-center items-start self-stretch p-4 gap-2 flex-none flex-grow-0 order-1 cg-border-m;
+    background: var(--transparent);
+
+    h3 {
+      @apply flex flex-row items-center gap-1 cg-text-lg-400;
+      color: var(--headerText);
+    }
+
+    .audio-input-devices-container {
+      @apply flex flex-col items-start self-stretch py-0 px-4 gap-2 flex-none order-1 flex-grow-0;
+
+      padding-top: 0.375rem;
+
+      .audio-input-device {
+        @apply cursor-pointer flex flex-row items-center gap-2 flex-none order-none flex-grow cg-text-lg-500;
+        padding: 0.375rem 0;
+        color: var(--cardTextSecondary);
+
+        &.active {
+          @apply cursor-default;
+          color: var(--headerText);
+        }
+      }
+
+      .not-allowed {
+        @apply flex flex-row items-center gap-2 flex-none order-none flex-grow cg-text-lg-500;
+        padding: 0.375rem 0;
+        color: var(--cardTextSecondary);
+      }
+    }
+  }
+
+  &.popup-mode {
+    .audio-input-devices {
+      @apply flex items-center self-stretch cursor-pointer;
+      padding: 2px 6px;
+      color: var(--cardTextMain);
+      background: transparent;
+
+      .audio-input-device {
+        @apply text-sm;
+      }
+    }
+  }
+}

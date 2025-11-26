@@ -1,0 +1,24 @@
+.wallet-connector {
+  @apply w-full cursor-pointer;
+  background-color: var(--surface-background-2nd);
+  border: 1px solid var(--cardBorder);
+  border-radius: 12px;
+
+  .wallet-connect-btn {
+    @apply gap-3;
+
+    .btnText {
+      @apply cg-text-lg-500;
+      color: var(--cardText);
+    }
+  }
+
+  &.wallet-connector-disabled {
+    @apply cursor-not-allowed;
+    background-color: var(--transparent);
+
+    .btnText {
+      color: var(--cardTextSecondary);
+    }
+  }
+}

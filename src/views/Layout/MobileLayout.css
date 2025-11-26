@@ -1,0 +1,128 @@
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+
+  height: var(--visualHeight);
+  min-height: var(--visualHeight);
+  max-height: var(--visualHeight);
+  
+  z-index: -10;
+  background-color: var(--surface-global-background);
+  background-repeat: repeat;
+  background-blend-mode: color;
+}
+
+.layout.mobile-layout {
+  grid-template-columns: [start content-start menu-start voice-call-manager-start] auto [voice-call-manager-end menu-end content-end end];
+
+  &.mobile-layout-ios-pwa{
+    grid-template-rows: [start voice-call-manager-start] auto [voice-call-manager-end content-start] 1fr [content-end menu-start] 87px [menu-end end];
+
+    &.with-mobile-menu {
+      padding-bottom: 87px;
+    }
+  }
+  &.mobile-layout-ios-web{
+    grid-template-rows: [start voice-call-manager-start] auto [voice-call-manager-end content-start] 1fr [content-end menu-start] 55px [menu-end end];
+
+    &.with-mobile-menu {
+      padding-bottom: 55px;
+    }
+  }
+  &.mobile-layout-android{
+    grid-template-rows: [start voice-call-manager-start] auto [voice-call-manager-end content-start] 1fr [content-end menu-start] 70px [menu-end end];
+
+    &.with-mobile-menu {
+      padding-bottom: 70px;
+    }
+  }
+
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+
+  /* fallback */
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+
+  /* 100vh bug fix for some mobile devices */ 
+  height: var(--visualHeight);
+  min-height: var(--visualHeight);
+  max-height: var(--visualHeight);
+
+  > .mobile-menu {
+    @apply z-30;
+    grid-column: menu-start / menu-end;
+    grid-row: menu-start / menu-end;
+
+    transform: translateY(120%);
+    transition-property: transform;
+    transition-duration: 225ms;
+    transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+  }
+
+  > .mobile-voice-call-manager {
+    grid-column: voice-call-manager-start / voice-call-manager-end;
+    grid-row: voice-call-manager-start / voice-call-manager-end;
+    min-width: 0;
+  }
+
+  > .content-window {
+    grid-column: content-start / content-end;
+    grid-row: content-start / menu-end;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    padding-bottom: 0px;
+
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    transition: padding-bottom 225ms cubic-bezier(0.4, 0.0, 1, 1);
+
+    > .content {
+      @apply relative;
+      width: 100%;
+      min-width: 100%;
+      max-width: 100%;
+  
+      height: 100%;
+      min-height: 100%;
+      max-height: 100%;
+    }
+  }
+
+  &.with-mobile-menu {
+    >.content-window {
+      transition: padding-bottom 225ms cubic-bezier(0.0, 0.0, 0.2, 1);
+    }
+
+    > .mobile-menu {
+      @apply flex;
+      transform: translateY(0);
+      transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+    }
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* CSS specific to iOS devices */
+  .background {
+    background-image: none !important;
+  }
+}
+
+/* display-mode: standalone; Detects if opened as PWA. Will not work anymore if we change our PWA display to something else that isn't standalone in manifest.json; Update this rule accordingly. */
+@media all and (display-mode: standalone) {
+  /* CSS specific to iOS devices */ 
+  @supports (-webkit-touch-callout: none) {
+    .layout.mobile-layout {
+      grid-template-rows: [start voice-call-manager-start] auto [voice-call-manager-end content-start] 1fr [content-end menu-start] 87px [menu-end end];
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.community-router {
+    @apply h-full grid;
+
+    > * {
+        overflow: hidden;
+    }
+}
+
+.desktop-layout {
+    .community-router {
+        grid-template-columns: [start channel-browser-start area-list-start] 280px [channel-browser-end area-list-end community-content-start] auto [community-content-end end];
+    }
+}

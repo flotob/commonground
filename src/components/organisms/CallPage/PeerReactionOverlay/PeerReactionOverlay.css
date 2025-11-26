@@ -1,0 +1,36 @@
+.peer-reaction-overlay {
+    @apply flex items-center justify-center pointer-events-none;
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    opacity: 0;
+
+    &.audience {
+        @apply cg-heading-1;
+    }
+
+    &.speaker {
+        font-size: 64px;
+        font-weight: 500;
+    }
+
+    &.mainSpeaker {
+        font-size: 96px;
+        font-weight: 500;
+    }
+
+    &.showing-reaction {
+        display: flex;
+        opacity: 1;
+        animation: showing 1s;
+    }
+
+    &.no-reaction {
+        opacity: 0;
+        animation: hiding 1s ease-in;
+    }
+}
+
+.peer-reaction-popping {
+    animation: popping 1s;
+}

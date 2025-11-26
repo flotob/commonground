@@ -1,0 +1,13 @@
+.call-list-container {
+    @apply p-2 sticky bottom-0 mt-auto;
+}
+
+.call-list {
+    @apply flex flex-col cg-border-xl overflow-hidden;
+    background: var(--surface-background-2nd);
+    border: solid 1px var(--cardBorder);
+
+    .active-calls {
+        max-height: 195px;
+    }
+}

@@ -1,0 +1,5 @@
+.spark-multi-icon {
+    >:not(:first-child) {
+        margin-left: -30px;
+    }
+}

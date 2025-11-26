@@ -1,0 +1,27 @@
+.breadcrumbs-bar {
+    @apply flex items-center gap-1 py-2 cg-heading-2;
+    
+    .breadcrumbs-step {
+        @apply flex items-center p-2 gap-2;
+        background: var(--breadcrumbBg);
+        border-radius: 6px;
+        color: var(--breadcrumbText);
+        --iconPrimary: var(--breadcrumbText);
+
+        &:not(.clickable) {
+            @apply block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .breadcrumbs-step.clickable {
+        @apply cursor-pointer;
+        color: var(--breadcrumbPastText);
+    }
+
+    .breadcrumbs-step:hover {
+        background: var(--breadcrumbBgHover);
+    }
+}

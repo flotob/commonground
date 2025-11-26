@@ -1,0 +1,24 @@
+.search-input-container {
+    @apply relative;
+
+    .pre-icon {
+        @apply absolute my-auto ml-4;
+        top: 0;
+        bottom: 0;
+        z-index: 10;
+    }
+
+    .search-input-label {
+        @apply inline;
+    }
+
+    .search-input-field {
+        @apply pl-10;
+        border-radius: 12px;
+        height: 36px;
+    }
+}
+
+.search-input-container:hover > .pre-icon > path {
+    opacity: 1;
+}

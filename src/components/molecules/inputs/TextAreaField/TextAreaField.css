@@ -1,0 +1,37 @@
+textarea {
+    @apply w-full py-2 px-4 my-1 cursor-text;
+    color: var(--inputText);
+    background-color: var(--surface-input);
+    border: 1px solid var(--border-secondary, #3C425E);
+    resize: none;
+    overflow: hidden;
+
+    &.autogrow {
+        resize: none;
+        height: 40px;
+    }
+}
+
+textarea:focus {
+    border: 1px solid var(--inputFocusedBorder);
+    outline: none;
+    box-shadow: none;
+}
+
+textarea::placeholder {
+    color: var(--inputPlaceholder);
+}
+
+textarea:hover {
+    @apply cursor-pointer;
+    background: var(--inputHoverBg);
+    border-color: var(--inputHoverBorder);
+}
+
+textarea:hover::placeholder {
+    color: var(--inputHoverPlaceholder);
+}
+
+.textarea-container {
+    @apply relative flex items-center;
+}

@@ -1,0 +1,100 @@
+.broadcast-container {
+    video {
+        max-height: 100%;
+        max-width: 100%;
+    }
+}
+
+.broadcast-peers-active-speaker {
+    @apply flex self-stretch gap-2 p-2 overflow-hidden;
+    
+    .call-peer-card {
+        border-radius: 24px;
+
+        .call-card-avatar {
+            @apply flex w-24 h-24;
+        }
+
+        .blur {
+            border-radius: 24px;
+        }
+    }
+}
+
+.broadcast-peers-other-peers {
+    @apply flex flex-col gap-2 p-2 w-full overflow-y-auto flex-1;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: var(--border-border-secondary, #383C53);
+        border-radius: 53px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 53px;
+        background: var(--surface-surface-brand, #404BBB);
+    }
+
+    &::-webkit-scrollbar {
+        height: 4px;
+        width: 4px;
+    }
+
+    .dropdown-options-trigger{
+        width: auto;
+    }
+}
+
+.broadcast-peers-other-broadcasters {
+    .call-peer-card {
+        @apply cg-border-xl overflow-hidden;
+
+        .video-call-card {
+            video {
+                height: auto;
+                width: 100%;
+            }
+        }
+
+        .call-card-avatar {
+            @apply flex w-12 h-12;
+        }
+    }
+}
+
+.desktop-layout {
+    .broadcast-peers-other-broadcasters {
+        display: grid;
+        width: 100%;
+        gap: 8px;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-auto-rows: min-content;
+    }
+}
+
+.mobile-layout, .tablet-layout {
+    .broadcast-peers-active-speaker {
+        .call-peer-card {
+            width: 100%;
+        }
+    }
+
+    .broadcast-peers-other-broadcasters {
+        @apply w-full;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+}
+
+.upgrade-button {
+    --btnTextualHoverBorder: 2px solid var(--warningColor) !important;
+
+    .btnText {
+        color: var(--warningColor) !important;
+    }
+}

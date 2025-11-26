@@ -1,0 +1,20 @@
+.community-requirements-modal {
+    .modal-content {
+        padding: 0 !important;
+    }
+}
+
+.requirements-container {
+    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.03));
+
+    >*:not(:last-child) {
+        border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.03));
+    }
+}
+
+.requirement-tag {
+    @apply w-full p-2 gap-2 !important;
+    .tagLabel {
+        @apply cg-text-lg-400 !important;
+    }
+}

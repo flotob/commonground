@@ -1,0 +1,121 @@
+.user-profile-details {
+  @apply flex flex-col items-center self-stretch gap-4 flex-none order-none flex-grow-0 overflow-hidden;
+  background: var(--surface-background-2nd);
+
+  > .user-profile-header {
+    @apply w-full relative;
+    height: 150px;
+  }
+
+  > .user-profile-content {
+    @apply flex flex-col w-full items-start px-4 gap-4 flex-none flex-grow;
+
+    > .interfaction-buttons-container {
+      @apply mx-auto py-2 px-4 flex items-center gap-2;
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 500px;
+
+      .follows-me {
+        @apply block p-2 cg-text-sm-500;
+        color: var(--cardTextMain);
+        background-color: var(--cardSubBg);
+        border-radius: 500px;
+      }
+    }
+
+    > .user-display-name {
+      @apply flex flex-col items-start p-0 gap-1 self-stretch flex-none order-none flex-grow-0;
+      > .user-alias {
+        @apply flex p-0 overflow-hidden w-full text-ellipsis cg-heading-2 text-center justify-center;
+      }
+    }
+
+    > .user-description {
+      @apply flex flex-col w-full items-start flex-grow h-0;
+      .user-about-box {
+        @apply flex flex-col items-start self-stretch p-0 mb-4 gap-1 flex-none flex-grow-0;
+  
+        > label {
+          @apply flex items-start flex-none order-none flex-grow-0 cg-text-lg-500;
+          color: var(--cardTextMain);
+        }
+  
+        > span {
+          @apply flex items-start self-stretch flex-none order-1 flex-grow-0 whitespace-pre-line;
+  
+          color: var(--cardTextMain);
+  
+          font-size: 16px;
+          line-height: 24px;
+        }
+      }
+  
+      .user-socials {
+        @apply flex flex-col gap-4 min-w-0 w-full;
+  
+        .user-socials-row {
+          @apply flex items-center gap-2 cursor-pointer cg-text-md-500;
+          color: var(--cardTextMain);
+  
+          > div {
+            @apply min-w-0 text-ellipsis overflow-hidden whitespace-nowrap flex-grow flex-shrink basis-0;
+          }
+  
+          svg > path {
+            fill: var(--cardTextMain);
+          }
+  
+          &.invalid {
+            color: var(--cardTextSecondary);
+  
+            svg > path {
+              fill: var(--cardTextSecondary);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.desktop-layout {
+  .user-profile-details {
+    border-right: 1px solid var(--cardBorder);
+  }
+}
+
+.mobile-layout {
+  .user-profile-details {
+    background-color: transparent;
+    > .user-profile-content {
+      @apply px-2;
+
+      > .user-description {
+        @apply h-auto;
+      }
+    }
+  }
+
+  .user-profile-main-content {
+    > .user-profile-inner {
+      @apply px-2;
+    }
+  }
+}
+
+.user-profile-mobile-settings {
+  .log-out-menu-item {
+    .dropdown-item-title {
+      color: var(--errorColor);
+    }
+  }
+}
+
+.user-options-dropdown {
+  width: 260px;
+}
+
+.user-status-icon {
+  width: 16px;
+  height: 16px;
+}

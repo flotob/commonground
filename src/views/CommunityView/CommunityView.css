@@ -1,0 +1,104 @@
+.desktop-layout {
+  .community-view {
+    @apply h-full;
+    display: grid;
+    grid-template-columns: [start community-content-start] auto [community-content-end end];
+    grid-template-rows: [start channel-browser-start community-content-start] auto [channel-browser-end area-list-start] 1fr [area-list-end community-content-end end];
+
+    .community-header {
+      grid-column: channel-browser-start / channel-browser-end;
+      grid-row: channel-browser-start / channel-browser-end;
+    }
+
+    .area-list {
+      grid-column: area-list-start / area-list-end;
+      grid-row: area-list-start / area-list-end;
+    }
+
+    >.content-message-list,
+    >.article-management {
+      @apply px-3 py-0;
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+
+    >.cg-scrollable {
+      @apply p-0;
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+
+    .floating-left-bar {
+      grid-row: channel-browser-start / area-list-end;
+    }
+  }
+
+  @media (min-width: 1430px) {
+    .community-view.with-member-list-container {
+      .community-view {
+        grid-column: content-start / member-list-end;
+        grid-template-columns: [start community-content-start] auto [community-content-end member-list-start] 280px [member-list-end end];
+
+        >.group-member-list {
+          grid-column: member-list-start / member-list-end;
+          grid-row: community-content-start / community-content-end;
+          background-color: transparent;
+          transform: translateX(0);
+        }
+      }
+    }
+  }
+}
+
+.mobile-layout {
+  .community-view {
+    @apply h-full grid p-0 relative;
+    grid-template-columns: [start channel-browser-bar-start community-content-start] 1fr [channel-browser-bar-end community-content-end end];
+    grid-template-rows: [start channel-browser-bar-start] auto [channel-browser-bar-end community-content-start] 1fr [community-content-end end];
+
+    >* {
+      @apply p-0;
+    }
+
+    >.cg-scrollable,
+    >.content-message-list,
+    >.article-management {
+      position: static;
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+
+    .community-home-page {
+      @apply px-2;
+    }
+
+    .text-channel-header {
+      @apply mx-0;
+    }
+
+    .message-group-icon {
+      @apply ml-4;
+    }
+  }
+
+  .join-community-btn-container {
+    @apply absolute bottom-0 w-full px-2.5 flex items-center justify-center;
+    bottom: 10px;
+
+    .join-community-btn {
+      @apply w-full mx-auto py-3.5 px-4;
+    }
+
+    &.text-channel-view {
+      &.text-channel-with-channel-browser,
+      &.with-member-list-container {
+        grid-row: content-start / content-end;
+      }
+    }
+  }
+}
+
+.mobile-join-btn:disabled {
+  backdrop-filter: blur(25px) !important;
+  background: var(--surface-dark-overlay) !important;
+}

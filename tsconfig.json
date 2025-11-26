@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "WebWorker"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "types":[
+      "dom-screen-wake-lock"
+    ]
+  },
+  "include": [
+    "src",
+    "src/common/types/*.d.ts",
+    "src/common/types/api/*.d.ts",
+    "src/common/types/events/*.d.ts",
+    "src/common/types/models/*.d.ts",
+    "src/types/*.d.ts",
+  ]
+}

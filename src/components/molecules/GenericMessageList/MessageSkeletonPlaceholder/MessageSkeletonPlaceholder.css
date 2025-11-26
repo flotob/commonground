@@ -1,0 +1,23 @@
+.message-skeleton-placeholder-icon {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 500px;
+    background-color: rgba(128, 128, 128, 0.08);
+}
+
+.message-skeleton-placeholder-header {
+    @apply mb-2 cg-border-l;
+    height: 1.2rem;
+    background-color: rgba(128, 128, 128, 0.08);
+}
+
+.message-skeleton-placeholder-item {
+    @apply p-2 flex gap-2 flex-wrap;
+    background-color: rgba(128, 128, 128, 0.08) !important;
+    opacity: 1 !important;
+}
+
+.message-skeleton-placeholder-word {
+    height: 1em;
+    background-color: transparent;
+}

@@ -1,0 +1,33 @@
+.newsletterSubscribeContainer {
+    @apply flex flex-col;
+    max-width: 500px; 
+
+    .newsletterSubscribeHeader {
+        @apply flex items-center p-1 gap-2;
+        color: var(--headerText);
+        --iconPrimary: var(--headerText);
+        font-size: 15px;
+        line-height: 20px;
+    }
+
+    .newsletterSubscribeInputContainer {
+        @apply flex items-center relative;
+    
+        .newsletterSubscribeButton {
+            @apply absolute;
+            right: 8px;
+            line-height: 19px;
+        }
+    }
+
+    .newsletterSubscribeSubtitle {
+        color: var(--cardTextSecondary);
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 18px;
+
+        &.error {
+            color: var(--errorColor);
+        }
+    }
+}

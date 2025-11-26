@@ -1,0 +1,85 @@
+.user-onboarding {
+    --onboardingModalWidth: 400px;
+    --onboardingModalHeight: 600px;
+
+    @apply w-full h-auto m-auto p-0 flex flex-col cg-border-xxl overflow-hidden;
+    background: var(--surface-background-2nd, #222432);
+    --errorColor: var(--warningColor);
+    width: auto;
+
+    &.ecosystem-onboarding.splash {
+        height: auto;
+
+        .onboarding-x {
+            background: var(--surface-subtleoverlay-eco, var(--surface-subtleoverlay));
+            color: var(--text-primary-eco, var(--text-primary));
+        }
+    }
+
+    &.mobile-layout {
+        height: var(--visualHeight);
+        min-height: var(--visualHeight);
+        max-height: var(--visualHeight);
+        width: 100vw;
+        min-width: 100vw;
+        max-width: 100vw;
+
+        .modal-content {
+            height: var(--visualHeight);
+            min-height: var(--visualHeight);
+            max-height: var(--visualHeight);
+            width: 100vw;
+            min-width: 100vw;
+            max-width: 100vw;
+        }
+    }
+    
+    > .modal-header {
+        @apply flex-row-reverse;
+        background: var(--cardSubBg);
+    }
+
+    .modal-title {
+        @apply text-center cg-heading-3;
+        color: var(--headerText);
+    }
+
+    .modal-content {
+        transition: min-height 0.4s ease-out, max-height 0.4s ease-out, height 0.4s ease-out;
+        padding: 0;
+        position: relative;
+
+        height: min(var(--onboardingModalHeight), 95vh);
+        min-height: min(var(--onboardingModalHeight), 95vh);
+        max-height: min(var(--onboardingModalHeight), 95vh);;
+        width: min(var(--onboardingModalWidth), 100vw);
+        min-width: min(var(--onboardingModalWidth), 100vw);
+        max-width: min(var(--onboardingModalWidth), 100vw);
+    }
+
+    &.create-profile-with-cg-profile {
+        --onboardingModalHeight: 915px;
+    }
+
+    &.create-profile-with-universal-profile {
+        --onboardingModalHeight: 860px;
+    }
+}
+
+.user-onboarding-logo {
+    width: 100px;
+    height: 100px;
+    padding: 15px;
+
+    &.dark-bg {
+        background: var(--colours-dark-950);
+    }
+}
+
+.onboarding-x {
+    @apply flex items-center justify-center p-2 cursor-pointer absolute top-6 right-6 z-10;
+    background: var(--surface-subtleoverlay);
+    color: var(--text-primary);
+    backdrop-filter: blur(7.5px);
+    border-radius: 500px;
+}

@@ -1,0 +1,43 @@
+.event-card.collapsed {
+    @apply flex-col;
+
+    .event-card-image {
+        width: 100%;
+        height: unset;
+        aspect-ratio: 16/9;
+    }
+
+    .event-card-description {
+        -webkit-line-clamp: 2;
+    }
+
+    .event-card-footer {
+        @apply flex-col;
+        > * {
+            @apply w-full;
+        }
+    }
+}
+
+.event-card-image {
+    @apply cg-border-l;
+    box-sizing: content-box;
+    width: 160px;
+    height: 90px;
+    object-fit: cover;
+
+    &.no-image {
+        @apply flex items-center justify-center;
+        background: var(--surface-background-2nd, #222432);
+    }
+}
+
+.event-card-description {
+    @apply overflow-hidden text-ellipsis;
+    display: -webkit-box;
+    white-space: pre-wrap;
+    word-break: break-word;
+    word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}

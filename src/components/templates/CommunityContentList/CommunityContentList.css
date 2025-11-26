@@ -1,0 +1,18 @@
+.community-content {
+    @apply flex items-center flex-col;
+
+    .community-content-list {
+        @apply flex flex-col w-full;
+        padding: 12px 16px;
+        max-width: 832px;
+
+        .community-content-list-title {
+            @apply py-4 flex flex-col cg-heading-1;
+            color: var(--headerText);
+
+            .community-content-list-subtitle {
+                @apply cg-text-lg-400;
+            }
+        }
+    }
+}

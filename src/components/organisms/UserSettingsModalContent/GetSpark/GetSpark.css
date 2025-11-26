@@ -1,0 +1,24 @@
+.blurred-spark-tile {
+    opacity: 0.65;
+    transform: scale(2);
+    filter: blur(25px);
+    top: 24px;
+}
+
+.spark-tile-bonus {
+    @apply cg-border-l;
+    background: rgba(2, 245, 141, 0.10);
+}
+
+.spark-billing-container {
+    min-height: 180px;
+}
+
+.spark-billing-info {
+    @apply cg-border-xl;
+    border: 1px solid var(--border-secondary, #3C425E);
+
+    > *:not(:last-child) {
+        border-bottom: 1px solid var(--border-secondary, #3C425E);
+    }
+}

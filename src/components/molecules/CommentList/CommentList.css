@@ -1,0 +1,7 @@
+.comment-list {
+    .message-field {
+        @apply cg-border-m;
+        background: var(--chatInputBg);
+        border: 1px solid var(--chatInputBorder);
+    }
+}

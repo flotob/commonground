@@ -1,0 +1,6 @@
+.community-input {
+    width: 100%;
+    max-width: 640px;
+    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.03));
+    background: var(--surface-subtleoverlay, rgba(255, 255, 255, 0.03));
+}

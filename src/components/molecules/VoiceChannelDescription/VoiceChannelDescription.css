@@ -1,0 +1,41 @@
+.voice-channel-description {
+  @apply flex flex-col items-start gap-1 overflow-hidden;
+  width: 100%;
+
+  > .voice-channel-community {
+    @apply flex flex-row items-center self-stretch gap-1 p-0 min-w-0 flex-grow-0 order-none;
+    color: var(--audioWidgetTextMain);
+
+    > .voice-channel-community-name {
+      @apply align-middle items-center cg-text-md-500;
+      flex: 1;
+      overflow: hidden;
+      display: -webkit-box;
+      word-wrap: break-word;
+      word-break: break-word;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  > .voice-channel-name {
+    @apply self-stretch items-center overflow-hidden whitespace-nowrap text-ellipsis;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--audioWidgetTextMain);
+  }
+
+  &.mobile {
+    > .voice-channel-community {
+      > .community-photo-placeholder {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+      }
+      > .voice-channel-community-name {
+        @apply overflow-hidden whitespace-nowrap text-ellipsis inline-block;
+      }
+    }
+  }
+}

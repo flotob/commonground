@@ -1,0 +1,18 @@
+.gated-close {
+    @apply flex items-center justify-center p-2 cursor-pointer absolute top-6 right-6 z-10;
+    background: var(--surface-subtleoverlay);
+    color: var(--text-primary);
+    backdrop-filter: blur(7.5px);
+    border-radius: 500px;
+}
+
+.gated-icon {
+    @apply p-4;
+    background: var(--surface-background-2nd);
+    border-radius: 500px;
+}
+
+.gated-dialog-roles {
+    @apply flex flex-col cg-border-xl overflow-hidden;
+    border: 1px solid var(--border-secondary, #3C425E);
+}

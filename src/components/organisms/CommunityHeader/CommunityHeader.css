@@ -1,0 +1,127 @@
+.community-header {
+  @apply whitespace-pre flex flex-col cursor-pointer relative w-full;
+  z-index: 10;
+  background: var(--communityDefaultImageBg);
+
+  >.community-header-background-blurred {
+    @apply w-full h-full absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(25px);
+    opacity: 0.8;
+  }
+
+  .community-header-group-image {
+    @apply w-full h-full absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: var(--imageBg);
+    
+    transition: all 150ms ease-in-out;
+  }
+
+  >.community-container {
+    @apply flex flex-col pt-8 gap-4 items-center justify-end relative w-full;
+    height: 220px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    >.lobby-title-container {
+      @apply w-full py-3 px-2 flex items-center justify-center gap-2 cg-text-lg-500;
+      z-index: 1;
+      color: var(--communitySidebarTitle);
+
+      .you-are-banned {
+        @apply flex flex-row p-2;
+        --iconPrimary: var(--errorColor);
+
+        >div {
+          @apply flex flex-row items-center rounded px-2 py-0;
+          font-size: 14px;
+          color: var(--errorColor);
+          background: var(--darkTransparent);
+          white-space: normal;
+
+          svg {
+            flex-shrink: 0;
+          }
+        }
+      }
+
+      .group-caption-container {
+        @apply flex items-center justify-center max-w-full cursor-pointer;
+        backdrop-filter: blur(5px);
+        background: var(--darkTransparent);
+        border-radius: 8px;
+
+        &:hover {
+          background: var(--darkTransparentHover);
+        }
+
+        .group-caption {
+          @apply p-2 gap-1 w-full flex items-center overflow-hidden cg-text-lg-500;
+          color: var(--communitySidebarTitle);
+          --iconPrimary: var(--communitySidebarTitle);
+
+          span {
+            @apply overflow-hidden text-ellipsis;
+          }
+        }
+      }
+    }
+  }
+
+  &.collapsed {
+    position: absolute;
+    top: 0px;
+
+    .community-header-group-image {
+      @apply cg-border-l;
+      height: 50px;
+      width: 50px;
+      transform: translate(-105px);
+    }
+    
+    .community-container {
+      @apply justify-center;
+      height: 70px;
+      padding: 0px;
+      gap: 0px;
+  
+      .lobby-title-container {
+        position: absolute;
+        padding: 0;
+        left: 23%;
+        width: 75%;
+
+        .group-caption-container {
+          @apply justify-start;
+
+          .group-caption {
+            @apply justify-start;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+.verified-community-button {
+  @apply flex items-center gap-2;
+
+  svg {
+    height: 22px;
+  }
+}
+
+.group-options-dropdown {
+  width: 260px;
+
+  .leave-community-option {
+    --dropdownPrimaryText: var(--errorColor);
+  }
+}

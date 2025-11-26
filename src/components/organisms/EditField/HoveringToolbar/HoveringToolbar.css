@@ -1,0 +1,56 @@
+.editorHoveringToolbar {
+    @apply flex justify-center items-center py-1 px-2 absolute;
+    gap: 2px;
+    background: var(--cardSubBg);
+    border-radius: 50px;
+    z-index: 1;
+    top: -10000px;
+    left: -10000px;
+    margin-top: -6px;
+    opacity: 0;
+    transition: opacity 0.75s;
+    --iconPrimary: var(--cardSubTextSecondary);
+    border: solid 2px var(--cardSubTextSecondary);
+
+    input {
+        background: transparent;
+    }
+
+    button {
+        @apply flex items-center justify-center;
+        padding: 10px;
+        border-radius: 50px;
+    }
+
+    button:hover {
+        background: var(--cardSubBgHover);
+    }
+
+    svg {
+        opacity: 0.5;
+    }
+
+    .active svg {
+        opacity: 1;
+    }
+
+    &.error {
+        border: solid 2px var(--errorColor);
+        background: var(--errorBg);
+
+        input {
+            color: var(--errorColor);
+        }
+    }
+}
+
+.editorHoveringInput {
+    @apply flex items-center gap-2;
+    input {
+        height: 40px;
+        font-size: 18px;
+    }
+    input:focus {
+        outline: none;
+    }
+}

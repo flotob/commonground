@@ -1,0 +1,33 @@
+.content-browser-view {
+    .content-browser-inner {
+        @apply w-full p-4;
+        max-width: 848px;
+    }
+}
+
+.mobile-layout {
+    .content-browser-view {
+        .breadcrumbs-bar,
+        .front-page-section-title {
+            @apply px-0;
+        }
+
+        .cg-horizontal-swipe-content > .btnList > button:first-of-type {
+            @apply ml-6;
+        }
+
+        .front-page-section-header {
+            @apply mb-2;
+        }
+    }
+}
+
+.desktop-layout {
+    .content-browser-view {
+        @apply mx-auto w-full;
+
+        .content-browser-inner {
+            @apply mx-auto p-6;
+        }
+    }
+}

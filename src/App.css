@@ -1,0 +1,181 @@
+body {
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* position: fixed; */
+  overflow: hidden;
+  width: 100%;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+
+  /* 100vh bug fix for some mobile devices */
+  /* since overflow is hidden, 100vh works fine even
+     with expanded keyboads, setting it lower will
+     introduce a scrolling bug (background scrolls
+     out of view) when the keyboard is expanded
+     due to the background's absolute positioning
+  */
+  height: var(--visualHeight);
+  min-height: var(--visualHeight);
+  max-height: var(--visualHeight);
+
+  z-index: -10;
+  background-color: var(--surface-global-background);
+  background-repeat: repeat;
+  background-blend-mode: color;
+}
+
+.layout {
+  @apply mx-auto relative;
+  display: grid;
+  /* width: min(100vw, 1430px);
+  min-width: min(100vw, 1430px);
+  max-width: min(100vw, 1430px); */
+  height: var(--visualHeight);
+  min-height: var(--visualHeight);
+  max-height: var(--visualHeight);
+  overflow: hidden;
+}
+
+.link {
+  color: var(--linkColor);
+}
+
+.menu-item-extra {
+  @apply flex items-center flex-shrink-0;
+
+  .menu-item-extra-icon {
+    transition: background-color 0.3s;
+    background-color: inherit;
+    @apply rounded-full box-content w-4 h-4 p-1 -m-1;
+  }
+
+  .menu-item-extra-icon:not(:last-child) {
+    @apply mr-1;
+  }
+
+  .menu-item-extra-icon:hover {
+    @apply rounded-full;
+  }
+}
+
+/***************************** SPINNER *****************************/
+.spinner {
+  animation: spin infinite 1.5s linear;
+  font-size: 2rem;
+  color: var(--spinner);
+}
+
+/***************************** INPUTS *****************************/
+select {
+  @apply w-full;
+  background: var(--inputBg);
+  color: var(--inputText);
+  border: 1px solid var(--inputBorder);
+
+  > option {
+    background: var(--inputBg);
+    color: var(--inputText);
+    border: 1px solid var(--inputBorder);
+  }
+}
+
+select:hover {
+  @apply cursor-pointer;
+  color: var(--inputHoverText);
+}
+
+select:focus {
+  border: 1px solid var(--inputFocusedBorder);
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/***************************** DROPDOWN *****************************/
+.dropdown {
+  width: 310px;
+
+  .dropdown-item {
+    @apply flex flex-col p-2;
+    gap: 2px;
+  }
+
+  .dropdown-hoverable {
+    @apply cursor-pointer;
+    border-radius: 6px;
+  }
+
+  .dropdown-label {
+    @apply cg-text-lg-500;
+    color: #F9F9F9;
+  }
+
+  .dropdown-description {
+    @apply cg-text-md-500;
+    color: #929292;
+  }
+}
+
+/***************************** DROPDOWN *****************************/
+svg * {
+  transition: fill 100ms;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.footer-btns {
+  @apply flex justify-end gap-2;
+}
+
+hr {
+  @apply my-8;
+  border: 1px solid var(--hr);
+}
+
+/***************************** ANIMATIONS *****************************/
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/***************************** SCROLLBAR *****************************/
+.simple-scrollbar-thin::-webkit-scrollbar {
+  width: 5px;
+}
+
+.simple-scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.simple-scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(146, 146, 146, 0.5);
+  border-radius: 3px;
+}
+
+.simple-scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(146, 146, 146, 0.7);
+}

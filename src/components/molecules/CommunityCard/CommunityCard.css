@@ -1,0 +1,98 @@
+.society-card {
+    @apply p-1 gap-2 flex flex-row items-center relative overflow-hidden;
+    border-radius: 8px;
+    background: var(--communityCardBg);
+    cursor: pointer;
+    transition: 100ms;
+    min-width: 155px;
+
+    --logoMenuItemHoverBorder: transparent;
+
+    .card-title {
+        @apply flex justify-start items-center gap-1 w-full flex-1 cg-text-md-500;
+        color: var(--communityCardTextMain);
+        z-index: 10;
+
+        .card-title-text {
+            @apply overflow-hidden text-ellipsis;
+            display: -webkit-box;
+            white-space: pre-wrap;
+            word-break: break-word;
+            word-wrap: break-word;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .tooltip-community-verified {
+            @apply flex items-center;
+            --iconPrimary: var(--cardVerifiedText);
+        }
+    }
+
+    &.empty {
+        background: transparent;
+        border: 1px dashed var(--cardBorder);
+
+        .card-title {
+            color: var(--cardTextSecondary);
+        }
+        
+        .empty-image {
+            width: 40px;
+            height: 40px;
+            margin: 2px;
+            background: var(--imageBg);
+        }
+
+        &:hover {
+            background: var(--cardBgHover);
+            .card-title {
+                color: var(--cardTextMain);
+            }
+
+            .empty-image {
+                background: var(--imageBgHover);
+            }
+        }
+    }
+}
+
+.large-society-card {
+    @apply flex flex-col relative overflow-hidden cursor-pointer;
+    border-radius: 12px;
+
+    &.empty {
+        background: transparent;
+        border: 1px dashed var(--cardBorder);
+
+        .card-title {
+            color: var(--cardTextSecondary);
+        }
+        
+        .empty-image {
+            width: 40px;
+            height: 40px;
+            margin: 2px;
+            background: var(--imageBg);
+        }
+
+        &:hover {
+            background: var(--cardBgHover);
+            .card-title {
+                color: var(--cardTextMain);
+            }
+
+            .empty-image {
+                background: var(--imageBgHover);
+            }
+        }
+    }
+}
+
+.society-card, .large-society-card {
+    transition: all 100ms;
+    &:active {
+        transform: scale(0.98);
+        opacity: 0.7;
+    }
+}

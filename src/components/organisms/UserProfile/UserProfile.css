@@ -1,0 +1,41 @@
+.user-profile-main-content {
+  @apply mt-4 px-4 mx-auto;
+  max-width: 832px;
+  position: relative;
+
+  .front-page-section-title {
+    @apply pb-0;
+  }
+}
+
+.desktop-layout {
+  .user-profile-main-content {
+
+    .user-profile-inner {
+      @apply pt-4;
+    }
+  }
+}
+
+.mobile-layout {
+  .user-profile-main-content {
+    @apply mt-5;
+  }
+}
+
+.user-profile-mobile-settings {
+  .log-out-menu-item {
+    .dropdown-item-title {
+      color: var(--errorColor);
+    }
+  }
+}
+
+.user-options-dropdown {
+  width: 260px;
+}
+
+.user-status-icon {
+  width: 16px;
+  height: 16px;
+}

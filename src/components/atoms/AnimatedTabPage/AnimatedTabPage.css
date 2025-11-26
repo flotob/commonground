@@ -1,0 +1,87 @@
+
+.animated-tab-page-container {
+    @apply relative;
+
+    &.normal {
+        .animated-tab-page.animating-in {
+            animation-name: animating-in-right;
+        }
+        .animated-tab-page.animating-out {
+            animation-name: animating-out-left;
+        }
+    }
+
+    &.reversed {
+        .animated-tab-page.animating-in {
+            animation-name: animating-in-left;
+        }
+        .animated-tab-page.animating-out {
+            animation-name: animating-out-right;
+        }
+    }
+}
+
+.animated-tab-page {
+    @apply w-full;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+    
+    &.animating-out {
+        position: absolute;
+        top: 0;
+        left: 0;
+        will-change: transform;
+    }
+
+    &.animating-in {
+        will-change: transform;
+    }
+}
+
+@keyframes animating-out-left {
+    from {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+}
+
+@keyframes animating-out-right {
+    from {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+}
+
+@keyframes animating-in-right {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes animating-in-left {
+    from {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}

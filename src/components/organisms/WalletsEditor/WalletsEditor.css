@@ -1,0 +1,119 @@
+.wallets-editor {
+  @apply flex flex-col items-start self-stretch p-4 gap-4 flex-none flex-grow-0 order-none;
+
+  background-color: var(--cardBg);
+  border-radius: 12px;
+
+  > .wallets-editor-content {
+    @apply flex flex-col items-start p-0 gap-4 self-stretch flex-none flex-grow-0;
+
+    > .connected-wallets {
+      @apply flex flex-col items-start self-stretch p-0 gap-2 flex-none flex-grow-0 order-none;
+    }
+
+    > .add-another-wallet {
+      @apply flex flex-col items-start p-0 gap-2 self-stretch flex-none flex-grow-0 order-1;
+    }
+
+    .wallets-sub-section-title {
+      @apply text-center w-full cg-text-md-500;
+      font-style: normal;
+      color: var(--headerText);
+    }
+
+    .empty-wallets-row {
+      @apply w-full flex items-center justify-center gap-2.5 p-3;
+      background-color: var(--transparent);
+      border-radius: 12px;
+
+      p {
+        @apply cg-text-md-500;
+        color: var(--cardTextSecondary);
+      }
+
+      svg {
+        @apply mb-0.5;
+
+        path {
+          fill: var(--cardTextSecondary);
+        }
+      }
+    }
+  }
+
+  .connected-wallet-container {
+    @apply p-0.5 cg-border-xl w-full;
+    border: solid 2px var(--btnPrimaryBg);
+  }
+
+  .connected-wallet-row {
+    @apply flex items-center justify-between gap-4 p-4 cg-border-xl w-full flex-wrap;
+    border: 1px solid var(--cardBorder);
+  }
+
+  > button {
+    @apply w-full justify-start;
+    border-radius: 6px;
+  }
+
+  .metamask-empty-row {
+    @apply flex items-center justify-between gap-4;
+    transition: background-color 100ms, border-color 100ms, color 100ms;
+
+    &:hover {
+      @apply cursor-pointer;
+      background-color: var(--cardSubBg);
+    }
+
+    &.disabled:hover {
+      @apply cursor-not-allowed;
+      background-color: var(--transparent);
+    }
+  }
+
+  .metamask-btn {
+    @apply w-full justify-start p-0;
+
+    background-color: transparent;
+    border: none;
+
+    .btnText {
+      @apply ml-2 cg-text-lg-500;
+    }
+
+    .btnIconRight {
+      @apply flex-grow text-right;
+      > .connection-state {
+        color: var(--cardTextSecondary);
+      }
+    }
+
+    &:active {
+      border: none;
+    }
+  }
+
+  .web3button {
+    display: none;
+  }
+}
+
+.mobile-layout {
+  .wallets-editor {
+    > .wallets-editor-content {
+      .connected-wallets-list {
+        .connected-wallets-list-body {
+          @apply p-4;
+
+          .wallet-info-row {
+            @apply flex-col gap-2;
+        
+            > * {
+              @apply w-full;
+            }
+          }
+        }
+      }
+    }
+  }
+}

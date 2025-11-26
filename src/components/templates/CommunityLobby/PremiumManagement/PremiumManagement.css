@@ -1,0 +1,12 @@
+.premium-settings-border-container {
+    @apply cg-border-xl;
+    border: 1px solid var(--border-panels, #3C425E);
+
+    &.solid {
+        background: var(--surface-background-3rd, #252939);
+    }
+
+    > *:not(:last-child) {
+        border-bottom: 1px solid var(--border-panels, #3C425E);
+    }
+}

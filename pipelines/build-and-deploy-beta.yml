@@ -1,0 +1,184 @@
+trigger:
+  branches:
+    include:
+      - staging
+
+jobs:
+- job: build_and_deploy_staging_commonground
+  displayName: Build and Deploy staging Commonground
+  pool:
+    name: ubuntu-20
+  workspace:
+    clean: all
+
+  steps:
+  - bash: |
+      printenv | sort
+    failOnStderr: true
+    displayName: "print environment variables"
+
+  - task: DockerInstaller@0.209.0
+    displayName: Install docker
+    inputs:
+      dockerVersion: 20.10.14
+      releaseType: stable
+
+  - task: NodeTool@0
+    displayName: Install node
+    inputs:
+      versionSpec: 20.11.1
+
+  - task: Npm@1
+    displayName: Install yarn
+    inputs:
+      command: custom
+      customCommand: 'install --global yarn'
+
+  - task: CmdLine@2
+    displayName: Install build-essential, python3 and python3-pip
+    inputs:
+      script: |
+        apt-get update
+        apt-get install -qq -y build-essential python3 python3-pip
+        rm -rf /var/lib/apt/lists/*
+
+  - task: DownloadSecureFile@1
+    name: yarnrc
+    displayName: 'Download npm credentials'
+    inputs:
+      secureFile: 'yarnrc'
+
+  - task: CmdLine@2
+    displayName: Copy yarnrc file
+    inputs:
+      script: |
+        echo Copying $(yarnrc.secureFilePath) to .yarnrc.yml
+        cp $(yarnrc.secureFilePath) .yarnrc.yml
+
+  - task: CmdLine@2
+    displayName: Run yarn on source directories
+    inputs:
+      script: |
+        corepack enable
+        yarn set version 4.1.0
+        yarn
+
+  - task: CopyFiles@2
+    displayName: copy srv files to backend/dist
+    inputs:
+      sourceFolder: srv/
+      contents: |
+        **
+        !node_modules/**
+        !.gitignore
+      targetFolder: docker/backend/dist/
+
+  - task: CmdLine@2
+    displayName: Generate random buildId
+    inputs:
+      script: |
+        buildId=$(dd if=/dev/random bs=1 count=10 | base64)
+        sed -i 's#^const buildId =.*$#const buildId = "'$buildId'";#' src/common/random_build_id.ts
+        sed -i 's#^const buildId =.*$#const buildId = "'$buildId'";#' docker/backend/dist/common/random_build_id.ts
+
+  - task: CmdLine@2
+    displayName: Run yarn build
+    inputs:
+      script: |
+        corepack enable
+        yarn set version 4.1.0
+        DEPLOYMENT=prod GENERATE_SOURCEMAP=false IMAGE_INLINE_SIZE_LIMIT=5000 PUBLIC_URL="https://staging.app.cg" yarn craco --openssl-legacy-provider build
+
+  - task: CopyFiles@2
+    displayName: copy generated index.html to backend/dist
+    inputs:
+      sourceFolder: build/
+      contents: |
+        index.html
+      targetFolder: docker/backend/dist/
+
+  - task: CopyFiles@2
+    displayName: copy build files to nginx/dist
+    inputs:
+      sourceFolder: build/
+      contents: |
+        **
+        !node_modules/**
+        !.gitignore
+      targetFolder: docker/nginx/dist/
+
+  - task: CmdLine@2
+    displayName: Copy yarnrc file
+    inputs:
+      script: |
+        echo Copying $(yarnrc.secureFilePath) to docker/backend/dist/.yarnrc.yml
+        cp $(yarnrc.secureFilePath) docker/backend/dist/.yarnrc.yml
+
+  - task: Docker@2
+    displayName: Build backend image
+    inputs:
+      command: build
+      containerRegistry: 'commonground staging registry'
+      Dockerfile: docker/backend/Dockerfile
+      repository: 'backend'
+      tags: |
+        beta
+        $(Build.BuildNumber)
+      addPipelineData: false
+
+  - task: Docker@2
+    displayName: Push backend image
+    inputs:
+      command: push
+      containerRegistry: 'commonground staging registry'
+      repository: 'backend'
+      tags: |
+        beta
+        $(Build.BuildNumber)
+
+  - task: Docker@2
+    displayName: Build nginx image
+    inputs:
+      command: build
+      containerRegistry: 'commonground staging registry'
+      Dockerfile: docker/nginx/Dockerfile
+      arguments: '--build-arg SERVER_NAME=staging.app.cg --build-arg CGID_SERVER_NAME=id.staging.app.cg'
+      repository: 'nginx'
+      tags: |
+        beta
+        $(Build.BuildNumber)
+      addPipelineData: false
+
+  - task: Docker@2
+    displayName: Push nginx image
+    inputs:
+      command: push
+      containerRegistry: 'commonground staging registry'
+      repository: 'nginx'
+      tags: |
+        beta
+        $(Build.BuildNumber)
+
+  - task: ms-vscs-rm.vss-services-ansible.ansible-task.Ansible@0
+    displayName: 'Deploy commonground staging'
+    inputs:
+      ansibleInterface: remoteMachine
+      connectionOverSsh: 'ansiblemanager03'
+      playbookSourceRemoteMachine: ansibleMachine
+      playbookPathAnsibleMachineOnRemoteMachine: '/home/cryptogram/cryptogram.infrastructure/docker_swarm_deploy_beta.yml'
+      inventoriesRemoteMachine: file
+      inventoryFileSourceRemoteMachine: ansibleMachine
+      inventoryFileAnsibleMachineOnRemoteMachine: '/home/cryptogram/cryptogram.infrastructure/inventories/cryptogram_staging/hosts.yml'
+
+  - task: ms-vscs-rm.vss-services-ansible.ansible-task.Ansible@0
+    displayName: 'Deploy mediasoup staging'
+    inputs:
+      ansibleInterface: remoteMachine
+      connectionOverSsh: 'ansiblemanager03'
+      playbookSourceRemoteMachine: ansibleMachine
+      playbookPathAnsibleMachineOnRemoteMachine: '/home/cryptogram/cryptogram.infrastructure/deploy_docker_mediasoup.yml'
+      inventoriesRemoteMachine: file
+      inventoryFileSourceRemoteMachine: ansibleMachine
+      inventoryFileAnsibleMachineOnRemoteMachine: '/home/cryptogram/cryptogram.infrastructure/inventories/mediasoup_staging/hosts.yml'
+
+  - template: sub-templates/clean-up.yml

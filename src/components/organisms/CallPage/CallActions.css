@@ -1,0 +1,57 @@
+.video-call-footer {
+    @apply flex justify-center items-center gap-2 p-2 self-stretch flex-wrap;
+    background: var(--surface-background-2nd);
+
+    .call-actions-button {
+        @apply flex justify-center items-center cg-border-xl;
+        width: 52px;
+        height: 44px;
+        backdrop-filter: blur(12.5px);
+        background: var(--surface-subtleoverlay);
+        color: var(--cardTextMain);
+
+        &.media-sharing-enabled {
+            background: var(--menuBtnActiveIconColor);
+            color: var(--menuBtnNotificationText);
+        }
+
+        .btnIconLeft {
+            @apply flex;
+        }
+    }
+
+    .call-actions-button-size {
+        width: 52px;
+        height: 44px;
+    }
+
+    .toggle-options-dropdown {
+        @apply flex flex-col items-start;
+        width: 350px;
+
+        border-radius: var(--corners-corner-child, 8px);
+        border: 1px solid var(--cardBorder);
+
+        .dropdown-items {
+            @apply flex flex-col items-start self-stretch;
+            padding: 4px 0px;
+            background: var(--surface-background-2nd);
+
+            .user-profile-management-title {
+                display: none
+            }
+        }
+    }
+
+    .toggle-share-dropdown {
+        @apply flex flex-col items-start;
+        border-radius: var(--corners-corner-child, 8px);
+        border: 1px solid var(--cardBorder);
+    }
+}
+
+.desktop-layout {
+    .video-call-footer {
+        border-top: 1px solid var(--border-secondary, #3C425E);
+    }
+}

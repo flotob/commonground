@@ -1,0 +1,62 @@
+.fieldEmbedContent {
+    @apply w-full;
+
+    iframe {
+        margin: auto;
+    }
+
+    .fieldEmbedEmpty {
+        @apply flex flex-col items-center justify-center h-60 relative m-auto;
+        background: var(--surface-background-2nd);
+        border: solid 1px var(--cardBorder);
+        width: 75%;
+    
+        .fieldEmbedErrorContainer {
+            @apply absolute;
+            bottom: 20px;
+        }
+    }
+}
+
+.fieldEmbedVideoContainer {
+    @apply w-full m-auto;
+    transition: all 0.1s ease-in-out;
+    
+    .fieldEmbedVideo {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%;
+        
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+.fieldEmbedVideoContainer.large {
+    width: 100%;
+}
+
+.fieldEmbedVideoContainer.medium {
+    width: 75%;
+}
+
+.fieldEmbedVideoContainer.small {
+    width: 50%;
+}
+
+    
+.fieldEmbedControl {
+    @apply flex px-2 py-1 gap-1;
+    background: var(--surface-background-2nd);
+    border: solid 1px var(--cardBorder);
+    border-radius: 500px;
+    button {
+        min-width: 50px;
+    }
+}

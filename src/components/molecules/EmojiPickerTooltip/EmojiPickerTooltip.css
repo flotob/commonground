@@ -1,0 +1,10 @@
+.emoji {
+    @apply cursor-pointer;
+    font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", Times, Symbola, Aegyptus, Code2000, Code2001, Code2002, Musica, serif, LastResort !important;
+    font-weight: 200;
+}
+.emoji-picker-tooltip {
+    @apply cursor-default;
+    border: none;
+    background-color: transparent;
+}

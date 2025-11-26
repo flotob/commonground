@@ -1,0 +1,21 @@
+.management-content-modal-footer {
+    @apply px-2;
+}
+
+.management-content-modal-footer-button {
+    @apply flex items-center gap-4 px-2 py-3 w-full cg-text-lg-500;
+    color: var(--errorColor);
+
+    .btnIconLeft {
+        @apply flex items-center;
+
+        path {
+            fill: var(--errorColor);
+        }
+    }
+
+    &:hover {
+        background-color: var(--transparent);
+        border-radius: 6px;
+    }
+}

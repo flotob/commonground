@@ -1,0 +1,106 @@
+.generic-message-list {
+  @apply flex flex-col w-full relative;
+  user-select: text;
+
+  > .cg-scrollable {
+    display: flex;
+    align-items: flex-end;
+    > .cg-scrollable-content {
+      height: fit-content;
+      max-height: 100%;
+    }
+  }
+    
+  > .scrolling-message-list {
+    @apply flex-grow min-h-0 overflow-y-auto;
+  }
+
+  .edit-container {
+    @apply relative mb-6 mx-3;
+    background: var(--chatInputBg);
+    border: 1px solid var(--chatInputBorder);
+    border-radius: 6px;
+
+    .scroll-helper {
+      @apply cursor-pointer;
+      position: absolute;
+      top: -3.5rem;
+      right: 0px;
+      width: 3.15rem;
+      height: 2.5rem;
+      font-size: 1.65rem;
+      color: var(--messageScrollInner);
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    .you-are-muted {
+      @apply flex flex-row p-2;
+
+      > div {
+        @apply flex flex-row items-center rounded px-2 py-0;
+        font-size: 14px;
+        color: var(--errorColor);
+        background: var(--transparent);
+
+        svg {
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+
+  .edit-container:hover {
+    border-color: var(--chatInputBorder);
+  }
+
+  .message-field-input {
+    [data-slate-placeholder="true"] {
+      color: var(--chatInputPlaceholder);
+      opacity: 1 !important;
+    }
+
+    &:focus {
+      [data-slate-placeholder="true"] {
+        color: var(--chatInputPlaceholder);
+        opacity: 1 !important;
+      }
+    }
+  }
+    
+  .fromNotificationsBanner {
+    @apply absolute left-0 right-0 top-2 flex justify-center;
+    transition: all 0.2s ease-in-out;
+    z-index: 10; 
+
+    &.hidden {
+      top: -100px;
+    }
+  }
+}
+
+.mobile-layout {
+  .generic-message-list {
+    .edit-container {
+      @apply mt-0 mx-2 mb-2;
+      border-radius: 12px;
+      border: 1px solid var(--chatInputBorder);
+    }
+  }
+}
+
+.desktop-layout {
+  .generic-message-list {
+    .edit-container-container {
+      @apply pb-4 px-4;
+    }
+
+    .edit-container {
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+    }
+  }
+}

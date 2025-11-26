@@ -1,0 +1,43 @@
+.desktop-layout {
+  .safe-and-upgrades-view {
+    @apply h-full;
+    display: grid;
+    grid-template-columns: [start community-content-start] auto [community-content-end end];
+    grid-template-rows: [start channel-browser-start community-content-start] auto [channel-browser-end area-list-start] 1fr [area-list-end community-content-end end];
+
+    >.cg-scrollable {
+      @apply px-6;
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+
+      .roles-management-desktop {
+        @apply py-4;
+      }
+    }
+
+    .floating-left-bar {
+      grid-row: channel-browser-start / area-list-end;
+    }
+  }
+}
+
+.mobile-layout {
+  .safe-and-upgrades-view {
+    @apply h-full;
+    >* {
+      @apply p-0;
+    }
+
+    /* small fix to use whole scrollable area */
+    >.cg-scrollable>.cg-scrollable-content>div {
+      @apply h-full;
+    }
+
+    >.cg-scrollable,
+    >.content-message-list,
+    >.article-management {
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+  }
+}

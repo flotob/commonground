@@ -1,0 +1,61 @@
+.access-rule-editor {
+  @apply p-1;
+}
+
+.access-settings-title {
+  @apply mt-8 mb-4;
+
+  .sub-title {
+    color: var(--cardTextMain);
+  }
+}
+
+.access-rule-editor-ruleconfig {
+  @apply flex flex-row justify-between items-center pt-4;
+
+  .switch-input-field {
+    button {
+      padding: 0.1rem 0.75rem !important;
+    }
+  }
+
+  .access-rule-editor-requirement {
+    @apply py-2 pl-4 text-sm flex flex-row justify-between items-center;
+
+    &.selected {
+      --btnPrimaryBg: var(--btnSecondaryActiveBg);
+      --btnPrimaryHoverBg: var(--btnSecondaryActiveBg);
+      --btnPrimaryText: var(--btnSecondaryActiveText);
+    }
+
+    &.stretch {
+      @apply flex-grow;
+    }
+
+    &.error {
+      outline: 2px solid var(--errorColor);
+    }
+  }
+}
+
+.token-rule-select-container {
+  @apply relative;
+  
+  .token-rule-select-container-label {
+    @apply cg-text-lg-500 mb-2;
+    color: var(--cardTextMain);
+  }
+  
+  svg {
+    @apply absolute h-full pointer-events-none;
+    right: 8px;
+  }
+
+  .token-rule-select {
+    border-radius: 8px;
+  }
+}
+
+.token-rule-editor-error {
+  color: var(--errorColor);
+}

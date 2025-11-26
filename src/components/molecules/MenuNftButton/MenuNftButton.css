@@ -1,0 +1,56 @@
+.menu-non-nft-button {
+  border-width: 4px 0px 0px 0px;
+  border-radius: 50%;
+  border: none;
+
+  &.btnSecondary.btnNoText {
+    padding: 0.125rem;
+    border-width: 0.125rem;
+
+    &:hover {
+      border-width: 0.125rem;
+    }
+
+    &.active {
+      border: var(--menuBtnActiveBorder);
+    }
+  }
+
+
+  .jdenticon {
+    @apply w-10 h-10;
+  }
+}
+
+.mobile-layout {
+  button.menu-non-nft-button {
+    @apply flex flex-col gap-0 p-0 outline-none w-12;
+
+    >.btnText {
+      @apply mt-1;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 13px;
+      text-align: center;
+      letter-spacing: -0.03em;
+    }
+
+    >.btnIconLeft {
+      --iconPrimary: var(--btnBorderlessText);
+
+      >.jdenticon {
+        >.status-container {
+          bottom: -5px;
+        }
+      }
+    }
+
+    &.active {
+      border-width: 6px 0px 0px 0px;
+      >.btnText {
+        font-weight: 500;
+      }
+    }
+  }
+}

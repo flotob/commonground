@@ -1,0 +1,35 @@
+.create-community-banner {
+  @apply flex flex-row items-center justify-between p-8 gap-4 flex-wrap relative overflow-hidden cursor-pointer cg-border-xl cg-heading-4;
+  background: var(--bannerBg);
+  color: var(--bannerText);
+
+  .detail1 {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+  .detail2 {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+  }
+
+  > span, > button {
+    z-index: 10;
+  }
+}
+
+.dark {
+  .detail {
+    opacity: 0.03;
+    color: white;
+  }
+}
+
+.light {
+  .detail {
+    opacity: 0.5;
+    color: #D9DBF2;
+  }
+}

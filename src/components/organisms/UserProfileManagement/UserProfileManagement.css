@@ -1,0 +1,98 @@
+.user-profile-management {
+  @apply flex flex-col items-start self-stretch py-4 gap-8 flex-none order-1 flex-grow;
+
+  .user-profile-management-title {
+    @apply cg-heading-2;
+    color: var(--headerText);
+  }
+
+  > .user-profile-description {
+    @apply w-full flex flex-col items-start p-0 gap-4 flex-none order-1 flex-grow-0;
+
+    > .user-profile-photo-with-blurred-background {
+      @apply w-72;
+    }
+  
+    > .user-name-editor {
+      @apply flex flex-row items-baseline justify-between flex-none order-1 flex-grow-0;
+  
+      .inline-input {
+        @apply inline w-auto p-1 pl-0 cursor-text;
+        background: transparent;
+        color: var(--headerText);
+        border-radius: 6px;
+        border: none;
+  
+        &::placeholder {
+          color: var(--headerText);
+        }
+      
+        &:focus {
+          @apply pl-1;
+          background: var(--transparent);
+        }
+      
+        &:hover {
+          @apply pl-1;
+          outline: 0.25rem solid var(--transparent);
+          background: var(--transparent) !important;
+        }
+      
+        &.error {
+          @apply pl-1;
+          color: var(--errorColor);
+          border: 1px solid var(--errorColor) !important;
+        }
+  
+        &.nickname-input {
+          @apply p-0 m-0 w-full cg-heading-2;
+        }
+      }
+    }
+
+    > .user-about-box {
+      @apply w-full flex flex-col items-start p-0 gap-1 flex-none order-2 flex-grow-0;
+
+      > .user-about-box-title {
+        @apply flex flex-col items-start self-stretch p-2 gap-1 flex-none order-none flex-grow-0;
+
+        > .main-title {
+          @apply cg-text-lg-500;
+          color: var(--headerText);
+        }
+        > .sub-title {
+          @apply cg-text-md-500;
+          color: var(--cardTextSecondary);
+        }
+      }
+
+      .inline-input-label {
+        @apply w-full;
+      }
+
+      .description-input {
+        @apply h-36;
+
+        font-weight: 400;
+        font-size: 16px;
+      }
+    }
+
+    > .user-social-box {
+      @apply w-full flex flex-col items-start p-0 gap-1 flex-none order-2 flex-grow-0;
+
+      > .user-social-box-title {
+        @apply flex flex-col items-start self-stretch p-2 gap-1 flex-none order-none flex-grow-0;
+
+        > .main-title {
+          @apply cg-text-lg-500;
+          color: var(--headerText);
+        }
+        > .sub-title {
+          @apply cg-text-md-500;
+          color: var(--cardTextSecondary);
+        }
+      }
+    }
+  }
+}

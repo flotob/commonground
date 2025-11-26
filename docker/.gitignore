@@ -1,0 +1,6 @@
+vapid_keys.json
+**/dist
+**/s3_data
+nginx/certs/nginx_certs
+nginx/certs/root_ca
+!llama/dist

@@ -1,0 +1,39 @@
+.questionnaire-options {
+    @apply overflow-hidden;
+    >*:not(:last-child) {
+        border-bottom: solid 1px var(--cardBorder);
+    }
+
+    .active-option {
+        background: var(--surface-subtleactive);
+        color: var(--text-active);
+    }
+}
+
+.community-questionnaire-modal {
+    @apply flex flex-col p-4;
+    
+    &:not(.mobile-modal) {
+        max-width: unset;
+        width: fit-content;
+    }
+
+    &.mobile-modal {
+        height: fit-content;
+    }
+}
+
+.community-questionnaire-modal-content {
+    @apply flex flex-col gap-4 py-4;
+
+    &.mobile-modal {
+        @apply px-4;
+        color: var(--text-primary);
+    }
+}
+
+.modal-content {
+    .community-questionnaire-modal-content {
+        width: min(500px, 90vw);
+    }
+}

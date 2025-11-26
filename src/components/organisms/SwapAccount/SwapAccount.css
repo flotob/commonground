@@ -1,0 +1,28 @@
+.swap-account {
+    @apply w-full mb-8;
+
+    h3 {
+        color: var(--cardTextMain);
+    }
+
+    p {
+        @apply mb-4;
+        color: var(--cardTextSecondary);
+    }
+
+    .user-profile-management-title {
+        @apply my-4 cg-heading-2;
+        color: var(--cardTextMain);
+    }
+
+    .success-buttons {
+        @apply flex gap-4 w-full my-7;
+        > * {
+            flex: 1;
+        }
+    }
+
+    .keyphrase {
+        @apply my-8;
+    }
+}

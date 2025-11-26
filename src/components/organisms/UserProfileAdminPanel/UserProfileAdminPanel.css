@@ -1,0 +1,26 @@
+.user-profile-admin-panel {
+  @apply w-full flex box-border gap-2 px-4 py-2;
+  height: fit-content;
+
+  button {
+    height: 40px !important;
+
+    &.active {
+      @apply cursor-pointer;
+    }
+  }
+}
+
+.desktop-layout {
+  .user-profile-admin-panel-container {
+    @apply pt-4 px-4;
+  }
+
+  .user-profile-admin-panel {
+    background: var(--surface-background-2nd);
+    border: 1px solid var(--cardBorder);
+    max-width: 800px;
+    margin: 0px auto;
+    border-radius: 12px;
+  }
+}

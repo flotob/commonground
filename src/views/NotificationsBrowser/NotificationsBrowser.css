@@ -1,0 +1,113 @@
+.layout-notifications {
+  @apply h-full;
+  .notifications-menu {
+    background: var(--surface-background-2nd);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.20), 0px 1px 4px 0px rgba(0, 0, 0, 0.06);
+
+    > .notification-banner {
+      @apply px-2 py-0;
+    }
+  }
+
+  .notifications-menu-header {
+    @apply flex flex-col gap-2 px-2;
+
+    .notifications-menu-header-top {
+      @apply flex gap-2;
+
+      >*:first-child {
+        @apply flex-1;
+      }
+
+      .notifications-read-toggle {
+        @apply flex gap-2 p-1 items-center justify-center cursor-pointer;
+        color: var(--cardTextMain);
+
+        .toggle-input-field {
+          padding: 2px;
+          height: 20px;
+          width: 32px;
+
+          .toggle-button {
+            height: 16px;
+            width: 16px;
+          }
+
+          &.toggled {
+            .toggle-button {
+              margin-left: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .notifications-container {
+    @apply flex flex-col px-2;
+
+    .notifications-empty {
+      @apply flex items-center justify-center p-6;
+      color: var(--cardTextMain);
+      background: var(--surface-background-2nd);
+      border-bottom: solid 1px var(--cardBorder);
+    }
+
+    .notifications-loading-item {
+      @apply flex items-center justify-center;
+    }
+  }
+}
+
+.notifications-mobile-header {
+  @apply flex p-4 cg-heading-3;
+  background: var(--surface-background-2nd, #222432);
+  color: var(--text-primary, #E4E6F2);
+}
+
+.desktop-layout {
+  .layout-notifications {
+    display: grid;
+    grid-template-columns: [start notifications-menu-start] 280px [notifications-menu-end notifications-content-start] auto [notifications-content-end end];
+    grid-template-rows: [start notifications-menu-start notifications-content-start] auto [notifications-menu-end notifications-content-end end];
+
+    .notifications-menu {
+      @apply flex flex-col py-4 gap-3 overflow-hidden;
+      grid-column: notifications-menu-start / notifications-menu-end;
+      grid-row: notifications-menu-start / notifications-menu-end;
+
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-panels);
+      border-radius: 12px;
+    }
+
+    .notifications-content {
+      @apply flex items-center justify-center overflow-hidden;
+
+      grid-column: notifications-content-start / notifications-content-end;
+      grid-row: notifications-content-start / notifications-content-end;
+
+      .notifications-content-placeholder {
+        @apply flex flex-col items-center cg-heading-2;
+        gap: 35px;
+        width: 325px;
+        color: var(--cardTextMain);
+      }
+    }
+  }
+}
+
+.mobile-layout {
+  .layout-notifications {
+    @apply p-0;
+
+    .notifications-menu {
+      @apply flex flex-col gap-3 h-full overflow-hidden;
+
+      .notifications-menu-header {
+        @apply py-2;
+      }
+    }
+  }
+}

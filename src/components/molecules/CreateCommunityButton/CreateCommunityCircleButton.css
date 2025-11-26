@@ -1,0 +1,11 @@
+.create-community-circle-button {
+    @apply flex items-center justify-center cursor-pointer;
+    height: 50px;
+    width: 50px;
+    border-radius: 500px;
+    background: var(--imageBg);
+
+    &:hover {
+        background: var(--imageBgHover);
+    }
+}

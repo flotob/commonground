@@ -1,0 +1,51 @@
+.wallet-manager-row {
+  @apply flex flex-row items-center self-stretch p-0 px-2 gap-4 flex-none flex-grow-0 order-none;
+
+  min-height: 56px;
+
+  border-radius: 12px;
+  border: 1px solid var(--cardBorder);
+  background-color: var(--cardBg);
+
+  &.disconnected {
+    @apply cursor-pointer;
+    background-color: var(--cardBg);
+    border: 1px solid var(--cardBg);
+  }
+
+  &.signed {
+    background-color: var(--cardSubBg);
+    border: 1px solid var(--cardSubBg);
+
+    .connector-state {
+      color: var(--cardSubText);
+
+      > svg {
+        --iconPrimary: var(--cardSubText);
+      }
+    }
+  }
+
+  > .wallet-manager-action-bar {
+    @apply flex flex-row items-center justify-between self-stretch p-0 gap-0 flex-none flex-grow order-none;
+
+    > .connector-name {
+      @apply flex flex-row items-center p-0 gap-0 order-none flex-grow-0 cg-heading-4;
+  
+      color: var(--cardText);
+    }
+  
+    > .connector-state {
+      @apply flex flex-row items-center p-0 gap-2 order-1 flex-grow-0 cg-text-lg-500;
+    }
+
+    .connector-issue {
+      @apply flex flex-row items-center p-0 gap-0 order-1 flex-grow-0;
+      color: var(--errorColor);
+    }
+
+    button {
+      @apply flex flex-row items-center order-2 flex-grow-0;
+    }
+  }
+}

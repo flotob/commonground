@@ -1,0 +1,52 @@
+.checkboxBase {
+    @apply flex items-center justify-center cursor-pointer;
+    transition: all 200ms linear;
+    border: 1px solid var(--border-secondary);
+    background: var(--surface-subtleoverlay);
+    color: var(--text-active);
+
+    &:hover {
+        border: 1px solid var(--border-secondary-hover, #535A7E);
+        background: var(--surface-hover);
+    }
+
+    &.disabled {
+        background: var(--text-secondary);
+    }
+
+    &.radio {
+        border-radius: 500px;
+    }
+
+    &.large {
+        @apply w-8 h-8;
+        
+        &.box {
+            @apply cg-border-m;
+        }
+    }
+
+    &.normal {
+        @apply w-6 h-6;
+        
+        &.box {
+            @apply cg-border-m;
+        }
+    }
+
+    &.small-20 {
+        @apply w-5 h-5;
+        
+        &.box {
+            @apply cg-border-m;
+        }
+    }
+
+    &.small {
+        @apply w-4 h-4;
+
+        &.box {
+            @apply cg-border-s;
+        }
+    }
+}

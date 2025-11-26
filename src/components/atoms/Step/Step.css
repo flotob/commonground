@@ -1,0 +1,61 @@
+.step {
+    @apply w-full;
+
+    .step-header {
+        @apply flex items-center py-2 px-4 gap-3 w-full;
+        box-sizing: border-box;
+        background: var(--surface-background-2nd);
+        border: 1px solid var(--cardBorder);
+        border-radius: 12px 12px 0px 0px;
+
+        .step-ready-logo {
+            width: 18px;
+            height: 18px;
+
+            border: 2px solid var(--cardTextMain);
+            border-radius: 300px;
+        }
+
+        .step-complete-logo {
+            @apply flex items-center;
+            width: 20px;
+            height: 20px;
+
+            svg {
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .step-waiting-logo {
+            width: 18px;
+            height: 18px;
+
+            border: 2px dashed var(--cardTextMain);
+            border-radius: 300px;
+        }
+
+        .step-header-text {
+            @apply cg-text-lg-500;
+            color: var(--cardTextMain);
+        }
+
+        &.complete {
+            border-radius: 12px 12px 12px 12px;
+            .step-header-text {
+                color: var(--cardTextSecondary);
+            }
+        }
+    }
+
+    .step-content {
+        @apply flex flex-col justify-end items-start;
+        padding: 12px 24px 16px 46px;
+        box-sizing: border-box;
+
+        border-width: 0px 1px 1px 1px;
+        border-style: solid;
+        border-color: var(--cardBorder);
+        border-radius: 0px 0px 12px 12px;
+    }
+}

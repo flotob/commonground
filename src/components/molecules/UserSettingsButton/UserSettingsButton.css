@@ -1,0 +1,17 @@
+.user-settings-button {
+    @apply cursor-pointer;
+    color: var(--cardTextMain);
+    background: var(--surface-background-3rd);
+
+    &:not(.active){
+        margin: 2px;
+    }
+
+    &.active {
+        border: 2px solid var(--text-primary);
+    }
+
+    &.highlighted {
+        background: var(--surface-subtleactive);
+    }
+}

@@ -1,0 +1,73 @@
+.modal-root {
+  @apply w-screen h-screen flex justify-center items-center absolute;
+  height: var(--visualHeight);
+  z-index: 10100;
+}
+
+.modal-centered {
+  @apply w-full mx-3.5 cg-border-xxl overflow-hidden grid;
+  grid-template-rows: 1fr minmax(0, auto);
+  max-width: 450px;
+  animation: fadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-height: calc(var(--visualHeight) - 2rem);
+  background: var(--surface-global-background);
+  color: var(--modalText);
+  
+  &.modal-no-header {
+    grid-template-rows: minmax(0, auto);;
+  }
+
+  &.w-footer {
+    grid-template-rows: 1fr minmax(0, auto) 1fr;
+  }
+
+  &.modal-no-header.w-footer {
+    grid-template-rows: minmax(0, auto) 1fr;
+  }
+
+  .cg-scrollable {
+    overflow: unset;
+  }
+}
+
+.text-only-modal {
+  @apply py-2 px-4;
+  width: fit-content;
+
+  .modal-content {
+    @apply p-0;
+  }
+}
+
+.modal-header {
+  @apply flex items-center justify-between p-4;
+  border-radius: 16px 16px 0 0;
+
+  .header-text {
+    @apply cg-heading-3;
+    color: var(--modalText);
+  }
+}
+
+.modal-footer {
+  @apply flex items-center justify-end gap-2 p-2;
+  background: var(--surface-background-2nd);
+  border-top: solid 1px var(--border-primary);
+}
+
+.modal-content {
+  @apply p-4 py-6;
+  max-height: 80vh;
+}
+
+.modal-no-header {
+  .modal-content {
+    max-height: 95vh;
+  }
+}
+
+.modal-inner {
+  > .title {
+    @apply mb-5 cg-heading-4;
+  }
+}

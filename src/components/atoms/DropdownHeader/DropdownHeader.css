@@ -1,0 +1,5 @@
+.dropdown-title {
+    @apply px-4 py-2 cg-text-md-500;
+    color: var(--dropdownTitle);
+    border-bottom: 1px solid var(--dropdownTitleBorder);
+}

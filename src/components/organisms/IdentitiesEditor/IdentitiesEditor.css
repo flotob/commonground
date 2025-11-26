@@ -1,0 +1,55 @@
+.identities-editor-container {
+    @apply relative flex items-center w-full;
+}
+
+.identities-editor {
+    > .fractal-info-row {
+        @apply py-1 gap-2 cg-text-lg-500;
+        color: var(--cardTextMain);
+        transition: background-color 100ms, border-color 100ms, color 100ms;
+
+        svg {
+            @apply cursor-pointer;
+        }
+
+        > div {
+            @apply w-full;
+        }
+    }
+
+    &.blocked {
+        opacity: 0.2;
+
+        .security-badge,
+        .wallet-settings-full-row {
+            background: transparent;
+        }
+    }
+
+    .identities-container {
+        @apply flex flex-col w-full p-4 rounded-md;
+        background: var(--surface-background-2nd);
+        color: var(--cardTextMain);
+        
+        .identities-step {
+            @apply w-full rounded-md p-4 mt-4;
+            background: var(--cardSubBg);
+        }
+    }
+}
+
+.identities-editor-blocker {
+    @apply absolute mx-auto mt-4 w-full p-4 flex flex-col gap-4 cg-text-lg-500;
+    top: 0;
+    right: 0;
+    left: 0;
+    max-width: 346px;
+    background: var(--surface-background-2nd);
+    border: solid 1px var(--cardBorder);
+    border-radius: 6px;
+    color: var(--cardTextMain);
+
+    .tag {
+        @apply mx-auto;
+    }
+}

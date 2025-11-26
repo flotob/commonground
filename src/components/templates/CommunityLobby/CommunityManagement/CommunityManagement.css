@@ -1,0 +1,56 @@
+.communityManagement {
+  @apply flex flex-col gap-4;
+
+  .communityManagement-title {
+    @apply cg-heading-2;
+    color: var(--headerText);
+  }
+
+  .community-logo-upload {
+    @apply absolute my-0;
+    bottom: -70px;
+    left: 24px;
+    z-index: 1;
+
+    .logo-placeholder,
+    .logo-preview {
+      @apply mx-auto block cursor-pointer;
+
+      path {
+        fill: var(--imageBg);
+        stroke: none;
+      }
+    }
+
+    .logo-preview {
+      >image {
+        @apply absolute m-auto w-full h-full;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    .edit-icon {
+      @apply absolute mt-2 mr-3 cursor-pointer;
+      top: 0;
+      right: 0;
+    }
+
+    >img {
+      @apply w-full mx-auto mt-14;
+      height: auto;
+    }
+  }
+}
+
+.mobile-layout {
+  .communityManagement {
+    @apply h-full overflow-hidden;
+
+    >.cg-scrollable>.cg-scrollable-content {
+      @apply p-4;
+    }
+  }
+}

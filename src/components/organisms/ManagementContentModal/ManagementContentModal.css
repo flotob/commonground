@@ -1,0 +1,65 @@
+#management-content-modal-root {
+    @apply absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 500; /* one less as modal */
+}
+
+.management-content-modal {
+    @apply absolute flex items-center justify-center w-screen h-screen p-2;
+    background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    z-index: 3;
+
+    .management-content-modal-inner {
+        @apply w-full h-full grid cg-border-xl overflow-hidden relative;
+        grid-template-columns: [start menu-start] 280px [menu-end main-content-start] 1fr [main-content-end end];
+        grid-template-rows: [start title-start] auto [title-end main-content-start] 1fr [main-content-end footer-start start] auto [footer-end end];
+        max-width: 1175px;
+        max-height: 885px;
+        background: var(--surface-global-background);
+        animation: fadeIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        .management-modal-title {
+            @apply cg-text-lg-500 px-2 pt-4;
+            grid-row: title-start / title-end;
+            grid-column: menu-start / menu-end;
+        }
+
+        .management-content-modal-menu-container {
+            grid-row: main-content-start / main-content-end;
+            grid-column: menu-start / menu-end;
+        }
+
+        .management-content-modal-content-main {
+            border-left: 1px solid var(--border-subtle);
+
+            grid-row: start / end;
+            grid-column: main-content-start / main-content-end;
+            max-width: calc(min(100vw, 1175px) - 280px - 1rem);
+
+            >.cg-scrollable {
+                >.cg-scrollable-content {
+                    scroll-behavior: unset;
+                }
+            }
+        }
+
+        .management-content-modal-footer {
+            @apply p-6;
+
+            grid-row: footer-start / footer-end;
+            grid-column: menu-start / menu-end;
+        }
+    }
+}
+
+@media (max-height: 650px) and (max-width: 1024px) {
+    .management-content-modal {
+        .management-content-modal-inner {
+            .management-content-modal-footer {
+                @apply p-0;
+            }
+        }
+    }
+}

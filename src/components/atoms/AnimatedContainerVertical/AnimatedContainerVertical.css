@@ -1,0 +1,4 @@
+.animated-container-vertical-outer {
+    transition: all 200ms;
+    transition-timing-function: cubic-bezier(0.77, 0, 0.18, 1);
+}

@@ -1,0 +1,12 @@
+body {
+    --yarl__container_background_color: #000a;
+    --yarl__thumbnails_container_background_color: #000a;
+}
+
+.yarl__container, .yarl__thumbnails {
+    backdrop-filter: blur(8px);
+}
+
+.fullscreen-image-modal {
+    z-index: 10002 !important;
+}

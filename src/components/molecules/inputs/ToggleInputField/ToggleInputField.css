@@ -1,0 +1,50 @@
+.toggle-input-field-container {
+    @apply flex items-center gap-2 cursor-pointer;
+}
+
+.toggle-input-field {
+    @apply p-1;
+    background-color: var(--toggleBg);
+    width: 50px;
+    border-radius: 100px;
+
+    .toggle-button {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: var(--toggleColor);
+        transition: all 300ms ease-out;
+    }
+
+    &.toggled {
+        background-color: var(--surface-brand);
+
+        .toggle-button {
+            background-color: var(--toggleActiveColor);
+            margin-left: 16px;
+        }
+    }
+
+    &.small {
+        padding: 2px;
+        width: 32px;
+        .toggle-button {
+            width: 16px;
+            height: 16px;
+        }
+
+        &.toggled {
+            background-color: var(--btnPrimaryBg);
+    
+            .toggle-button {
+                margin-left: 12px;
+            }
+        }
+    }
+
+    &.disabled {
+        @apply cursor-default;
+        opacity: 0.6;
+    }
+}
+

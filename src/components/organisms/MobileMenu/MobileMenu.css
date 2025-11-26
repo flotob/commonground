@@ -1,0 +1,36 @@
+.mobile-menu {
+  @apply flex flex-row justify-between gap-0;
+  background: var(--surface-background-2nd);
+  border-top: 1px solid var(--border-secondary);
+
+  &.mobile-menu-android {
+    height: 70px;
+  }
+
+  &.mobile-menu-ios-web {
+    height: 55px;
+  }
+
+  &.mobile-menu-ios-pwa {
+    height: 87px;
+  }
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  grid-column: menu-start / menu-end;
+  grid-row: menu-start / menu-end;
+}
+
+/* display-mode: standalone; Detects if opened as PWA. Will not work anymore if we change our PWA display to something else that isn't standalone in manifest.json; Update this rule accordingly. */
+@media all and (display-mode: standalone) {
+
+  /* CSS specific to iOS devices */ 
+  @supports (-webkit-touch-callout: none) {
+    .mobile-menu {
+      @apply items-start;
+      height: 63px;
+    }
+  }
+}

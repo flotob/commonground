@@ -1,0 +1,37 @@
+.message-tooltip {
+    @apply flex items-center justify-evenly;
+    border-radius: 6px;
+    background: var(--surface-background-3rd);
+    --btnBorderlessIconLeftPrimary: var(--chatInputButton);
+  
+    > * {
+      @apply cursor-pointer;
+    }
+  
+    button {
+      border-radius: 0;
+
+      &:active {
+        outline: none;
+      }
+    }
+  
+    .emoji-featured-list {
+      @apply flex items-center;
+      white-space: nowrap;
+    
+      > span.emoji {
+        @apply mx-0 flex items-center justify-center;
+        width: 27px;
+        transition: all ease-out 200ms;
+  
+        &:hover {
+          font-size: 24px;
+        }
+      }
+    }
+}
+
+.message-user-tooltip-container {
+  @apply p-0;
+}

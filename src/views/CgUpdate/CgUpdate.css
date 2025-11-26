@@ -1,0 +1,74 @@
+.pending-state {
+  @apply flex items-center justify-center;
+
+  > .wrapper {
+    width: min(100vw, 800px);
+    @apply flex flex-col items-center justify-center;
+    color: var(--cardTextMain);
+    margin-top: -5rem;
+  }
+}
+
+.cg-update-content {
+
+}
+
+.cg-update-info {
+  @apply py-12;
+  background-color: var(--surface-background-2nd);
+  border-radius: 6px;
+  max-height: calc(100vh - 4rem);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  .cg-update-caption {
+    @apply ml-4 cg-heading-2;
+    color: var(--cardTextMain);
+  }
+
+  .cg-update-text {
+    @apply mt-8 mx-12 text-center;
+    font-size: 16px;
+    color: var(--cardTextMain);
+  }
+
+  .cg-update-changelog-caption {
+    @apply text-center cg-heading-4;
+    color: var(--cardTextMain);
+  }
+
+  .cg-update-changelog-date {
+    @apply text-center;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--cardTextSecondary);
+  }
+
+  .cg-update-changelog-field {
+    @apply p-2 mt-8;
+    text-align: left;
+    width: 480px;
+    font-size: 16px;
+    border-radius: 6px;
+    ul {
+      @apply ml-6;
+      list-style-type: disc;
+      li {
+        color: var(--cardTextMain);
+      }
+      ul li {
+        color: var(--cardTextSecondary);
+      }
+    }
+  }
+
+  .cg-update-changelog-field:not(:last-child) {
+    @apply mb-12;
+  }
+
+  .cg-update-btn {
+    @apply rounded cg-heading-4;
+    width: 320px;
+    height: 57px;
+  }
+}

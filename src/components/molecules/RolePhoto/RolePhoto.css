@@ -1,0 +1,26 @@
+.role-photo {
+    @apply flex items-center justify-center;
+    background: var(--surface-subtleoverlay);
+    color: var(--cardTextSecondary);
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &.edit-mode {
+        @apply cursor-pointer;
+    }
+
+    &.small {
+        height: 50px;
+        width: 50px;        
+    }
+
+    &.tiny {
+        height: 28px;
+        width: 28px;
+    }
+}

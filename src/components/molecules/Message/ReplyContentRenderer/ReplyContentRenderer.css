@@ -1,0 +1,28 @@
+.replied-to-message {
+  @apply flex gap-1 py-1 cursor-pointer cg-text-lg-400;
+  transition: all 0.1s ease-in-out;
+  min-height: 28px;
+  max-height: 28px;
+
+  --iconPrimary: var(--text-secondary);
+  color: var(--text-secondary);
+
+  .replied-to-message-display-name {
+    @apply flex gap-1 items-center cg-text-lg-500;
+  }
+
+  .replied-to-message-message {
+    overflow: hidden;
+    display: -webkit-box;
+    white-space: pre-wrap;
+    word-break: break-word;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  &:hover {
+    --iconPrimary: var(--text-primary);
+    color: var(--text-primary);
+  }
+}

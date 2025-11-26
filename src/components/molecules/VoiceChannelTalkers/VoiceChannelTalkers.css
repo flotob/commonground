@@ -1,0 +1,13 @@
+.voice-channel-talkers {
+  @apply flex flex-col items-center;
+  width: 100%;
+  height: 170px;
+
+  &.mobile {
+    @apply w-full h-auto;
+  }
+
+  .cg-scrollable-content {
+    @apply w-full flex flex-col items-start p-2;
+  }
+}

@@ -1,0 +1,15 @@
+.newsletterSubscribeFieldContainer {
+    @apply flex flex-col px-2 gap-2;
+
+    .newsletterSubscribeField {
+        @apply flex items-center gap-2;
+    }
+
+    .newsletterSubscribeFieldError {
+        color: var(--errorColor);
+    }
+
+    .newsletterSubscribeFieldSuccess {
+        color: var(--successColor);
+    }
+}

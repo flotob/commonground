@@ -1,0 +1,117 @@
+.call-peer-card {
+    @apply flex items-center justify-center w-full relative overflow-hidden;
+    aspect-ratio: 16 / 9;
+
+    background: var(--imageBg);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &.talking {
+        animation: speakerToggleOn 0.2s linear, speakerPulse 2s infinite ease-in-out 0.2s;
+    }
+
+    &.not-talking {
+        animation: speakerToggleOff 0.2s linear;
+    }
+
+    .call-card-avatar {
+        @apply flex;
+
+        .jdenticon {
+            @apply w-full h-full;
+            border-radius: 50%;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 0 0 0 #8d93d8;
+        }
+
+        &.talking {
+            .jdenticon{
+                animation: speakerToggleOn 0.2s linear, speakerPulse 2s infinite ease-in-out 0.2s;
+            }
+        }
+        &.not-talking {
+            .jdenticon{
+                animation: speakerToggleOff 0.2s linear;
+            }
+        }
+    }
+    
+    .video-call-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        flex: 1 0 0;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 0 0 0 #8d93d8;
+    }
+
+    .call-user-tag {
+        @apply flex absolute;
+        bottom: 8px;
+        left: 8px;
+
+        .jdenticon {
+            @apply w-6 h-6;
+        }
+
+        .user-tag-clickable {
+            padding: 2px 8px 2px 2px;
+            background: var(--transparentWeak);
+            border-radius: 600px;
+        }
+
+        .user-tag-name {
+            @apply cg-text-sm-500;
+
+            color: var(--btnPrimaryText);
+        }
+    }
+
+    .card-blur {
+        @apply absolute w-full h-full cg-border-xl;
+        backdrop-filter: blur(25px);
+    }
+
+    .hover-shadow {
+        @apply absolute w-full h-full;
+        transition: all 200ms ease-in-out;
+    }
+
+    &:hover {
+        .hover-shadow {
+            background: var(--surface-buttons-secondary-hover);
+        }
+    }
+}
+
+@keyframes speakerPulse {
+    0% {
+        box-shadow: 0 0 0 4px #8d93d8;
+    }
+    50% {
+        box-shadow: 0 0 0 2px #8d93d8;
+    }
+    100% {
+        box-shadow: 0 0 0 4px #8d93d8;
+    }
+}
+
+@keyframes speakerToggleOn {
+    0% {
+        box-shadow: 0 0 0 0px #8d93d8;
+    }
+    100% {
+        box-shadow: 0 0 0 4px #8d93d8;
+    }
+}
+
+@keyframes speakerToggleOff {
+    0% {
+        box-shadow: 0 0 0 4px #8d93d8;
+    }
+    100% {
+        box-shadow: 0 0 0 0px #8d93d8;
+    }
+}

@@ -1,0 +1,72 @@
+.conversation-element {
+    @apply mt-2 cg-border-l;
+    color: var(--dmCardText);
+    background-color: var(--dmCardBg);
+
+    .dm-timestamp {
+        @apply cg-text-sm-500;
+        color: var(--dmCardTimestamp);
+    }
+
+    .dm-excerpt-container {
+        color: var(--text-secondary);
+        text-align: left;
+        font-size: 14px;
+        overflow: hidden;
+        display: -webkit-box;
+        word-wrap: break-word;
+        word-break: break-word;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+
+        span {
+            font-size: 14px !important;
+        }
+    }
+
+    .dm-unread {
+        @apply py-0 px-2 flex items-center justify-center cg-text-sm-500;
+    }
+
+    .conversation-element-user-tooltip-trigger {
+        @apply flex items-center;
+
+        button {
+            @apply flex gap-2 items-center;
+
+            .tooltip-verified-user {
+                @apply flex;
+                --iconPrimary: var(--verifiedBg);
+            }
+        }
+    }
+
+    .conversation-element-user {
+        @apply flex items-center gap-1 flex-1 overflow-hidden;
+        .verified-user {
+            --iconPrimary: var(--verifiedBg);
+        }
+    }
+
+    &:hover {
+        background-color: var(--dmCardHoverBg);
+    }
+
+    &.list-item-unread {
+        .dm-excerpt-container {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+    }
+
+    &.conversation-element-active {
+        background-color: var(--dmCardActiveBg);
+        color: var(--cardSelectedText);
+        --verifiedBg: var(--cardSelectedText);
+        --dmCardTimestamp: var(--cardSelectedTextSecondary);
+
+        .dm-excerpt-container {
+            color: var(--cardSelectedText);
+        }
+    }
+}

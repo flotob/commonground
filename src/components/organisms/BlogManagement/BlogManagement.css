@@ -1,0 +1,135 @@
+.desktop-layout {
+  .blog-management-inner {
+    @apply grid;
+    grid-template-columns: [start media-button-start] 45px [media-button-end image-container-start input-dialog-start error-bar-start] 1fr [error-bar-end input-dialog-end image-container-end] 45px [end];
+  }
+}
+
+.mobile-layout {
+  .blog-management {
+    .blog-management-container {
+      @apply px-2;
+
+      .blog-management-inner {
+        grid-template-columns: [start image-container-start input-dialog-start error-bar-start] 1fr [error-bar-end input-dialog-end image-container-end end];
+      }
+    }
+  }
+}
+
+.blog-management {
+  @apply grid h-full;
+  position: relative;
+  grid-template-columns: [start breadcrumbs-bar-start blog-content-start] auto [blog-content-end breadcrumbs-bar-end end];
+  grid-template-rows: [start breadcrumbs-bar-start] auto [breadcrumbs-bar-end blog-content-start] 1fr [blog-content-end blog-bottom-bar-start] auto [blog-bottom-bar-end end];
+
+  .breadcrumbs-bar {
+    @apply w-full py-4;
+    grid-column: breadcrumbs-bar-start / breadcrumbs-bar-end;
+    grid-row: breadcrumbs-bar-start / breadcrumbs-bar-end;
+  }
+
+  .blog-management-container {
+    @apply absolute top-0 bottom-0 right-0 left-0;
+    grid-column: blog-content-start / blog-content-end;
+    grid-row: blog-content-start / blog-content-end;
+
+    > .cg-scrollable {
+      .blog-management-inner {
+        @apply w-full mx-auto grid;
+        max-width: 810px;
+        grid-template-rows: [start image-container-start] auto [image-container-end error-bar-start] auto [error-bar-end input-dialog-start media-button-start] 1fr [media-button-end input-dialog-end end];
+      
+        .add-image-container {
+          grid-column: image-container-start / image-container-end;
+          grid-row: image-container-start / image-container-end;
+        }
+        .header-error-msg {
+          grid-column: error-bar-start / error-bar-end;
+          grid-row: error-bar-start / error-bar-end;
+        }
+  
+        .blog-input-dialog {
+          @apply w-full p-0 m-0 gap-0 justify-center;
+          grid-column: input-dialog-start / input-dialog-end;
+          grid-row: input-dialog-start / input-dialog-end;
+
+          .editorNewMediaButton {
+            grid-column: media-button-start / media-button-end;
+            grid-row: media-button-start / media-button-end;
+          }
+  
+          .title-label {
+            @apply w-full flex p-0 mt-6 flex-none order-none flex-grow-0 bg-transparent border-none;
+    
+            color: var(--headerText);
+    
+            .textarea-container {
+              @apply w-full;
+    
+              .relative {
+                @apply w-full;
+              }
+            }
+          }
+    
+          .title-input {
+            @apply w-full flex py-2 px-0 m-0 flex-none order-none flex-grow-0 bg-transparent border-none font-normal;
+            font-weight: 500;
+            font-size: 40px;
+            line-height: 46px;
+            color: var(--articleHeader);
+          }
+    
+          .title-input:hover {
+            background-color: transparent !important;
+          }
+    
+          .content-input {
+            @apply w-full h-full py-2 px-0 m-0 border-none;
+            font-size: 18px;
+            line-height: 150%;
+            color: var(--articleText);
+            background-color: transparent !important;
+            overflow-y: visible !important;
+    
+            h3 {
+              @apply cg-heading-2;
+              color: var(--articleHeader);
+            }
+    
+            [data-slate-editor]>*+div {
+              margin-top: 25px;
+            }
+    
+            [data-slate-editor]>*+h3 {
+              margin-top: 50px;
+            }
+    
+            [data-slate-editor]>*+.mediaElement {
+              margin-top: 40px;
+            }
+    
+            [data-slate-placeholder="true"] {
+              color: var(--inputPlaceholder);
+              opacity: 1 !important;
+            }
+          }
+    
+          .content-input:hover {
+            [data-slate-placeholder="true"] {
+              color: var(--inputHoverPlaceholder);
+              opacity: 1 !important;
+            }  
+          }
+        }
+      }
+    }
+  }
+}
+
+.mobile-layout {
+  .blog-management {
+    grid-template-rows: [start blog-bottom-bar-start] auto [blog-bottom-bar-end blog-content-start] 1fr [blog-content-end end]
+  }
+}

@@ -1,0 +1,30 @@
+.sidebar-overlay {
+    background: var(--colours-overlays-black-transparency-40);
+    transition: opacity 200ms;
+    opacity: 0;
+    z-index: 10000;
+
+    &.open {
+        opacity: 1;
+    }
+}
+
+.sidebar-container {
+    height: calc(100% - 1rem);
+    top: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    background: var(--surface-global-background, #F1F1F1);
+    transform: translateX(calc(100% + 0.5rem));
+    transition: transform 200ms;
+    transition-timing-function: cubic-bezier(0.77, 0, 0.18, 1);
+    z-index: 10001;
+
+    &.open {
+        transform: translateX(0);
+    }
+}
+
+.sidebar-max-600-width {
+    width: min(100%, 600px);
+}

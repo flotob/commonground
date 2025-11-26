@@ -1,0 +1,9 @@
+.premium-box {
+    @apply cg-border-xxl;
+    border: 1px solid rgba(211, 143, 0, 0.25);
+    background: linear-gradient(0deg, rgba(210, 142, 0, 0.05) 0%, rgba(210, 142, 0, 0.05) 100%), var(--surface-background-2nd, #222432);
+
+    &.type-2 {
+        background: linear-gradient(358deg, color(display-p3 0.7882 0.5725 0.0196 / 0.10) 1.59%, color(display-p3 0.7882 0.5725 0.0196 / 0.00) 98.4%), var(--surface-subtleoverlay, color(display-p3 0.8314 0.8353 0.8471 / 0.03));
+    }
+}

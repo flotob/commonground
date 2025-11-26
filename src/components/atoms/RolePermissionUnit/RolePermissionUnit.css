@@ -1,0 +1,31 @@
+.role-permission-unit {
+    @apply flex p-2 gap-1 cg-border-l w-fit items-center whitespace-nowrap;
+
+    &.full {
+        background: rgba(0, 247, 137, 0.05);
+        color: var(--text-success);
+
+        &.cursor-pointer&:hover {
+            background: rgba(0, 247, 137, 0.1);
+        }
+    }
+
+    &.limited {
+        background: rgba(255, 138, 0, 0.05);
+        color: var(--text-warning);
+
+        &.cursor-pointer&:hover {
+            background: rgba(255, 138, 0, 0.1);
+        }
+    }
+}
+
+.role-permission-icon {
+    &.full {
+        color: var(--text-success);
+    }
+
+    &.limited {
+        color: var(--text-warning);
+    }
+}

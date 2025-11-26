@@ -1,0 +1,10 @@
+.big-wallet-icon {
+    @apply flex p-4 flex-col justify-center items-center gap-2 cg-border-xxl relative;
+    background: var(--surface-background-3rd, #272937);
+}
+
+.big-wallet-wallet {
+    @apply flex py-1 px-4 items-center gap-2 cg-border-xxl;
+    border: 1px solid var(--border-secondary, #3E425A);
+    background: var(--surface-background-3rd, #272937);
+}

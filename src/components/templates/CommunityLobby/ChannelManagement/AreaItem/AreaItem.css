@@ -1,0 +1,54 @@
+.area-item {
+    @apply flex flex-col gap-2 cg-border-l;
+    border: 1px solid var(--cardBorder);
+    transition: width 300ms ease-out !important;
+    width: 100%;
+
+    .area-item-inner {
+        @apply py-2 px-4 flex items-center cursor-pointer cg-text-lg-500 cg-border-l;
+        color: var(--cardTextMain);
+        transition: background 300ms ease-out;
+
+        .chevron-icon svg {
+            transform: rotate(-90deg);
+        }
+
+        .drag-handle-icon {
+            @apply cursor-pointer;
+            color: var(--cardTextSecondary);
+            transition: all 300ms ease-out;
+        }
+
+        &.selected {
+            background: var(--cardSelectedBg);
+            color: var(--cardSelectedText);
+        }
+    }
+
+    .area-item-inner:last-of-type {
+        @apply mb-0;
+    }
+
+    .area-item-inner:hover {
+        background: var(--cardBgHover);
+
+        .drag-handle-icon {
+            color: var(--cardTextMain);
+        }
+
+        .panel-item-text {
+            color: var(--cardTextMain);
+        }
+    }
+
+    .expanded-item {
+        .chevron-icon svg {
+            transform: none;
+        }
+    }
+}
+.area-item.dragging {
+    .area-item-inner {
+        background: var(--transparent);
+    }
+}

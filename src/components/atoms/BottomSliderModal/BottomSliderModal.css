@@ -1,0 +1,60 @@
+.react-modal-sheet-container {
+    @apply px-4 pb-6;
+    background: transparent !important;
+    box-shadow: none !important;
+    
+    > div {
+        @apply cg-border-xxl;
+        background: var(--tooltipBg);
+    }
+
+    > div:first-child {
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+
+    > div:last-child {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+
+    .react-modal-sheet-drag-indicator {
+        background: var(--surface-subtleoverlay) !important;
+    }
+}
+
+.full-mode {
+    .react-modal-sheet-container {
+        @apply p-0;
+
+        > div:first-child {
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+        }
+
+        > div:last-child {
+            border-radius: 0px;
+        }
+    }
+}
+
+.react-modal-sheet-backdrop {
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.react-modal-sheet-header {
+    height: 20px !important;
+}
+
+.bottom-slider-modal-container {
+    /* 100vh bug fix for some mobile devices */
+    height: var(--visualHeight);
+    min-height: var(--visualHeight);
+    max-height: var(--visualHeight);
+
+    &.header-hidden {
+        .react-modal-sheet-container {
+            overflow: hidden;
+        }
+    }
+}

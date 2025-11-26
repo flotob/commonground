@@ -1,0 +1,9 @@
+.checkbox {
+    border-radius: 4px !important;
+    box-shadow: none !important;
+
+    &:disabled {
+        background: var(--inputPlaceholder);
+        color: theme('colors.palette.brand.300');
+    }
+}

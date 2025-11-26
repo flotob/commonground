@@ -1,0 +1,8 @@
+.audience-peer-card {
+    background: var(--surface-subtleoverlay);
+    border: 1px solid transparent;
+
+    &.hand-raised {
+        border: 1px solid var(--border-icon);
+    }
+}

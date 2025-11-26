@@ -1,0 +1,29 @@
+.ban-management {
+    > .intro {
+        @apply cg-heading-2;
+        max-width: 692px;
+        font-style: normal;
+        color: var(--headerText);
+    }
+}
+
+.desktop-ban-management {
+    max-width: 800px;
+    margin: auto;
+}
+
+.mobile-ban-management {
+    @apply flex flex-col overflow-hidden;
+}
+
+.ban-management-user-item {
+    @apply flex justify-between items-center gap-4 flex-nowrap;
+
+    > div:first-child {
+        @apply overflow-hidden;
+    }
+
+    .user-tag {
+        max-width: 100%;
+    }
+}

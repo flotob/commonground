@@ -1,0 +1,6 @@
+.profile-form {
+    @apply flex flex-col p-4 gap-4 cg-border-xxl w-full cg-box-shadow-lg;
+
+    color: var(--cardTextMain);
+    border: 1px solid var(--border-secondary, #3C425E);
+}

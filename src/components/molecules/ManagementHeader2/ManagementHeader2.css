@@ -1,0 +1,10 @@
+.management-header-help {
+    grid-template-rows: 0fr;
+    transition: all 150ms;
+    max-width: 480px;
+
+    &.open {
+        @apply pt-2;
+        grid-template-rows: 1fr;
+    }
+}

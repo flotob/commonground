@@ -1,0 +1,55 @@
+.desktop-layout {
+  .call-page-view {
+    @apply h-full px-6 py-4;
+    display: grid;
+    grid-template-columns: [start community-content-start] auto [community-content-end end];
+
+    .community-header {
+      grid-column: channel-browser-start / channel-browser-end;
+      grid-row: channel-browser-start / channel-browser-end;
+    }
+
+    .area-list {
+      grid-column: area-list-start / area-list-end;
+      grid-row: area-list-start / area-list-end;
+    }
+
+    >.cg-scrollable {
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+
+    /* small fix to use whole scrollable area */
+    >.cg-scrollable>.cg-scrollable-content>div {
+      @apply h-full mt-4;
+    }
+
+    .floating-left-bar {
+      grid-row: channel-browser-start / area-list-end;
+    }
+  }
+}
+
+.mobile-layout {
+  .call-page-view {
+    @apply grid h-full;
+    grid-template-columns: [start channel-browser-bar-start community-content-start] 1fr [channel-browser-bar-end community-content-end end];
+    grid-gap: 1rem;
+
+    >* {
+      @apply p-0;
+    }
+
+    /* small fix to use whole scrollable area */
+    >.cg-scrollable>.cg-scrollable-content>div {
+      @apply h-full;
+    }
+
+    >.cg-scrollable,
+    >.content-message-list,
+    >.article-management {
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+  }
+}

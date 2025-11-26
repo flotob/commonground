@@ -1,0 +1,46 @@
+.desktop-layout {
+  .edit-blog-view {
+    @apply h-full;
+    display: grid;
+    grid-template-columns: [start user-profile-details-start post-content-start community-content-start] auto [post-content-end community-content-end end];
+    grid-template-rows: [start user-profile-details-start post-content-start] 1fr [post-content-end end];
+
+    .user-profile-details {
+      grid-column: user-profile-details-start / user-profile-details-end;
+      grid-row: user-profile-details-start / user-profile-details-end;
+    }
+
+    .edit-blog-view-inner {
+      @apply py-4;
+      grid-column: post-content-start / post-content-end;
+      grid-row: post-content-start / post-content-end;
+    }
+
+    .user-profile-description {
+      @apply flex-grow;
+    }
+  }
+}
+
+.mobile-layout {
+  .edit-blog-view {
+    @apply grid p-0 h-full;
+    grid-template-columns: [start user-profile-details-start post-content-start] 1fr [post-content-end user-profile-details-end end];
+    grid-template-rows: [start post-content-start] 1fr [post-content-end end];
+    grid-gap: 1rem;
+
+    >* {
+      @apply p-0;
+    }
+
+    /* small fix to use whole scrollable area */
+    >.cg-scrollable>.cg-scrollable-content>div {
+      @apply h-full;
+    }
+
+    >.cg-scrollable {
+      grid-column: post-content-start / post-content-end;
+      grid-row: post-content-start / post-content-end;
+    }
+  }
+}

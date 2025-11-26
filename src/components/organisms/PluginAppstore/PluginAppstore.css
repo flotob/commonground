@@ -1,0 +1,11 @@
+.plugin-appstore {
+    max-width: 1000px;
+
+    > .modal-content {
+        padding: 0 !important;
+    }
+
+    .cg-scrollable-content {
+        @apply p-4;
+    }
+}

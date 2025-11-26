@@ -1,0 +1,79 @@
+.group-member-list {
+  @apply absolute h-auto flex flex-col;
+  top: 0;
+  transform: translateX(6680px);
+  bottom: 0;
+  width: 280px;
+  border-left: 1px solid var(--cardBorder);
+  background-color: var(--surface-background-2nd);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.12); /** TODO use var */
+  
+
+  @media (max-width: 1430px) {
+    transition-duration: 225ms;
+    transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+
+    &.open {
+      transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+    }
+  }
+
+  > :first-child {
+    @apply pt-4;
+  }
+
+  .group-member-list-content {
+    flex: 1;
+    overflow: hidden;
+
+    .role-title {
+      @apply p-2 px-1 pt-6 flex gap-2 cg-text-md-500;
+      color: var(--cardTextMain);
+
+      :nth-child(2) {
+        color: var(--cardTextSecondary);
+      }
+    }
+  }
+
+  .search-field-container {
+    @apply px-3;
+    height: fit-content !important;
+  }
+
+  > .caption {
+    @apply flex items-center mt-2 py-2 px-4 cursor-pointer justify-between;
+
+    &:hover {
+      background: var(--cardBgHover);
+    }
+
+    svg {
+      @apply inline-block;
+    }
+
+    .member-list-title {
+      @apply cg-text-lg-500;
+      color: var(--cardTextMain);
+    }
+
+    > .close-button {
+      @apply ml-auto self-end;
+    }
+  }
+
+  .user-trigger-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1429px) {
+  .with-member-list-container {
+    *:not(.group-member-list, .group-member-list *, .mobile-menu, .mobile-menu *) {
+      opacity: 0.90;
+      pointer-events: none !important;
+      transition-duration: 225ms;
+      transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+    }
+  }
+}

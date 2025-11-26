@@ -1,0 +1,68 @@
+.reaction-floating-element {
+    @apply absolute cg-heading-1;
+    bottom: 0px;
+    animation: moveUp 2.5s ease-out;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.reaction-floating-element-grower {
+    animation: growAndShrink 2.5s ease-out;
+}
+
+.reaction-floating-element-swinger {
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 2;
+}
+
+@keyframes swingRight {
+    to {
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+@keyframes swingLeft {
+    to {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+@keyframes growAndShrink {
+    0% {
+        transform: scale(1);
+    }
+
+    60% {
+        transform: scale(1.2);
+    }
+
+    80% {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes moveUp {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    95% {
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate3d(0, -50vh, 0);
+        opacity: 0;
+    }
+}

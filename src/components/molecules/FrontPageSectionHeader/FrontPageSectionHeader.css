@@ -1,0 +1,21 @@
+.front-page-section-header {
+    @apply w-full flex flex-col;
+}
+
+.front-page-section-scrollable-buttons {
+    @apply pt-1 mb-2;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+
+    &::-webkit-scrollbar {
+        display: none;  /* Safari and Chrome */
+    }
+    
+    > * {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+}

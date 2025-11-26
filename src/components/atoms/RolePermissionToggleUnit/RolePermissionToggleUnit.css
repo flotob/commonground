@@ -1,0 +1,12 @@
+.role-permission-toggle-unit {
+    @apply flex justify-between items-center gap-2 py-1 cg-text-lg-500;
+
+    .title-icon {
+        @apply flex;
+        color: var(--cardTextSecondary);
+    }
+
+    .title-text {
+        color: var(--cardTextMain);
+    }
+}

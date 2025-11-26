@@ -1,0 +1,78 @@
+.fieldMedia {
+    @apply flex flex-col items-center justify-center w-full;
+
+    .fieldMediaImageContainer {
+        @apply w-full relative flex items-center justify-center;
+        
+        button {
+            @apply absolute;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.1s ease-in-out;
+        }
+
+        .infoTagContainer {
+            @apply absolute;
+            bottom: 10px;
+        }
+    }
+
+    .fieldMediaContent {
+        @apply flex items-center justify-center flex-col;
+        transition: all 0.1s ease-in-out;
+        
+        img {
+            border-radius: 6px;
+            background: var(--imageBg);
+            width: 100%;
+        }
+
+        .fieldMediaLoading {
+            @apply flex items-center justify-center w-full h-60;
+            background: var(--imageBg);
+            border-radius: 6px;
+        }
+
+        .captionInput {
+            background: transparent;
+            border: transparent;
+            text-align: center;
+            line-height: 20px;
+            font-size: 15px;
+            width: 100%;
+            color: var(--cardTextSecondary);
+        }
+
+        .captionInput:hover, .captionInput:focus {
+            background: transparent !important;
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    .fieldMediaContent:hover .fieldMediaImageContainer button {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .fieldMediaContent.large {
+        width: 100%;
+    }
+
+    .fieldMediaContent.medium {
+        width: 75%;
+    }
+
+    .fieldMediaContent.small {
+        width: 50%;
+    }
+}
+
+.fieldMediaControl {
+    @apply flex px-2 py-1 gap-1;
+    background: var(--surface-background-2nd);
+    border-radius: 500px;
+    button {
+        min-width: 50px;
+    }
+}

@@ -1,0 +1,7 @@
+.join-call-modal-desktop {
+    @apply cg-border-xxl;
+    width: 450px;
+    color: var(--text-primary);
+    background: var(--surface-background-2nd);
+    border: 1px solid var(--border-secondary, #3C425E);
+}

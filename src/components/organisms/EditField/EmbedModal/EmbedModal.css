@@ -1,0 +1,22 @@
+.embedModal {
+    @apply flex flex-col;
+
+    input {
+        @apply px-4 py-2 my-10;
+        color: var(--inputText);
+        border-radius: 6px;
+        background: var(--inputBg);
+    }
+
+    input:focus, input:hover {
+        outline: none;
+    }
+
+    input::placeholder {
+        color: var(--inputPlaceholder);
+    }
+
+    .embedModalAddButton {
+        align-self: flex-end;
+    }
+}

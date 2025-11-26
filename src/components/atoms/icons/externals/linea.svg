@@ -1,0 +1,23 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Logomark white BG 1" clip-path="url(#clip0_27350_13777)">
+<path id="Vector" d="M19.94 0H0V20.7623H19.94V0Z" fill="white" style="fill:white;fill-opacity:1;"/>
+<g id="Clip path group">
+<mask id="mask0_27350_13777" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="4" y="5" width="11" height="11">
+<g id="clip0_2303_641">
+<path id="Vector_2" d="M14.9248 5.20142H4.9707V15.5991H14.9248V5.20142Z" fill="white" style="fill:white;fill-opacity:1;"/>
+</g>
+</mask>
+<g mask="url(#mask0_27350_13777)">
+<g id="Group">
+<path id="Vector_3" d="M13.2376 15.5991H4.9707V6.88867H6.86217V13.911H13.2376V15.5982V15.5991Z" fill="#121212" style="fill:#121212;fill:color(display-p3 0.0700 0.0700 0.0700);fill-opacity:1;"/>
+<path id="Vector_4" d="M13.238 8.57583C14.1698 8.57583 14.9252 7.82044 14.9252 6.88863C14.9252 5.95681 14.1698 5.20142 13.238 5.20142C12.3061 5.20142 11.5508 5.95681 11.5508 6.88863C11.5508 7.82044 12.3061 8.57583 13.238 8.57583Z" fill="#121212" style="fill:#121212;fill:color(display-p3 0.0700 0.0700 0.0700);fill-opacity:1;"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_27350_13777">
+<rect width="20" height="20.8" fill="white" style="fill:white;fill-opacity:1;"/>
+</clipPath>
+</defs>
+</svg>

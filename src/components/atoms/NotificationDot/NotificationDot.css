@@ -1,0 +1,7 @@
+.notification-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--notificationCountBg);
+    outline: solid 3px var(--bgColor);
+    border-radius: 8px;
+}

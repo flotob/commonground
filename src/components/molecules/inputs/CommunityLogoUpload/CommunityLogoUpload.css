@@ -1,0 +1,64 @@
+.community-logo-upload {
+    @apply relative w-full h-full mx-auto mt-14 mb-16 flex items-center justify-center;
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 12px;
+    border: solid 3px var(--cardTextSecondary);
+    background: var(--imageBg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    > .logo-placeholder {
+      @apply mx-auto block cursor-pointer;
+      color: var(--cardTextMain);
+      background: var(--imageBg);
+      border-radius: 12px;
+    }
+    > .logo-preview {
+      @apply absolute top-0 left-0;
+      color: var(--cardTextMain);
+    }
+
+    .logo-placeholder:hover {
+      color: var(--cardTextMain);
+    }
+
+    > .logo-preview {
+      > image {
+        @apply absolute m-auto w-full h-full;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    > .community-logo-upload-add-icon {
+      @apply flex invisible absolute opacity-0;
+    }
+
+    &:hover,
+    &.is-empty {
+      @apply cursor-pointer;
+
+      .logo-preview {
+        opacity: 0.5; 
+      }
+
+      button {
+        @apply flex visible opacity-100;
+        transition: all 0.1s ease-in;
+      }
+    }
+
+    > img {
+      @apply w-full mx-auto mt-14;
+      height: auto;
+    }
+}
+
+.community-logo-error-msg {
+  @apply absolute;
+  bottom: -95px;
+}

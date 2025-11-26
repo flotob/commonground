@@ -1,0 +1,11 @@
+.groupList {
+    @apply flex flex-col gap-6;
+
+    .groupList-see-more-container {
+        @apply flex flex-col items-center mt-4;
+    }
+}
+
+.mobile-layout .groupList {
+    @apply gap-4;
+}

@@ -1,0 +1,66 @@
+.roles-management-desktop {
+    @apply gap-6 !important;
+    .roles-management-desktop-content {
+        @apply grid gap-8 w-full;
+        grid-template-columns: minmax(200px, 300px) 1fr;
+    }
+}
+
+.roles-management-page-title {
+    @apply cg-heading-3;
+    color: var(--headerText);
+}
+
+.roles-management-title {
+    @apply cg-caption-md-600;
+    color: var(--cardTextSecondary);
+}
+
+.roles-management-roles-container {
+    @apply flex flex-col gap-2;
+}
+
+.roles-management-role-editor-container {
+    @apply flex flex-col p-4 gap-4 cg-border-m;
+
+    color: var(--cardTextMain);
+    background: var(--surface-background-2nd);
+    border: 1px solid var(--cardBorder);
+
+    .roles-management-subtitle {
+        @apply flex gap-1 items-center cg-text-md-500;
+    }
+}
+
+.roles-management-list {
+    @apply flex flex-col gap-4;
+    color: var(--cardTextMain);
+
+    .roles-management-roles {
+        @apply flex flex-col gap-1;
+    }
+
+    .create-role-button {
+        @apply cg-text-lg-500 self-center;
+    }
+}
+
+.role-management-separator {
+    @apply w-full;
+    border: 1px solid var(--hr);
+}
+
+.roles-management-mobile {
+    @apply flex flex-col h-full;
+    .roles-management-mobile-header {
+        @apply flex items-center justify-between p-4;
+        color: var(--cardTextMain);
+        background: var(--surface-background-2nd);
+    }
+}
+
+.role-management-limit-tip {
+    @apply flex flex-col gap-2 p-2 items-start justify-center self-stretch cg-border-l cg-text-md-500;
+    background: var(--surface-subtleactive, rgba(24, 78, 126, 0.15));
+    color: var(--surface-brand);
+}

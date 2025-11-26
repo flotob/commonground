@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.cgid-header {
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: large;
+}
+
+.cgid-action {
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: large;
+}
+
+.cgid-info {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: large;
+}
+
+.cgid-info-success {
+    color: green;
+}
+
+.cgid-info-error {
+    color: darkred;
+}
+
+.cgid-info-passkey {
+    font-size: small;
+}

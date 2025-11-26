@@ -1,0 +1,53 @@
+.desktop-layout {
+  .profile-view {
+    @apply h-full;
+    display: grid;
+    grid-template-columns: [start profile-content-start adminbar-start] auto [adminbar-end profile-content-end end];
+    grid-template-rows: [start profile-content-start] 1fr [profile-description-end profile-settings-start] auto [profile-settings-end profile-content-end end];
+
+    >.user-profile-details {
+      @apply flex-grow;
+      grid-row: profile-description-start / profile-description-end;
+      grid-column: profile-description-start / profile-description-end;
+
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--cardBorder);
+      border-radius: 12px;
+    }
+
+    >.user-settings {
+      grid-row: profile-settings-start/ profile-settings-end;
+      grid-column: profile-settings-start/ profile-settings-end;
+    }
+
+    >.user-profile-admin-panel {
+      grid-row: adminbar-start/ adminbar-end;
+      grid-column: adminbar-start/ adminbar-end;
+    }
+
+    >.user-profile-main-content {
+      grid-row: profile-content-start / profile-content-end;
+      grid-column: profile-content-start / profile-content-end;
+    }
+  }
+}
+
+.mobile-layout {
+  .profile-view {
+    @apply block h-full;
+
+    .user-profile-admin-panel {
+      @apply p-0;
+      border-bottom: none;
+    }
+  }
+}
+
+.desktop-layout {
+  .other-user-view {
+    >.user-profile-main-content {
+      grid-row: start / end;
+    }
+  }
+}

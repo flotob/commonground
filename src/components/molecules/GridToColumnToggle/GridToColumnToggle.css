@@ -1,0 +1,18 @@
+.grid-column-toggle {
+    .switch-input-field {
+        .switch {
+            .options {
+                background-color: transparent;
+                
+                button {
+                    border: none;
+                    background-color: transparent;
+    
+                    &:focus {
+                        outline: 1px solid transparent;
+                    }
+                }            
+            }
+        }
+    }
+}

@@ -1,0 +1,95 @@
+.user-setting-modal-content {
+    @apply flex flex-col cg-border-xxl overflow-hidden justify-end;
+    transition: all 200ms;
+    transition-timing-function: cubic-bezier(0.77, 0, 0.18, 1);
+    
+    &.desktop-modal {
+        background: var(--surface-background-2nd);
+        border: 1px solid var(--border-secondary);
+    }
+
+    &.call-mode {
+        background: none;
+        border: none;
+    }
+}
+
+.user-settings-close-btn {
+    @apply flex p-1;
+    border-radius: 500px;
+    background: var(--cardBg);
+}
+
+.user-settings-card-bg {
+    background: var(--cardBg);
+}
+
+.user-settings-card-active {
+    border: 2px solid var(--border-highlight);
+}
+
+.user-setting-theme-page-btn {
+    @apply justify-start py-2 px-4 cursor-pointer gap-2;
+
+    &:hover {
+        background-color: var(--surface-hover);
+    }
+
+    .btnText {
+        @apply flex-1 text-start;
+    }
+}
+
+.user-settings-footer-bg {
+    @apply w-full absolute inset-0;
+    background: var(--imageBg);
+    opacity: 0.3;
+    
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.user-settings-footer-bg-content {
+    backdrop-filter: blur(12.5px);
+}
+
+#user-settings-root {
+    .user-setting-modal-content-top-container {
+        max-height: 80vh;
+    }
+    
+    .user-setting-modal-content:hover {
+        border-color: var(--border-secondary-hover);
+    }
+
+    .user-settings-close-btn:hover {
+        background: var(--cardBgHover);
+    }
+}
+
+.user-setting-modal-content-top-container {
+    @apply flex flex-col self-stretch;
+
+    >.cg-scrollable {
+        .cg-scrollable-content {
+            @apply pb-4;
+        }
+    }
+}
+
+.textual-help-button {
+    @apply cg-text-md-500;
+
+    color: var(--cardTextSecondary);
+    .btnText {
+        color: var(--cardTextSecondary);
+    }
+}
+
+.profile-page-account-name {
+    @apply flex py-2 px-4 items-center flex-1 cg-border-l;
+    
+    border: 1px solid var(--border-secondary);
+    background: var(--surface-background-3rd);
+}

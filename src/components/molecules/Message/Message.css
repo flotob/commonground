@@ -1,0 +1,224 @@
+.message-item {
+  @apply whitespace-pre mr-4 p-2 relative;
+  margin-left: 1px;
+  width: fit-content;
+  max-width: min(600px, 90%);
+  box-sizing: border-box;
+  word-wrap: break-word;
+  pointer-events: auto;
+  border-radius: 12px;
+  transition: background-color 300ms ease-out;
+  margin-bottom: 2px;
+  background-color: var(--surface-background-2nd);
+  color: var(--text-primary);
+  --linkColor: var(--text-link);
+  transform: scale(1.0);
+  opacity: 0;
+  transition: all 0.1s; /* has to be the same as transform speed for .message-reply-toggle-indicator !!! */
+
+  .message-reply-toggle-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: visible;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.1s; /* transform has to be the same as speed as for .message-item !!! */
+    pointer-events: none;
+    transform: 'translate(0, 0) scale(0.8)';
+    background-color: transparent;
+  }
+
+  .message-item-date-container {
+    @apply float-right pl-1;
+  }
+
+  .message-item-date {
+    display: none;
+    padding-top: 6px;
+  }
+
+  .message-item-date-divider {
+    display: none;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--text-secondary);
+  }
+
+  .message-item-edited-timestamp-container {
+    @apply flex gap-1;
+    color: var(--text-secondary);
+  }
+
+  .message-item-date-container.edited {
+    @apply flex items-center justify-end gap-1;
+    padding-top: 0;
+    padding-left: 0;
+    float: unset;
+    
+    .message-item-date {
+      padding-top: 0;
+    }
+
+    .message-item-edited-date {
+      color: var(--text-secondary);
+      display: block;
+    }
+  }
+
+  &:hover {
+    .message-item-date-container.edited {
+      .message-item-date, .message-item-date-divider {
+        display: block;
+      }
+    }
+  }
+
+  &.isolated-new-msg {
+    margin-top: 8px;
+  }
+
+  &.show-timestamp {
+    .message-item-date, .message-item-date-divider {
+      display: block;
+    }
+  }
+
+  &:last-child {
+    .message-item-date, .message-item-date-divider {
+      display: block;
+    }
+  }
+
+  .message-big-emoji {
+    @apply flex items-end;
+    
+    .message-item-date-container {
+      float: none;
+    }
+  }
+
+  .tooltip-container {
+    --tooltipBorder: #333 !important;
+  }
+
+  .message-item-date {
+    color: var(--messageDate);
+  }
+
+  &.own-message {
+    @apply ml-4;
+    background-color: var(--surface-own-message);
+    padding: 8px;
+  }
+
+  &.special {
+    background-color: transparent;
+  }
+
+  &.selected {
+    animation: boxShadowHighlight 3s ease-in-out 0s 1;
+  }
+
+  &.editing {
+
+  }
+
+  &:not(.own-message) {
+    &:not(:first-child) {
+      border-top-left-radius: 6px;
+    }
+    
+    &:not(:last-child) {
+      border-bottom-left-radius: 6px;
+    }
+  }
+    
+  &.own-message {
+    &:not(:first-child) {
+      border-top-right-radius: 6px;
+    }
+
+    &:not(:last-child) {
+      border-bottom-right-radius: 6px;
+    }
+  }
+}
+
+@keyframes boxShadowHighlight {
+  0% { box-shadow: inset 0 0 5px 1px var(--verifiedBg); }
+  80% { box-shadow: inset 0 0 5px 1px var(--verifiedBg); }
+  100% { box-shadow: inset 0 0 5px 1px transparent; }
+}
+
+.message-item-content {
+  @apply flex cursor-text;
+}
+
+.message-item-with-reactions {
+  margin-bottom: 24px;
+}
+
+.mobile-layout {
+  .message-item-content {
+    @apply flex-col;
+  }
+
+  .message-item-date-container {
+    float: none;
+
+    .message-item-date {
+      float: right;
+      padding-top: 0px;
+    }
+  }
+
+  .message-item-date-container.edited {
+    float: unset;
+
+    .message-item-date {
+      float: unset;
+    }
+  }
+}
+
+.message-item-message {
+  @apply whitespace-pre-wrap flex-1 overflow-hidden;
+  word-break: break-word;
+
+  .message-content-tag, .message-content-ticker, .message-content-link {
+    color: var(--linkColor);
+  }
+  .message-content-link {
+    @apply underline;
+  }
+  .message-content-warning {
+    @apply my-1;
+
+    > span {
+      @apply rounded px-2 py-1;
+      color: var(--warningColor);
+      background-color: var(--warningBg);
+    }
+  }
+  .message-content-mute-ban {
+    @apply my-1;
+
+    > span {
+      @apply rounded px-2 py-1;
+      color: var(--errorColor);
+      background-color: var(--errorBg);
+    }
+  }
+}
+
+.mobile-layout {
+  .message-item {
+    max-width: 80%;
+  }
+}
+
+.light {
+  .message-item {
+    @apply cg-box-shadow-sm;
+  }
+}

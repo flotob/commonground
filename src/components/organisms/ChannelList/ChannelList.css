@@ -1,0 +1,137 @@
+.channel-list {
+  @apply flex flex-col gap-0.5 cg-text-lg-500;
+
+  > .caption {
+    @apply flex items-center mx-2 mb-2 font-caption;
+  }
+
+  .channel-item-icon {
+    @apply flex items-center justify-center;
+    font-size: 16px;
+    height: 20px;
+    width: 20px;
+  }
+
+  .channel-item-icon.icon-unread {
+    opacity: 1;
+  }
+
+  .channel-item-link-icon {
+    display: none;
+  }
+
+  > .voice-channel-list-item {
+    > .voice-channel-item-info {
+      @apply flex items-center gap-2 cursor-pointer break-all;
+      padding: 8px;
+      transition: background-color 0.3s;
+      color: var(--cardTextMain);
+      border-radius: 6px;
+
+      .channel-title-text {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      > span {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+
+    > .voice-channel-item-info:hover {
+      background: var(--cardBgHover);
+
+      .channel-item-icon {
+        opacity: 1;
+      }
+    }
+
+    > .voice-channel-item-info:hover {
+      .channel-item-link-icon {
+        display: block;
+      }
+    }
+
+    > .voice-channel-item-info.item-active {
+      color: var(--cardSelectedText);
+      font-weight: 500;
+      background: var(--cardSelectedBg);
+      --iconPrimary: var(--cardSelectedText);
+    }
+
+    .voice-channel-item-info.item-unread {
+      font-weight: 500;
+    }
+
+    .voice-channel-item-members {
+      @apply pl-6;
+
+      .voice-channel-talkers {
+        @apply h-full w-full;
+
+        .voice-channel-talker {
+          --audioWidgetTextMain: var(--cardTextMain);
+
+          .tooltip-verified-user {
+            --iconPrimary: var(--verifiedBg);
+          }
+        }
+      }
+    }
+  }
+
+  > .text-channel-list-item {
+    &:active {
+      transform: scale(0.97);
+    }
+
+    > .text-channel-item-info {
+      @apply py-1 px-3 flex items-center gap-1 cursor-pointer break-all cg-border-xl;
+      transition: background-color 0.3s;
+      color: var(--cardTextMain);
+
+      .channel-title-text {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      > span {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+
+    > .text-channel-item-info:hover, > .text-channel-item-info.item-active {
+      background: var(--cardBgHover);
+
+      .channel-item-icon {
+        opacity: 1;
+      }
+    }
+    
+    > .text-channel-item-info:hover {
+      background: var(--surface-hover);
+      .channel-item-link-icon {
+        display: block;
+      }
+    }
+
+    > .text-channel-item-info.item-active {
+      font-weight: 500;
+      background: var(--surface-subtleactive);
+    }
+
+    .text-channel-item-info.item-unread {
+      font-weight: 500;
+    }
+
+    .text-channel-item-info.preview {
+      color: var(--text-secondary);
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.wallet-select-modal {
+    max-width: 310px;
+  
+    .modal-content {
+      @apply p-8;
+  
+      h3 {
+        @apply text-center mb-4 cg-heading-4;
+        color: var(--headerText);
+      }
+  
+      .wallet-select-container {
+        @apply flex flex-col items-center gap-1;
+      }
+    }
+}
+
+.wallet-connecting-modal {
+    @apply flex items-center gap-3;
+
+    .connecting-btn {
+      @apply p-0;
+    }
+
+    p {
+      @apply cg-text-lg-500;
+      color: var(--cardTextMain);
+    }
+}

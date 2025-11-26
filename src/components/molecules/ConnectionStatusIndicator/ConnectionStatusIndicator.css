@@ -1,0 +1,48 @@
+#cg-connection-indicator {
+    @apply mx-auto;
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    width: auto;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10200;
+    transition: opacity 0.3s;
+}
+.cg-connection-indicator-content {
+    @apply flex cg-border-xl py-2 px-4 cg-text-lg-500 items-center justify-between gap-2; 
+    min-width: min(360px, 90vw);
+    pointer-events: auto;
+    background-color: var(--tooltipBg);
+    border: solid 1px var(--cardBorder);
+    color: var(--cardTextMain);
+}
+
+.cg-connection-indicator-connected .cg-connection-indicator-content {
+    background: var(--surface-success);
+    border: solid 1px var(--text-success);
+    color: var(--text-success);
+}
+.cg-connection-indicator-connecting .cg-connection-indicator-content, .cg-connection-indicator-disconnected .cg-connection-indicator-content, .cg-connection-indicator-offline .cg-connection-indicator-content {
+    background: var(--btnDestructiveBg);
+    border: solid 1px var(--warningColor);
+    color: var(--warningColor);
+}
+.cg-connection-indicator-updating .cg-connection-indicator-content, .cg-connection-indicator-updated .cg-connection-indicator-content{
+    color: var(--text-info, #00B7FF);
+    border: 1px solid var(--text-info, #00B7FF);
+    background: var(--surface-popover, #161822);
+}
+
+@keyframes preview_spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

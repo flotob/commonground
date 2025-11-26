@@ -1,0 +1,11 @@
+.captcha-modal-outer {
+    .modal-content {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .captcha-modal-inner, .captcha-modal-content {
+        display: flex;
+        justify-content: center;
+    }
+}

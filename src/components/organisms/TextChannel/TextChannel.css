@@ -1,0 +1,121 @@
+.content-message-list {
+  @apply w-full h-full relative;
+  user-select: text;
+
+  >.text-channel {
+    @apply w-full h-full relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    max-height: var(--visualHeight);
+
+    >.generic-message-list {
+      @apply top-0 left-0 bottom-0 right-0;
+      grid-row: 2;
+      overflow-y: auto;
+    }
+  }
+}
+
+.text-channel-header {
+  @apply min-w-0 p-2 flex flex-col gap-2 items-center;
+  grid-row: 1;
+  background: var(--surface-background-2nd);
+
+  .text-channel-name {
+    @apply flex flex-shrink-0 items-center justify-start cg-text-lg-500 cursor-pointer whitespace-nowrap;
+    color: var(--cardTextMain);
+    gap: 4px;
+  }
+}
+
+.text-channel-notification-header {
+  @apply w-full overflow-hidden;
+  grid-row: 1;
+
+  .text-channel-notification-header-container {
+    @apply w-full flex flex-row items-center px-4 py-2 gap-2 cg-text-lg-500 cg-border-xl cg-box-shadow-md;
+    background: var(--surface-background-2nd);
+    border: 1px solid var(--cardBorder);
+    color: var(--cardTextMain);
+
+    .header-text-link {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .text-separator {
+      font-weight: 400;
+      font-size: 20px;
+      color: var(--hr);
+    }
+  }
+
+  .text-channel-notification-header-button {
+    @apply ml-auto;
+  }
+}
+
+.channel-modal-description {
+  .channel-area {
+    @apply cg-text-lg-500;
+  }
+
+  .channel-description {
+    @apply flex items-center mt-1;
+
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--cardTextMain);
+  }
+}
+
+.desktop-layout {
+  .text-channel-header-container {
+    @apply mt-4 mx-auto overflow-hidden cg-box-shadow-md cg-border-xl;
+    width: 100%;
+    max-width: min(800px, calc(100% - 2rem));
+  }
+
+  .text-channel-header {
+    @apply cg-border-xl;
+    border: 1px solid var(--cardBorder);
+    max-width: 800px;
+    margin: auto;
+    width: 100%;
+  }
+}
+
+.mobile-layout {
+  .text-channel-header-container {
+    @apply cg-box-shadow-md;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .text-channel-name {
+    @apply overflow-hidden flex-1;
+  }
+}
+
+.bookmark-container {
+  @apply flex flex-row gap-1 p-1 cg-border-l items-center;
+  background: var(--surface-subtleoverlay);
+}
+
+.pin-btn {
+  backdrop-filter: blur(7.5px);
+  background: var(--surface-subtleoverlay, rgba(0, 0, 0, 0.03));
+  color: var(--text-active);
+
+  &:hover {
+    background: var(--surface-subtleactive-hover, rgba(24, 78, 126, 0.25));
+  }
+}

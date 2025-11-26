@@ -1,0 +1,14 @@
+.user-profile-acc-btn {
+    &.active {
+        background: var(--surface-subtleactive, rgba(24, 78, 126, 0.15));
+    }
+
+    &:not(.active):hover {
+        background: var(--surface-subtleoverlay, rgba(24, 78, 126, 0.15));
+    }
+}
+
+.user-profile-link {
+    @apply flex overflow-hidden;
+    max-width: 280px;
+}

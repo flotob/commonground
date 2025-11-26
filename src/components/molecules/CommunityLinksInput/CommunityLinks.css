@@ -1,0 +1,19 @@
+.community-links {
+  @apply flex flex-col flex-none flex-grow-0 p-2 gap-2;
+
+  .community-link-editor {
+    @apply flex flex-row flex-none flex-grow-0 order-none justify-start items-center p-0 gap-2;
+    
+    .error,
+    .error:focus,
+    .error:hover {
+      font-weight: 400;
+      color: var(--errorColor);
+      border-color: var(--errorColor) !important;
+    }
+  }
+
+  button.add-link {
+    @apply w-28 flex flex-row flex-none flex-grow-0 justify-start items-center gap-1;
+  }
+}

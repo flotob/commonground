@@ -1,0 +1,111 @@
+.community-card-container {
+    @apply flex flex-col items-center p-4 rounded-md relative;
+    transition: background-color 0.1s ease-out;
+    cursor: pointer;
+    
+    .logo-preview {
+        transition: transform 0.1s ease-out;
+    }
+
+    > .new-tag {
+        @apply absolute py-0.5 px-1.5 cg-text-sm-500 cg-border-m;
+        top: 8px;
+        left: 8px;
+        letter-spacing: 0.05em;
+        color: var(--cardTextMain);
+        background: var(--brandTransparent);
+        z-index: -1;
+    }
+
+    .community-card-footer {
+        @apply flex flex-col gap-2 pt-4 w-full items-center cg-text-lg-500;
+        
+        .community-card-title {
+            @apply flex gap-0 items-center;
+            word-break: break-word;
+            color: var(--cardTextMain);
+
+            .tooltip-community-verified {
+                @apply flex;
+                --iconPrimary: var(--verifiedBg);
+            }
+
+            .community-card-name {
+                @apply text-center;
+            }
+
+            .community-card-description-column {
+                @apply hidden;
+            }
+        }
+
+        .community-card-description {
+            @apply text-center;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: var(--cardTextSecondary);
+            overflow: hidden;
+            display: -webkit-box;
+            word-wrap: break-word;
+            word-break: break-word;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }   
+    }
+}
+
+.column-view {
+    .community-card-container-mobile {
+        @apply grid px-0 border-none gap-2;
+        overflow: hidden;
+        grid-template-columns: [start community-photo-start] 50px [community-photo-end community-details-start] 1fr [community-details-end user-count-start] minmax(50px, auto) [user-count-end end];
+        background: transparent;
+
+        .new-tag {
+            left: 2.25rem;
+            top: 0.75rem;
+        }
+
+        .community-photo-container {
+          grid-column: community-photo-start / community-photo-end;
+        }
+
+        .community-card-footer {
+          @apply grid pt-0;
+          grid-column: community-details-start / community-details-end;
+          grid-template-columns: [start] auto [end];
+
+            .community-card-title {
+                @apply flex flex-col;
+
+                .community-card-name {
+                @apply text-left w-full;
+                line-height: 20px;
+                height: 20px;
+                overflow: hidden;
+                display: -webkit-box;
+                word-wrap: break-word;
+                word-break: break-word;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                }
+
+                .community-card-description-column {
+                @apply block text-left w-full;
+                font-weight: 400;
+                font-size: 15px;
+                line-height: 19px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: var(--cardTextSecondary);
+                }
+            }
+
+            .community-card-description {
+                @apply hidden;
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+.removeWalletModal {
+    @apply flex flex-col p-4 gap-8;
+
+    .removeWalletModal-mainText {
+        @apply cg-heading-4;
+        color: var(--cardTextMain);
+    }
+
+    .removeWalletModal-minorText {
+        @apply cg-text-lg-400;
+        color: var(--cardTextMain);
+    }
+}

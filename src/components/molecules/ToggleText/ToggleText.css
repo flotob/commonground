@@ -1,0 +1,9 @@
+.toggle-text {
+    background: var(--surface-background-3rd);
+    border-radius: 12px;
+    border: 2px solid var(--surface-background-3rd);
+    
+    &.active {
+        border: 2px solid var(--border-highlight, #8D93D8);
+    }
+}

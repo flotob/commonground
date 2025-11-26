@@ -1,0 +1,72 @@
+.live-call-explorer-container {
+    @apply opacity-0 h-0 w-full flex flex-col justify-center self-stretch items-start p-0 m-0 gap-4 flex-none order-none flex-grow-0;
+    transition: opacity 100ms, margin 100ms, height 300ms;
+
+    > .live-call-slider {
+        @apply h-0;
+        transition: height 300ms 100ms;
+    }
+
+    > .front-page-section-header {
+        @apply h-0 w-full flex flex-row items-center justify-between p-0 gap-4 self-stretch flex-none order-none flex-grow-0;
+        transition: height 300ms 100ms;
+        
+        > .front-page-section-title {
+            @apply flex m-0 items-center flex-none order-none flex-grow-0;
+
+            > button {
+                .btnText {
+                    @apply cg-heading-4;
+                    font-style: normal;
+                }
+            }
+        }
+
+        > .front-page-section-scrollable-buttons {
+            > div {
+                @apply m-0 p-0;
+                
+                .live-call-explorer-controls {
+                    @apply flex gap-2;
+        
+                    .rotatedArrow {
+                        transform: rotate(180deg);
+                    }
+        
+                    > * {
+                        @apply p-1;
+                    }
+                }
+            }
+        }
+    }
+
+    .cta-buttons {
+        @apply flex justify-center p-4 gap-2;
+        
+        > * {
+            @apply cg-text-lg-500;
+        }
+    
+        .btnSecondary {
+            border: solid 1px;
+        }
+    }
+
+    &.active {
+        @apply opacity-100;
+        transition: height 300ms, margin 100ms 100ms, opacity 100ms 100ms;
+        border: none;
+        height: fit-content;
+
+        > .live-call-slider {
+            @apply h-auto;
+            transition: height 300ms;
+        }
+
+        > .front-page-section-header {
+            @apply h-auto;
+            transition: height 300ms;
+        }
+    }
+}

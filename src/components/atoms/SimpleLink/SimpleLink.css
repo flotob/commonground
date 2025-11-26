@@ -1,0 +1,65 @@
+.message-link-tooltip-trigger {
+    @apply inline-block;
+}
+
+.message-link-container {
+    @apply inline-block;
+    
+    .text-link {
+        color: var(--linkColor);
+        text-decoration: none;
+        border-bottom: 1px solid var(--linkBorderColor);
+        transition: ease-out 300ms;
+
+        &:visited {
+            color: var(--linkColor);
+            border-bottom-color: var(--linkBorderColor);
+        }
+    }
+
+    svg {
+        @apply pb-0.5;
+        transition: ease-out 300ms;
+    }
+
+    &.message-link-container-internal {
+        svg > path {
+            fill: var(--linkColor);
+        }
+    }
+
+    &:hover {
+        .text-link  {
+            border-bottom-color: var(--linkColor);
+            
+            &:visited {
+                border-bottom-color: var(--linkColor);
+            }
+        }
+    }
+}
+
+.simple-link-modal {
+    p {
+        @apply mb-2;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        word-wrap: break-word;
+    }
+
+    .simple-link-modal-footer {
+        @apply flex items-center justify-between;
+    
+        .simple-link-modal-tag {
+            @apply py-1 px-1.5 gap-1;
+            font-size: 14px;
+            font-weight: 400;
+            border-radius: 8px;
+        }
+    }
+
+    .cg-scrollable {
+        overflow: hidden !important;
+    }
+}

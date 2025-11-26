@@ -1,0 +1,57 @@
+.tooltip {
+  @apply cg-border-xxl overflow-hidden;
+  padding: 0.25rem;
+  color: var(--tooltipText);
+  font-size: 14px;
+  text-align: 'center';
+  background: var(--surface-background-2nd);
+  border: 1px solid var(--border-secondary);
+
+  .floating-arrow {
+    position: absolute;
+    background-color: var(--tooltipBg);
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+
+    &.floating-arrow-top {
+        border-top: 1px solid var(--border-secondary);
+        border-left: 1px solid var(--border-secondary);
+    }
+    &.floating-arrow-right {
+        border-right: 1px solid var(--border-secondary);
+        border-top: 1px solid var(--border-secondary);
+    }
+    &.floating-arrow-bottom {
+        border-bottom: 1px solid var(--border-secondary);
+        border-right: 1px solid var(--border-secondary);
+    }
+    &.floating-arrow-left {
+        border-left: 1px solid var(--border-secondary);
+        border-bottom: 1px solid var(--border-secondary);
+    }
+  }
+
+  .tooltip-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.tooltip.tooltip-simple {
+  @apply p-3;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  max-width: 250px;
+  border-radius: 12px;
+  color: var(--tooltipText);
+  background-color: var(--surface-background-2nd);
+  border: 1px solid var(--border-secondary);
+}
+
+.tooltip.tooltip-unformatted {
+  padding: 0;
+  border-radius: 0;
+  border: none;
+}

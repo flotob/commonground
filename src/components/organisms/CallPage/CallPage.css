@@ -1,0 +1,58 @@
+.call-page-container {
+    background: var(--surface-global-background);
+    display: grid;
+    overflow: hidden;
+
+    &.full-screen {
+        @apply p-4 gap-2;
+        grid-template-columns: 1fr 320px;
+
+        .call-peers-active-speaker {
+            @apply overflow-hidden;
+        }
+    }
+
+    .call-chat, .generic-message-list {
+        overflow: hidden;
+    }
+}
+
+.call-chat {
+    @apply h-full flex-1;
+
+    >.generic-message-list {
+        @apply h-full;
+    }
+
+    .message-group-display-name {
+        margin-right: 16px;
+    }
+
+    .edit-container-container {
+        @apply pb-0 !important;
+    }
+}
+
+.desktop-layout {
+    &:not(.tablet-layout) {
+        .call-page-container:not(.full-screen) {
+            @apply gap-4;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .call-page {
+        margin-left: -16px;
+        margin-right: -16px;
+    }
+}
+
+.mobile-layout, .tablet-layout {
+    .call-page-container {
+        grid-template-rows: auto 1fr;
+    }
+
+    .call-chat {
+        @apply p-2;
+    }
+}

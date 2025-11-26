@@ -1,0 +1,13 @@
+.notificationTypeSelector {
+    .notificationTypeSelectorButton {
+        @apply w-full flex justify-between;
+    }
+}
+
+.desktop-layout .notificationTypeSelectorDropdown {
+    width: 260px;
+}
+
+.mobile-layout .notificationTypeSelectorDropdown {
+    width: calc(100% - 16px);
+}

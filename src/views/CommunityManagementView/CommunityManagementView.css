@@ -1,0 +1,61 @@
+.desktop-layout {
+  .community-management-view {
+    @apply h-full;
+    display: grid;
+    grid-template-columns: [start community-content-start] auto [community-content-end end];
+    grid-template-rows: [start channel-browser-start community-content-start] auto [channel-browser-end area-list-start] 1fr [area-list-end community-content-end end];
+
+    .community-header {
+      grid-column: channel-browser-start / channel-browser-end;
+      grid-row: channel-browser-start / channel-browser-end;
+    }
+
+    .area-list {
+      grid-column: area-list-start / area-list-end;
+      grid-row: area-list-start / area-list-end;
+    }
+
+    >.cg-scrollable {
+      @apply px-6 py-4;
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+
+    /* small fix to use whole scrollable area */
+    >.cg-scrollable>.cg-scrollable-content>div {
+      @apply h-full mt-4;
+    }
+
+    .floating-left-bar {
+      grid-row: channel-browser-start / area-list-end;
+    }
+  }
+}
+
+.mobile-layout {
+  .community-management-view {
+    @apply grid h-full;
+    grid-template-columns: [start channel-browser-bar-start community-content-start] 1fr [channel-browser-bar-end community-content-end end];
+    grid-template-rows: [start channel-browser-bar-start] auto [channel-browser-bar-end community-content-start] 1fr [community-content-end end];
+
+    >* {
+      @apply p-0;
+    }
+
+    .community-management-view-inner {
+      @apply overflow-hidden;
+    }
+
+    /* small fix to use whole scrollable area */
+    >.cg-scrollable>.cg-scrollable-content>div {
+      @apply h-full;
+    }
+
+    >.cg-scrollable,
+    >.content-message-list,
+    >.article-management {
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+  }
+}

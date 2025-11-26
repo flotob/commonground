@@ -1,0 +1,86 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+//
+// Additional terms: see LICENSE-ADDITIONAL-TERMS.md
+
+import React, { createRef, useState } from "react";
+import { ReactComponent as CameraPlusIcon } from "../../../components/atoms/icons/24/CameraPlusIcon.svg";
+import fileApi from "data/api/file";
+import errors from "../../../common/errors";
+import Jdenticon from "../../../components/atoms/Jdenticon/Jdenticon";
+import Button from "../../../components/atoms/Button/Button";
+import config from "../../../common/config";
+import { useNavigate } from "react-router-dom";
+import { getUrl } from 'common/util';
+
+import "./UserProfilePhoto.css";
+import { useUserData } from "context/UserDataProvider";
+import { useUserPremiumTier } from "hooks/usePremiumTier";
+import SupporterIcon from "components/atoms/SupporterIcon/SupporterIcon";
+
+type Props = {
+  userId: string;
+  editMode?: boolean;
+}
+
+export default function UserProfilePhoto(props: Props) {
+  const { userId, editMode } = props;
+  const navigate = useNavigate();
+  const [error, setError] = useState<string>();
+  const user = useUserData(userId);
+  const premiumTier = useUserPremiumTier(user);
+
+  const imageUploadRef = createRef<HTMLInputElement>();
+
+  const handleImageChange = async (ev: React.ChangeEvent<HTMLInputElement>) => {
+    ev.stopPropagation();
+    if (ev.target.files && ev.target.files.length === 1) {
+      if (ev.target.files[0].size > config.IMAGE_UPLOAD_SIZE_LIMIT) {
+        setError(errors.client.UPLOAD_SIZE_LIMIT);
+      } else {
+        try {
+          await fileApi.uploadImage({ type: 'userProfileImage' }, ev.target.files[0]);
+          setError(undefined);
+        } catch (err) {
+          console.error(err);
+          setError("An unknown error has occurred");
+        }
+      }
+    }
+  }
+
+  const openLoadImagePopup = (ev: React.MouseEvent) => {
+    if (editMode && imageUploadRef && imageUploadRef.current) {
+      ev.stopPropagation();
+      imageUploadRef.current.click();
+    }
+  }
+
+  const moveToProfile = (ev: React.MouseEvent) => {
+    if (user && !editMode) {
+      ev.stopPropagation();
+      navigate(getUrl({ type: 'user', user }));
+    }
+  }
+
+  return (
+    <>
+      <div className={`user-profile-photo-with-blurred-background ${editMode ? '' : 'cursor-pointer'}`} onClick={moveToProfile}>
+        <div className="blurred-background"><Jdenticon userId={userId} /></div>
+        <div className={`user-photo ${editMode ? 'edit-mode' : ''}`} onClick={openLoadImagePopup}>
+          <Jdenticon userId={userId} hideStatus />
+          {editMode &&
+            <Button
+              iconLeft={<CameraPlusIcon />}
+              role="primary"
+              className='plus-icon'
+            />}
+          {editMode && <input type="file" ref={imageUploadRef} onChange={handleImageChange} style={{ display: "none" }} accept={config.ACCEPTED_IMAGE_FORMATS} />}
+          {premiumTier.type !== 'free' && <div className="absolute -bottom-3 -right-3 w-fit h-fit">
+            <SupporterIcon type={premiumTier.type} size={48} redirectToSupporterPurchase />
+          </div>}
+        </div>
+      </div>
+      {error && <div className='text-red-400 header-error-msg'>{error}</div>}
+    </>
+  )
+}

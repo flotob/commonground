@@ -1,0 +1,11 @@
+.channel-role-preview {
+    border: 1px solid var(--border-secondary, #3C425E);
+    background: var(--surface-background-2nd, #222432);
+
+    .channel-role-icon-preview {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        background: var(--surface-subtleoverlay, rgba(255, 255, 255, 0.03));
+    }
+}

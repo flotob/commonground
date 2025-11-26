@@ -1,0 +1,8 @@
+.onboarding-box-content {
+    grid-template-rows: 0fr;
+    transition: all 150ms;
+
+    &.open {
+        grid-template-rows: 1fr;
+    }
+}

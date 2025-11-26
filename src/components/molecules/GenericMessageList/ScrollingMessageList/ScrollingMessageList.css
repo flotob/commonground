@@ -1,0 +1,140 @@
+.scrolling-message-list-inner-container {
+  max-width: min(100vw, 800px);
+  margin: 0 auto;
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  .messages-loading-spinner {
+    @apply flex justify-center items-center;
+    height: 30px;
+    transition: height 0.3s, margin-top 0.3s, margin-bottom 0.3s;
+    overflow: hidden;
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+    svg {
+      display: block;
+      transition: height 0.3s, width 0.3s;
+    }
+  }
+}
+
+.message-group {
+    @apply py-3;
+
+    > .message-group-inner {
+      @apply flex;
+
+      > .message-group-content {
+        @apply w-full overflow-hidden;
+      }
+    }
+}
+
+.message-group:last-of-type {
+  @apply pb-4;
+}
+
+.message-group-header {
+  @apply flex items-center;
+
+  > div {
+    @apply overflow-hidden;
+
+  }
+
+  .user-trigger-btn {
+    @apply w-full;
+  }
+}
+
+#message-group-container-0 .message-group-date {
+  @apply mt-0;
+}
+
+.message-group-date {
+  @apply flex items-center px-3 py-8;
+  text-align: center;
+  margin-top: -0.75rem;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--messageDate);
+}
+
+.message-group-date::before,
+.message-group-date::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--messageDateBorder);
+}
+
+.message-group-date:not(:empty)::before {
+  @apply mr-2;
+}
+
+.message-group-date:not(:empty)::after {
+  @apply ml-2;
+}
+
+
+.message-group-icon {
+  @apply w-10 h-10 cursor-pointer ml-4 mr-2;
+
+  .jdenticon {
+    @apply h-10 w-10;
+  }
+}
+
+.message-group-display-name {
+  @apply flex items-center gap-1 mr-2 cursor-pointer cg-text-lg-500;
+  color: var(--messageText);
+
+  .tooltip-verified-user {
+    @apply flex;
+    --iconPrimary: var(--verifiedBg);
+  }
+}
+
+.message-group-first-timestamp {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19px;
+  color: var(--messageText);
+}
+
+.message-group.self-group {
+  .message-group-inner {
+    @apply flex-row-reverse;
+    
+    .message-group-content {
+      @apply flex flex-col items-end;
+    }
+
+    .message-container {
+      @apply flex flex-col items-end w-full;
+    }
+
+    .message-group-icon {
+      @apply ml-2 mr-4;
+    }
+
+    .message-group-display-name {
+      @apply flex-row-reverse mr-0;
+    }
+
+    .own-message {
+      margin-right: 1px;
+    }
+  }
+}
+
+.scrolling-message-scrollbar {
+  > div:first-child {
+    @apply overflow-x-hidden !important;
+    margin-bottom: 0px !important;
+  }
+}

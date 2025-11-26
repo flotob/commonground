@@ -1,0 +1,28 @@
+.start-call-modal {
+    @apply flex flex-col gap-4;
+
+    .call-inputs-frame {
+        @apply flex p-4 flex-col justify-center items-center gap-4 self-stretch shadow-lg;
+        border-radius: 16px;
+        border: 1px solid var(--border-secondary);
+        
+        .limit-access {
+            @apply flex justify-between w-full;
+        }
+    }
+
+    
+
+   .info-tag {
+        @apply flex items-start gap-1 self-stretch;
+
+        color: var(--text-secondary);
+    }
+}
+
+.react-modal-sheet-content {
+    .start-call-modal {
+        @apply px-4;
+        min-height: 70vh;
+    }
+}

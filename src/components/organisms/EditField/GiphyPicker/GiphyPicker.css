@@ -1,0 +1,28 @@
+.giphy-picker {
+    @apply flex flex-col gap-2;
+    height: min(600px, 80vh);
+
+    .giphy-grid {
+        @apply overflow-y-auto;
+        width: fit-content !important;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 500px;
+            background: rgb(146, 146, 146);
+        }
+    }
+}
+
+.react-modal-sheet-content {
+    .giphy-picker {
+        @apply pt-1;
+    }
+
+    .giphy-grid {
+        @apply pl-1.5;
+    }
+}

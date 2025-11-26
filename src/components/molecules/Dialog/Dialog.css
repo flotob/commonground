@@ -1,0 +1,32 @@
+#dialog-root {
+    @apply absolute top-0 bottom-0 right-0 left-0;
+}
+
+.dialog {
+    @apply absolute m-auto h-auto inline-flex items-center px-3.5 cg-text-lg-500;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-height: 84px;
+    color: var(--cardTextMain);
+    text-align: center;
+    z-index: 10200;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    .dialog-inner {
+        @apply p-8 m-auto;
+        width: max-content;
+        background-color: var(--surface-background-2nd);
+        border-radius: 12px;
+    }
+
+    .dialog-success-msg {
+        @apply flex items-center justify-center gap-2 w-full;
+    }
+
+    .dialog-checkmark > path {
+        fill: var(--verifiedBg);
+    }
+}

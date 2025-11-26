@@ -1,0 +1,42 @@
+.create-community-square-button {
+    @apply flex items-center justify-center cursor-pointer;
+    height: 40px;
+    width: 40px;
+    border-radius: 8px;
+    background: var(--imageBg);
+    color: var(--cardTextMain);
+
+    &:hover {
+        background: var(--imageBgHover);
+    }
+
+    &.active {
+        background: var(--btnSecondaryActiveBg);
+        color: var(--btnSecondaryActiveText);
+    }
+}
+
+.create-community-square-button-w-text {
+    @apply flex flex-row gap-2 items-center cursor-pointer;
+    border-radius: 8px;
+    color: var(--sidebarText);
+
+    > .plus-icon {
+        @apply flex items-center justify-center;
+        height: 40px;
+        width: 40px;
+        border-radius: 8px;
+        background: var(--imageBg);
+        color: var(--cardTextMain);
+        margin: 2px;
+
+        &:hover {
+            background: var(--imageBgHover);
+        }
+    }
+
+    &.active {
+        background: var(--btnSecondaryActiveBg);
+        color: var(--btnSecondaryActiveText);
+    }
+}

@@ -1,0 +1,9 @@
+.status-container {
+    width: 47%;
+    max-width: 13px;
+    line-height: 1px;
+
+    .jdenticon-status-circle {
+        stroke: var(--jdenticonBorder);
+    }
+}

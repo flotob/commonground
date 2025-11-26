@@ -1,0 +1,17 @@
+.mentionSuggestion {
+    @apply flex items-center w-full py-1 px-2 gap-2 rounded;
+    font-weight: 400;
+
+    .mentionSuggestion-bold {
+        font-weight: 900;
+    }
+
+    .jdenticon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.selected-mention {
+    background-color: var(--cardBgHover);
+}

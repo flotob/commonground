@@ -1,0 +1,5 @@
+.management-header-mobile {
+    @apply flex items-center justify-between p-4;
+    color: var(--cardTextMain);
+    background: var(--surface-background-2nd);
+}

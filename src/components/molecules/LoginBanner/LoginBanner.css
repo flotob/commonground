@@ -1,0 +1,72 @@
+.login-banner-container {
+    @apply relative w-full;
+    height: 245px;
+}
+
+.login-banner {
+    @apply flex flex-col p-4 justify-center items-center gap-8 relative overflow-hidden h-full z-10;
+    background: var(--surface-global-background);
+    transition: all 0.2s ease-in-out;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &.collapsed {
+        @apply fixed cg-border-xxl h-auto;
+        top: 16px;
+        left: 0px;
+        right: 0px;
+    }
+}
+
+.mini-login-banner {
+    @apply flex flex-col p-4 justify-center items-center gap-4 relative overflow-hidden cg-border-xxl;
+    background: var(--surface-global-background);
+    transition: all 0.2s ease-in-out;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.csc-bg {
+    background: radial-gradient(150.51% 128.15% at 50% 50%, #F7FFF5 0%, #BFE9B5 100%) !important;
+}
+
+.csc-img {
+    position: absolute;
+    right: -90px;
+    top: -10px;
+    width: 350px;
+    height: 350px;
+    object-fit: contain;
+}
+
+.desktop-layout {
+    .login-banner {
+        @apply cg-border-xxl;
+    }
+}
+
+.mobile-layout {
+    .login-banner.collapsed {
+        @apply mx-2;
+    }
+}
+
+.si3-text {
+    background: linear-gradient(180deg, #CBBAFF 0%, #431FFD 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.token-sale-tag {
+    @apply flex py-1 px-3 items-center justify-center gap-2 cg-border-m;
+    color: var(--text-full-white);
+    background: var(--surface-brand-dark, #125CA0);
+    backdrop-filter: blur(25px);
+}
+
+.token-sale-monospace {
+    font-family: "Geist Mono";
+}

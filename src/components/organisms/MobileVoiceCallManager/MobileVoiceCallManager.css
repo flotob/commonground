@@ -1,0 +1,40 @@
+.mobile-voice-call-manager {
+    @apply flex flex-row items-center justify-between gap-4 p-2 -mt-14;
+    background: var(--audioWidgetBg);
+    font-size: 14px;
+    transition: margin-top 300ms;
+    border-bottom: 1px solid var(--audioWidgetBorder);
+
+    &.active {
+      margin-top: 0;
+      transition: margin-top 300ms;
+    }
+
+    > .voice-call-buttons {
+        @apply flex my-1 cursor-pointer gap-1;
+    }
+
+    > .gain-outer {
+      @apply flex items-end self-end h-full ml-auto w-1;
+      
+      .gain-inner {
+        @apply w-full;
+        transition: height 0.1s;
+        background: #6EE7B7;
+        border-bottom-right-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+    }
+}
+
+.desktop-layout {
+    .voice-call-manager {
+        @apply fixed bottom-4 right-4;
+    }    
+}
+
+.mobile-layout {
+    .voice-call-manager {
+        @apply mx-4;
+    }
+}

@@ -1,0 +1,34 @@
+{
+  "extends": "@tsconfig/node20/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["es2023", "DOM"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "Node16",
+    "resolveJsonModule": true,
+    "preserveSymlinks": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "esnext"
+  },
+  "include": [
+    "api.ts",
+    "wsapi.ts",
+    "onchain.ts",
+    "migrateDb.ts",
+    "mediasoup.ts",
+    "memberlist.ts",
+    "jobs.ts",
+    "jobs/*.ts",
+    "migrations/*.ts",
+    "entities/*.ts",
+    "common/types/*.d.ts",
+    "common/types/api/*.d.ts",
+    "common/types/events/*.d.ts",
+    "common/types/models/*.d.ts",
+    "onchain/ethereumApi.ts",
+    "types/*.d.ts",
+    "assistant.ts",
+  ]
+}

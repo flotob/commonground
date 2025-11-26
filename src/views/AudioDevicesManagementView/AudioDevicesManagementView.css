@@ -1,0 +1,13 @@
+.mobile-layout {
+    .audio-devices-management-view {
+        @apply flex flex-col p-0 h-full;
+
+        .mobile-tray-trigger {
+            @apply w-full;
+        }
+
+        .audio-devices-management {
+            @apply p-4 gap-4;
+        }
+    }
+}

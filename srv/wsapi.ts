@@ -1,0 +1,324 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+//
+// Additional terms: see LICENSE-ADDITIONAL-TERMS.md
+
+import config from './common/config';
+import serverconfig from './serverconfig';
+import {
+  randomString,
+  userRoomKey,
+  roleRoomKey,
+  communityRoomKey,
+  deviceRoomKey,
+  expressSessionRoomKey,
+  dockerSecret,
+} from './util';
+import cors from "cors";
+import { Server } from "socket.io";
+import { createAdapter } from "@socket.io/redis-adapter";
+import deviceHelper from "./repositories/device";
+import validators from './validators';
+import userHelper from './repositories/users';
+import redisManager from './redis';
+import { fakeHealthcheck } from './healthcheck';
+import buildId from './common/random_build_id';
+
+import cookieParser from 'cookie-parser';
+// import signature from 'cookie-signature';
+import cookie from 'cookie';
+const secret = dockerSecret('redis_secret') || process.env.REDIS_SECRET as string;
+
+function decodeSessionId(cookieHeader: string) {
+  // Parse the cookies
+  const cookies = cookieParser.signedCookies(cookie.parse(cookieHeader), secret);
+
+  // `connect.sid` is the default name for the session cookie
+  const sessionCookie = cookies[serverconfig.SESSION_COOKIE_NAME] as string;
+
+  return sessionCookie;
+  /* if (sessionCookie && sessionCookie.startsWith('s:')) {
+    // Remove the 's:' prefix and try to unsign it
+    const unsignedSessionId = signature.unsign(sessionCookie.slice(2), secret);
+
+    if (!unsignedSessionId) {
+      throw new Error('Failed to unsign the session ID.');
+    }
+    return unsignedSessionId as string;
+  } else {
+    return sessionCookie;
+  } */
+}
+
+const localOnlineUsers = new Set<string>();
+let shuttingDown = false;
+
+const allowedOrigins = [ process.env.BASE_URL ];
+if (config.DEPLOYMENT === 'dev') {
+  allowedOrigins.push('http://localhost:3000');
+  allowedOrigins.push('https://localhost:3000');
+  allowedOrigins.push('http://localhost:8000');
+  allowedOrigins.push('https://localhost:8001');
+  allowedOrigins.push('http://app.cg.local:3000');
+  allowedOrigins.push('https://app.cg.local:3000');
+  allowedOrigins.push('http://app.cg.local:8000');
+  allowedOrigins.push('https://app.cg.local:8001');
+  allowedOrigins.push('https://bs-local.com:3000');
+  allowedOrigins.push('https://bs-local.com:8001');
+  if (!!process.env.LOCAL_CERTIFICATE_IP) {
+    allowedOrigins.push(`http://${process.env.LOCAL_CERTIFICATE_IP}:3000`);
+    allowedOrigins.push(`https://${process.env.LOCAL_CERTIFICATE_IP}:3000`);
+    allowedOrigins.push(`http://${process.env.LOCAL_CERTIFICATE_IP}:8000`);
+    allowedOrigins.push(`https://${process.env.LOCAL_CERTIFICATE_IP}:8001`);
+  }
+}
+const corsOptions: cors.CorsOptions = {
+  origin: function (origin, callback) {
+    // allow requests with no origin 
+    // (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      var msg = 'The CORS policy for this site does not ' +
+        'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  preflightContinue: false,
+};
+
+const io = new Server<
+  API.Server.ServerToClientEvents,
+  API.Server.ClientToServerEvents,
+  API.Server.InterServerEvents,
+  API.Server.SocketData
+>({
+  transports: ["polling", "websocket"],
+  cors: corsOptions,
+  path: "/api/ws/",
+  pingInterval: 15000,
+  pingTimeout: 15000,
+  perMessageDeflate: false,
+});
+
+redisManager.isReady.then(async () => {
+  io.adapter(createAdapter(
+    redisManager.getClient('socketIOPub'),
+    redisManager.getClient('socketIOSub'),
+    { key: 'v2:' }
+  ));
+
+  io.on("connection", async (socket) => {
+    if (shuttingDown) {
+      socket.disconnect(true);
+      return;
+    }
+
+    socket.emit("buildId", buildId, Date.now());
+
+    const { cookie } = socket.handshake.headers;
+    if (cookie) {
+      const sessionId = decodeSessionId(cookie);
+      socket.join(expressSessionRoomKey(sessionId));
+    }
+    else {
+      socket.disconnect(true);
+      console.error("No express sessionId cookie found, closing socket...");
+      return;
+    }
+
+    socket.on("getSignableSecret", (callback) => {
+      const signableSecret = randomString(20);
+      socket.data.signableSecret = signableSecret;
+      try {
+        callback(signableSecret);
+      }
+      catch (e) {
+        console.error("Error during getSignableSecret", e);
+      }
+    });
+
+    socket.on("cgPing", (callback) => {
+      try {
+        callback(Date.now());
+      }
+      catch (e) {
+        console.error("Error during cgPing", e);
+      }
+    });
+
+    socket.on("joinCommunityVisitorRoom", async (data) => {
+      try {
+        // Todo: check if community is publicly visible, only then allow
+        data = await validators.API.Socket.joinCommunityVisitorRoom.validateAsync(data);
+        if (!!data.communityId && socket.data.temporaryCommunityId !== data.communityId) {
+          if (socket.data.temporaryCommunityId) {
+            const { userId } = socket.data;
+            const isCommunityMember = !!userId && await userHelper.isUserMemberOfCommunity({
+              userId,
+              communityId: socket.data.temporaryCommunityId,
+            });
+            if (!isCommunityMember) {
+              await socket.leave(communityRoomKey(socket.data.temporaryCommunityId));
+            }
+          }
+          socket.data.temporaryCommunityId = data.communityId;
+          await socket.join(communityRoomKey(data.communityId));
+        }
+      }
+      catch (e) {
+        console.error("Error during joinCommunityVisitorRoom", e);
+      }
+    });
+
+    socket.on("leaveCommunityVisitorRoom", async () => {
+      if (socket.data.temporaryCommunityId) {
+        const { userId } = socket.data;
+        const isCommunityMember = !!userId && await userHelper.isUserMemberOfCommunity({
+          userId,
+          communityId: socket.data.temporaryCommunityId,
+        });
+        if (!isCommunityMember) {
+          await socket.leave(communityRoomKey(socket.data.temporaryCommunityId));
+        }
+        delete socket.data.temporaryCommunityId;
+      }
+    });
+
+    socket.on("prepareWalletRequest", async (callback) => {
+      try {
+        const newRequestId = randomString(20);
+        socket.data.walletRequestId = newRequestId;
+        callback(newRequestId);
+      }
+      catch (e) {
+        console.error("Error during prepareWalletRequest", e);
+      }
+    });
+
+    socket.on("login", async (data, callback) => {
+      try {
+        const { signableSecret } = socket.data;
+        data = await validators.API.Socket.login.validateAsync(data);
+        if (!!signableSecret && signableSecret === data.secret) {
+          const { userId } = await deviceHelper.verifyDeviceAndGetUserId(data.deviceId, signableSecret, data.base64Signature);
+          const ids = await userHelper.getUserRoleAndCommunityIds(userId);
+          delete socket.data.signableSecret;
+          localOnlineUsers.add(userId);
+          socket.data.userId = userId;
+          socket.data.deviceId = data.deviceId;
+          let promises: any[] = [];
+          promises.push(socket.join(deviceRoomKey(data.deviceId)));
+          promises.push(socket.join(userRoomKey(userId)));
+          for (const roleId of ids.roleIds) {
+            promises.push(socket.join(roleRoomKey(roleId)));
+          }
+          for (const communityId of ids.communityIds) {
+            promises.push(socket.join(communityRoomKey(communityId)));
+          }
+          await Promise.all(promises.filter(p => p !== undefined));
+          await userHelper.setUserOnlineStatus(userId, 'online');
+        }
+        callback("OK");
+      } catch (e) {
+        console.error("Error during login", e);
+        callback("ERROR");
+      }
+    });
+
+    socket.on("logout", () => {
+      const { userId } = socket.data;
+      delete socket.data.userId;
+      delete socket.data.deviceId;
+      const leavePromises: (void | Promise<void>)[] = [];
+      const temporaryCommunityKey = communityRoomKey(socket.data.temporaryCommunityId || '');
+      for (const roomId of Array.from(socket.rooms)) {
+        // Skip the socket's own room (roomId === socket.id) and potential temporary rooms (like a community public room)
+        if (
+          roomId !== socket.id &&
+          temporaryCommunityKey !== roomId
+        ) {
+          leavePromises.push(socket.leave(roomId));
+        }
+      }
+      Promise.all(leavePromises).then(() => {
+        if (!!userId) {
+          const ownRoomSize = io.sockets.adapter.rooms.get(userRoomKey(userId))?.size;
+          if (!ownRoomSize) {
+            console.log(`User ${userId} has logged out the last socket and is offline`);
+            userHelper.setUserOnlineStatus(userId, 'offline');
+            localOnlineUsers.delete(userId);
+          }
+        }
+      });
+    });
+
+    socket.on("disconnect", () => {
+      const { userId } = socket.data;
+      if (!!userId) {
+        const ownRoomSize = io.sockets.adapter.rooms.get(userRoomKey(userId))?.size;
+        if (!ownRoomSize) {
+          if (!shuttingDown) {
+            userHelper.setUserOnlineStatus(userId, 'offline');
+          }
+          localOnlineUsers.delete(userId);
+        }
+      }
+    });
+  });
+
+  io.listen(4000);
+});
+
+setInterval(async () => {
+  if (!shuttingDown) {
+    try {
+      const userIds = Array.from(localOnlineUsers);
+      if (userIds.length > 0) {
+        await userHelper.touchUserOnlineStatus(userIds);
+      }
+    }
+    catch (e) {
+      console.error("Error touching own connected users onlineStatus", e);
+    }
+  }
+}, 60000);
+
+const shutdown = async (code = 0) => {
+  shuttingDown = true;
+  try {
+    const sockets = await io.local.fetchSockets();
+    const offlineUserIds = sockets.reduce<string[]>((agg, socket) => {
+      const { userId } = socket.data;
+      if (!!userId) {
+        const ownRoomSize = io.sockets.adapter.rooms.get(userRoomKey(userId))?.size;
+        if (ownRoomSize === 1) {
+          console.log(`User ${userId} will disconnect the last socket and then be offline`);
+          agg.push(userId);
+        }
+      }
+      socket.disconnect(true);
+      return agg;
+    }, []);
+    if (offlineUserIds.length > 0) {
+      await userHelper.setUsersToOffline(offlineUserIds);
+    }
+    io.close();
+  } catch (e) {
+    console.error("Error while shutting down", e);
+  } finally {
+    process.exit(code)
+  }
+};
+
+fakeHealthcheck();
+
+process.on("SIGTERM", () => shutdown());
+process.on("unhandledRejection", (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  shutdown(1);
+});
+process.on("uncaughtException", (error, origin) => {
+  console.error('Uncaught Exception at:', error, 'origin:', origin);
+  shutdown(1);
+});

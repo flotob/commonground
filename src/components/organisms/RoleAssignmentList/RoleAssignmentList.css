@@ -1,0 +1,53 @@
+.role-assignment-list {
+    @apply flex flex-col;
+    max-width: 800px;
+    margin: auto;
+
+    .role-assigment-gated-actions-container {
+        @apply flex flex-col;
+        color: var(--cardTextMain);
+    }
+
+    .role-assignment-list-section-container {
+        @apply flex flex-col cg-border-xl overflow-hidden;
+        border: 1px solid var(--border-secondary, #3C425E);
+    }
+}
+
+.desktop-layout {
+    .role-assignment-list {
+        @apply gap-8;
+    }
+
+    .role-assignment-list-section {
+        @apply flex flex-col gap-4;
+    }
+
+    .role-assigment-gated-actions-container {
+        @apply flex flex-col items-center p-4 py-16 gap-4 cg-border-xl;
+        background: var(--surface-background-2nd);
+    }
+
+    .role-assigment-gated-actions {
+        @apply flex flex-row gap-2;
+    }
+}
+
+.mobile-layout {
+    .role-assignment-list {
+        @apply gap-4;
+    }
+
+    .role-assignment-list-section {
+        @apply flex flex-col gap-2;
+    }
+
+    .role-assigment-gated-actions-container {
+        @apply flex flex-col items-center p-4 py-8 gap-4 cg-border-xl;
+        background: var(--surface-background-2nd);
+    }
+
+    .role-assigment-gated-actions {
+        @apply flex flex-col gap-2 w-full;
+    }
+}

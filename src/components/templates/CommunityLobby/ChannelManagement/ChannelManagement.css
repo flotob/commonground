@@ -1,0 +1,100 @@
+.channel-management {
+    &.channel-management-desktop {
+        @apply gap-4;
+        .channel-management-desktop-content {
+            @apply grid gap-8 w-full;
+            grid-template-columns: minmax(200px, 300px) 1fr;
+        }
+    }
+
+    &.channel-management-mobile {
+        @apply flex flex-col h-full;
+        .channel-management-mobile-header {
+            @apply flex items-center justify-between p-4;
+            color: var(--cardTextMain);
+            background: var(--cardBg);
+        }
+    }
+
+    .channel-management-inner {
+        @apply w-full;
+    }
+
+    .channel-management-page-title {
+        @apply cg-heading-3;
+        color: var(--headerText);
+    }
+
+    .section-title {
+        @apply cg-caption-md-600;
+        color: var(--cardTextSecondary);
+    }
+
+    .form-container {
+        @apply flex flex-col gap-4 p-4 cg-text-lg-400 cg-border-m;
+    }
+
+    .intro {
+        @apply w-full cg-heading-2;
+        max-width: 535px;
+        color: var(--headerText);
+        a {
+            color: var(--headerText);
+        }
+    }
+
+    .area-writable-by-container {
+        width: fit-content;
+    }
+
+    .drag-text-container {
+        @apply mb-4 py-1.5 px-2 flex items-center;
+        background: var(--cardSubBg);
+        color: var(--cardSubText);
+        border: solid 1px var(--cardSubText);
+        --iconPrimary: var(--cardSubText);
+        border-radius: 6px;
+        width: fit-content;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 19px;
+
+        svg {
+            @apply mr-0.5;
+        }
+    }
+
+    .management-area {
+        @apply w-full;
+
+        > div {
+            .panel-list {
+                @apply flex flex-col gap-4;
+
+                > div {
+                    > .panel-item {
+                        .channels-divider {
+                            @apply mt-2 mb-2 ml-9 mr-7;
+                            border-top: 1px solid var(--cardBorder);
+                        }
+                    }
+                }
+            }
+
+            .new-area-btn {
+                @apply mt-16;
+            }
+
+        }
+    }
+
+    .edit-area {
+        @apply mt-6 pr-4;
+    }
+
+    > .cg-scrollable {
+        > .cg-scrollable-content {
+            scroll-behavior: unset;
+        }
+    }
+}

@@ -1,0 +1,12 @@
+.settings-button {
+    @apply cursor-pointer;
+    color: var(--cardTextMain);
+
+    &:hover {
+        background: var(--surface-subtleoverlay, rgba(25, 27, 38, 0.03));
+    }
+
+    &.active {
+        background: var(--surface-subtleactive);
+    }
+}

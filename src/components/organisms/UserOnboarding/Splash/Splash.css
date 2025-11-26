@@ -1,0 +1,282 @@
+@property --splashBgCircleCy {
+    syntax: "<length-percentage>";
+    inherits: false;
+    initial-value: 0%;
+}
+
+@property --splashBgCircleCx {
+    syntax: "<length-percentage>";
+    inherits: false;
+    initial-value: 0%;
+}
+
+@property --splashBgCircleStop1 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 0%;
+}
+
+@property --splashBgCircleStop2 {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 0%;
+}
+
+@property --splashButtonsHeight {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0%;
+}
+
+.uob-splash {
+    --splashLogoSize: 110px;
+    --splashLogoPadding: 1rem;
+    --splashLogoDim: calc(var(--splashLogoSize) + var(--splashLogoPadding));
+    --splashLogoHalfDim: calc(var(--splashLogoDim) / 2);
+    --splashButtonsHeight: 160px;
+
+    @apply w-full h-full min-w-full max-w-full min-h-full max-h-full overflow-x-hidden overflow-y-visible;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(1fr, calc(95vh - var(--splashButtonsHeight))) var(--splashButtonsHeight);
+    color: var(--cardTextMain);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    transition: --splashBgCircleCy 0.4s ease-out, --splashBgCircleCx 0.4s ease-out, --splashBgCircleStop1 0.4s ease-out, --splashBgCircleStop2 0.4s ease-out, --splashButtonsHeight 0.4s ease-out;
+    background: radial-gradient(circle farthest-corner at var(--splashBgCircleCx) var(--splashBgCircleCy), color(display-p3 0.251 0.447 0.745) 0%, color(display-p3 0.251 0.447 0.745) 3.8%, color(display-p3 0.882 0.933 0.973) var(--splashBgCircleStop1), color(display-p3 1 1 1) var(--splashBgCircleStop2));
+
+    &.uob-start, &.uob-enable-newsletter, &.uob-enable-push, &.uob-install-pwa {
+        --splashButtonsHeight: 140px;
+    }
+    &.uob-login-other, &.uob-login-other-option, &.uob-login-finished, &.uob-create-other, &.uob-create-other-option, &.uob-create-finished, &.uob-create-profile-setup {
+        --splashButtonsHeight: 80px;
+    }
+
+    > .uob-splash-top {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    > .uob-splash-bottom {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    > .uob-splash-full {
+        grid-column: 1;
+        grid-row: 1 / 2;
+    }
+
+    &.uob-splash-gradient-full-top {
+        --splashBgCircleCx: 50%;
+        --splashBgCircleCy: 0%;
+        --splashBgCircleStop1: 57.7%;
+        --splashBgCircleStop2: 100%;
+    }
+    &.uob-splash-gradient-small-top {
+        --splashBgCircleCx: 50%;
+        --splashBgCircleCy: -10%;
+        --splashBgCircleStop1: 34%;
+        --splashBgCircleStop2: 44%;
+    }
+    &.uob-splash-gradient-hidden-left {
+        --splashBgCircleCx: -100%;
+        --splashBgCircleCy: -10%;
+        --splashBgCircleStop1: 5%;
+        --splashBgCircleStop2: 6%;
+    }
+    &.uob-splash-gradient-hidden-right {
+        --splashBgCircleCx: 200%;
+        --splashBgCircleCy: -10%;
+        --splashBgCircleStop1: 5%;
+        --splashBgCircleStop2: 6%;
+
+        transition: none;
+    }
+
+    .uob-splash-back-button {
+        @apply absolute p-1 cursor-pointer top-6 left-6;
+        transition: transform 0.4s ease-out;
+        transform: scale(1);
+        color: var(--cardTextMain);
+        z-index: 10;
+
+        &.uob-splash-back-button-hidden {
+            transform: scale(0);
+        }
+
+        > svg {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    .uob-splash-start {
+        @apply w-full h-full grid justify-items-center justify-center content-center items-center;
+        display: grid;
+        grid-auto-flow: row;
+        grid-column: 1;
+        grid-row: 1;
+        transform: translate(0, 0);
+        transition: color 0.4s, background-color 0.15s, top 0.4s ease-out, transform 0.4s ease-out;
+
+        &.uob-splash-start-step-1 {
+            transform: translate(0, -100%);
+        }
+    }
+
+    .uob-splash-start, .uob-splash-end {
+        .uob-splash-logo {
+            padding: var(--splashLogoPadding);
+            transform: translate(0, 0);
+            border-radius: 24px;
+
+            > svg {
+                width: var(--splashLogoSize);
+                height: var(--splashLogoSize);
+            }
+
+            &.uob-splash-logo-white {
+                color: white;
+                background-color: rgba(255, 255, 255, 0);
+                border: 0;
+            }
+            &.uob-splash-logo-blue {
+                color: var(--colours-brand-800);
+                background-color: rgba(255, 255, 255, 1);
+                border: 1px solid var(--border-panels);
+            }
+        }
+    }
+
+    .uob-splash-start-text {
+        @apply absolute w-full pt-4;
+        transition: opacity 0.2s 0.2s, top 0.4s ease-out; /* delay hidden -> visible */
+        opacity: 1;
+
+        &.uob-splash-start-text-hidden {
+            transition: opacity 0.2s, top 0.4s ease-out; /* no delay visible -> hidden */
+            opacity: 0;
+        }
+    }
+
+    .uob-splash-login-or-create {
+        @apply h-full w-full grid grid-flow-row gap-4 justify-items-center justify-center content-center items-center;
+        transition: opacity 0.4s ease-out, transform 0.4s ease-out, top 0.4s ease-out;
+
+        &.uob-splash-login-or-create-step-0 {
+            opacity: 0;
+        }
+        &.uob-splash-login-or-create-step-1 {
+            opacity: 1;
+        }
+        &.uob-splash-login-or-create-step-2 {
+            opacity: 0;
+            transform: translate(-100%, 0);
+        }
+    }
+
+    .uob-splash-item {
+        @apply h-full w-full min-w-full min-h-full grid grid-flow-row gap-4 justify-items-center justify-center content-start items-center overflow-y-auto pt-12;
+        grid-column: 1;
+        grid-row: 1;
+        transition: transform 0.4s ease-out;
+        grid-template-columns: 1fr;
+
+        &.uob-splash-item-step-0 {
+            transform: translate(100%, 0);
+        }
+        &.uob-splash-item-step-1 {
+            transform: translate(0, 0);
+        }
+        &.uob-splash-item-step-2 {
+            transform: translate(-100%, 0);
+        }
+    }
+
+    .uob-splash-buttons {
+        @apply grid grid-flow-row justify-items-center p-4 gap-2 overflow-hidden;
+        transition: transform 0.4s ease-out, max-height 0.4s ease-out, height 0.4s ease-out;
+        transform: translate(0, 0);
+        align-self: end;
+        align-items: end;
+
+        &.uob-splash-buttons-hidden {
+            transform: translate(0, var(--splashButtonsHeight));
+        }
+    }
+
+    &.uob-enable-newsletter {
+        .uob-splash-item-step-1 {
+            @apply px-4;
+        }
+    }
+}
+
+.dark {
+    .uob-splash {
+        background: radial-gradient(circle farthest-corner at var(--splashBgCircleCx) var(--splashBgCircleCy), color(display-p3 0.3608 0.6039 0.8353) 0%, color(display-p3 0.3608 0.6039 0.8353) 3.8%, color(display-p3 0.0863 0.0941 0.1255) var(--splashBgCircleStop1), color(display-p3 0.104 0.1147 0.1577) var(--splashBgCircleStop2));
+
+        .uob-splash-logo {
+            &.uob-splash-logo-white {
+                background-color: rgba(27, 29, 40, 0);
+            }
+            &.uob-splash-logo-blue {
+                color: var(--surface-brand);
+                background-color: rgba(27, 29, 40, 1);
+            }
+        }
+    }
+}
+
+.splash-button {
+    @apply w-full py-3 px-4 relative;
+
+    .btnIconLeft {
+        position: absolute;
+        left: 16px;
+    }
+
+    .btnIconRight {
+        position: absolute;
+        right: 16px;
+    }
+}
+
+.splash-login-button {
+    @apply py-3 px-4 flex-grow-0 flex-shrink-0 justify-start cg-text-sm-400;
+    flex-basis: calc(50% - 4px);
+
+    .btnIconLeft {
+        position: absolute;
+        left: 16px;
+    }
+
+    .btnIconRight {
+        position: absolute;
+        right: 16px;
+    }
+}
+
+.si3-text {
+    background: linear-gradient(180deg, #CBBAFF 0%, #431FFD 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.uob-image {
+    width: 240px;
+    height: 240px;
+    border-radius: 21.75px;
+    border: 2px solid var(--border-panels, #FFF);
+
+    /* shadow/lg */
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.08), 0px 4px 16px 0px rgba(0, 0, 0, 0.16);
+}
+
+.uob-image-top {
+    width: 340px;
+    height: auto;
+}

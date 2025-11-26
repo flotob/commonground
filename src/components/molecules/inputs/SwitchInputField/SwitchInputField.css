@@ -1,0 +1,38 @@
+.switch-input-field {
+    .switch {
+        @apply w-auto mx-auto flex justify-center;
+
+        .options {
+            @apply flex flex-row p-0 gap-1;
+            background: var(--surface-background-2nd);
+            border-radius: 999px;
+
+            button {
+                border: none;
+
+                &:focus {
+                    outline: 1px solid transparent;
+                }
+            }      
+            
+            .switch-input-active {
+                background-color: var(--btnPrimaryBg);
+                .btnText {
+                    color: var(--btnPrimaryText);
+                }
+            }
+        }
+    }
+
+    .title {
+        @apply mb-2;
+    }
+
+    .sub-title {
+        @apply mt-2;
+        font-weight: 400;
+        font-size: 14px;
+        color: var(--cardTextSecondary);
+        text-align: center;
+    }
+}

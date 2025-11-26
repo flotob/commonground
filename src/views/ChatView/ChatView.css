@@ -1,0 +1,95 @@
+.direct-messages {
+  background: var(--surface-global-background);
+  display: grid;
+  height: 100%;
+  grid-template-rows: [start dmbar-start] auto [dmbar-end dmcontent-start] 1fr [dmcontent-end end];
+  grid-template-columns: [start socialbar-start] 280px [socialbar-end dmbar-start dmcontent-start] minmax(0, calc(100% - 280px)) [dmbar-end dmcontent-end end];
+
+  .direct-message-bar {
+    grid-column: dmbar-start / dmbar-end;
+    grid-row: dmbar-start / dmbar-end;
+  }
+
+  .direct-conversation {
+    @apply w-full h-full relative;
+    grid-column: dmcontent-start / dmcontent-end;
+    grid-row: dmcontent-start / dmcontent-end;
+
+    >.generic-message-list {
+      @apply absolute top-0 left-0 bottom-0 right-0;
+      overflow-y: auto;
+    }
+  }
+}
+
+.mobile-layout {
+  .direct-messages {
+    grid-row: start / end;
+
+    grid-template-columns: [start dmbar-start dmcontent-start] auto [dmbar-end dmcontent-end end];
+
+    .direct-message-bar {
+      @apply mt-2 mx-2 mb-0;
+    }
+
+    .direct-conversation {
+      height: 100%;
+      max-height: 100%;
+
+      .message-group-icon {
+        @apply ml-3;
+      }
+    }
+
+    .conversations-menu {
+      height: 100%;
+      max-height: 100%;
+    }
+  }
+}
+
+.desktop-layout {
+  .direct-messages {
+    --conversationsPadding: 1rem;
+
+    .conversations-menu {
+      grid-column: socialbar-start / socialbar-end;
+      grid-row: start / end;
+
+      .direct-conversation {
+        .cg-scrollable-content {
+          @apply px-6;
+        }
+      }
+    }
+
+    .conversations-menu-container {
+      grid-row: dmbar-start / dm-content-end;
+      padding-top: var(--conversationsPadding);
+      padding-bottom: var(--conversationsPadding);
+    }
+
+    .conversations-menu {
+      --conversationsMenuHeight: calc(var(--visualHeight) - (2 * var(--conversationsPadding)));
+      height: var(--conversationsMenuHeight);
+      max-height: var(--conversationsMenuHeight);
+    }
+  }
+}
+
+
+.tablet-layout {
+  .direct-messages {
+    grid-template-columns: [start dmbar-start dmcontent-start] auto [dmbar-end dmcontent-end end];
+
+    .direct-conversation {
+      .cg-scrollable-content {
+        @apply px-3;
+      }
+
+      .message-group-icon {
+        @apply ml-3;
+      }
+    }
+  }
+}

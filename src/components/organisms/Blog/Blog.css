@@ -1,0 +1,114 @@
+.blogView {
+  @apply relative flex flex-col gap-10 items-center h-full;
+  color: var(--articleHeader);
+
+  .blogViewContent {
+    @apply flex flex-col items-center gap-8 w-full mx-auto;
+    user-select: text;
+    max-width: 720px;
+  }
+
+  .blogViewHeader {
+    @apply w-full h-auto;
+    border-radius: 6px;
+    object-fit: cover;
+    max-height: 322px;
+  }
+
+  .blogViewTitle {
+    @apply w-full cg-heading-1;
+    overflow-wrap: break-word;
+    font-style: normal;    
+  }
+
+  .blogViewSubtitleInfo {
+    @apply flex items-center justify-between gap-3 w-full flex-wrap;
+    font-size: 16px;
+    line-height: 24px;
+    white-space: nowrap;
+    /* identical to box height, or 150% */
+  }
+
+  .blogViewSubtitleInfoAuthor {
+    @apply flex items-center gap-2;
+  }
+
+  .blogViewDivider {
+    width: 80px;
+    border: 1px solid var(--hr);
+  }
+
+  .blogViewDivider.long {
+    @apply w-full;
+  }
+
+  .blogViewText {
+    @apply w-full;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 18px;
+    line-height: 150%;
+    color: var(--articleText);
+    
+    strong {
+      color: var(--articleHeader);
+    }
+
+    h3 {
+      @apply cg-heading-2;
+      color: var(--articleHeader);
+    }
+
+    > * + div {
+      margin-top: 25px;
+    }
+
+    > * + .mediaElement {
+      margin-top: 40px;
+    }
+
+    > * + h3 {
+      margin-top: 50px;
+    }
+  }
+  
+  .blogLinkButton {
+    @apply fixed;
+    bottom: 20px;
+  }
+
+  .blogViewLockedView {
+    @apply flex flex-col items-center gap-4 mt-10 p-8;
+    background-color: var(--cardBg);
+    border-radius: 6px;
+
+    .button {
+      @apply flex items-center gap-2;
+    }
+  }
+
+  .section-end-button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+   }
+}
+
+.mobile-layout {
+  .blogView {
+    .blogViewContent {
+      .blogViewTitle {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 28px;
+        line-height: 30px;
+        letter-spacing: -0.05em;
+      }
+    }
+  }
+}
+
+
+.tooltip.tooltip-blog-share {
+  padding: 12px 16px;
+}

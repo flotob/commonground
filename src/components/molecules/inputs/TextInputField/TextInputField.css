@@ -1,0 +1,95 @@
+.input-container {
+  @apply w-full flex flex-col;
+
+  > .sub-label {
+    @apply mt-2;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--inputSubLabel);
+  }
+
+  .input {
+    @apply w-full py-2 px-4 cursor-text;
+    border-radius: 8px;
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle, rgba(25, 27, 38, 0.03));
+    background: var(--surface-dark-overlay, rgba(25, 27, 38, 0.03));
+    
+    &.rounded {
+      border-radius: 12px;
+    }
+
+    &:hover {
+      @apply cursor-text;
+      border: 1px solid var(--border-secondary-hover, #9A9A9A);
+      background: var(--surface-input-hover, rgba(0, 0, 0, 0.10));
+    }
+
+    &:disabled {
+      @apply cursor-not-allowed;
+
+      &:hover {
+        &::placeholder {
+          @apply cursor-not-allowed;
+        }
+      }
+    }
+
+    &.with-icon-left {
+      padding-left: 44px;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  .input[type=number] {
+    -moz-appearance: textfield;
+  }
+  
+  .input:focus {
+    border: 1px solid var(--inputFocusedBorder);
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .input::placeholder {
+    color: var(--text-secondary);
+  }
+
+  .input.input-with-emoji {
+    @apply pl-14;
+  }
+
+  .error,
+  .error:focus,
+  .error:hover {
+    font-weight: 400;
+    color: var(--warningColor) !important;
+    border-color: var(--warningColor) !important;
+  }
+
+  span.error {
+    @apply mt-1;
+  }
+
+  .input-container-inner {
+    @apply relative flex items-center;
+    height: 40px;
+  }
+
+  .text-input-emoji-picker {
+    @apply px-2;
+    height: 38px;
+    width: 38px;
+  }
+
+  .text-input-icon-left {
+    @apply absolute left-4 flex;
+    color: var(--inputPlaceholder);
+  }
+}
+

@@ -1,0 +1,16 @@
+.reaction-picker {
+    background: var(--surface-subtleoverlay, rgba(255, 255, 255, 0.03));
+    /* background blur */
+    backdrop-filter: blur(25px);
+
+    &.showing {
+        display: flex;
+        opacity: 1;
+        animation: showing 100ms, popping-subtle 100ms;
+    }
+
+    &.hidden {
+        opacity: 0;
+        animation: hiding 100ms ease-in;
+    }
+}

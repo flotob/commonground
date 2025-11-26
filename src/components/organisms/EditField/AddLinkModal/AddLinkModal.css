@@ -1,0 +1,12 @@
+.add-link-modal {
+    @apply flex flex-col items-end gap-2 cg-text-lg-500 cg-border-xl;
+    color: var(--cardTextMain);
+    
+    .input {
+        @apply m-0;
+    }
+
+    .buttons {
+        @apply flex gap-2;
+    }
+}

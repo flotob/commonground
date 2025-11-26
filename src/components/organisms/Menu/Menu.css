@@ -1,0 +1,113 @@
+.menu {
+  @apply grid overflow-x-hidden py-6;
+  background: var(--sidebarBg);
+  grid-template-rows: 1fr auto;
+
+  .community-icons {
+    grid-row: 1;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 95%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 95%, transparent 100%);
+  
+    &.top {
+      animation: fadeInTop 500ms forwards;
+
+      @keyframes fadeInTop {
+        0% {
+          -webkit-mask-position: 0 50%;
+          mask-position: 0 50%;
+        }
+        50% {
+          -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+        }
+        100% {
+          -webkit-mask-size: 100% 170%;
+          mask-size: 100% 170%;
+          -webkit-mask-position: 0 100%;
+          mask-position: 0 100%;
+        }
+      }
+    }
+
+    &.middle.down {
+      animation: fadeInMiddleDown 500ms forwards;
+
+      @keyframes fadeInMiddleDown {
+        0% {
+          -webkit-mask-position: 0 100%;
+          mask-position: 0 100%;
+          -webkit-mask-size: 100% 170%;
+          mask-size: 100% 170%;
+        }
+        100% {
+          -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+          -webkit-mask-position: 0 50%;
+          mask-position: 0 50%;
+        }
+      }
+    }
+
+    &.middle.up {
+      animation: fadeInMiddleUp 500ms forwards;
+
+      @keyframes fadeInMiddleUp {
+        0% {
+          -webkit-mask-size: 100% 170%;
+          mask-size: 100% 170%;
+          -webkit-mask-position: 0 0%;
+          mask-position: 0 0%;
+        }
+        100% {
+          -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+          -webkit-mask-position: 0 50%;
+          mask-position: 0 50%;
+        }
+      }
+    }
+
+    &.bottom {
+      animation: fadeInBottom 500ms forwards;
+
+      @keyframes fadeInBottom {
+        0% {
+          -webkit-mask-position: 0 50%;
+          mask-position: 0 50%;
+        }
+        50% {
+          -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+        }
+        100% {
+          -webkit-mask-size: 100% 170%;
+          mask-size: 100% 170%;
+          -webkit-mask-position: 0 0%;
+          mask-position: 0 0%;
+        }
+      }
+    }
+  }
+
+  .menu-buttons {
+    @apply flex flex-col-reverse justify-center items-center mt-3.5 gap-2 flex-none flex-grow-0;
+    grid-row: 2;
+
+    .menu-non-nft-button {
+      .jdenticon {
+          @apply h-9 w-9;
+      }
+    }
+  }
+
+  .hexagonal-icon-button {
+    --iconComplementary: var(--imageBg);
+    &:hover {
+    }
+    &.active {
+      .background-icon {
+        --iconComplementary: var(--imageBgHover);
+      }
+    }
+  }
+}

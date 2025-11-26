@@ -1,0 +1,45 @@
+.my-communities-explorer {
+    @apply flex flex-col items-start gap-4 py-4;
+    background-color: var(--communitiesContainerBg);
+    border: var(--communitiesContainerBorder);
+    border-radius: 12px;
+
+    .my-communities-explorer-header {
+        @apply flex flex-row justify-between w-full px-4 cg-text-lg-500;
+        color: var(--communitiesContainerTitle);
+    }
+
+    .my-communities-explorer-header-text {
+        @apply flex flex-row gap-1 items-center;
+    }
+
+    .my-communities-explorer-count {
+        color: var(--communitiesContainerCount);
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .my-communities-buttons {
+        @apply flex gap-1;
+        .my-communities-button {
+            @apply p-2 cursor-pointer;
+            color: var(--communitiesContainerTitle);
+
+            &:hover {
+                background: var(--transparent);
+            }
+
+            &.disabled {
+                color: var(--btnDisabledText);
+
+                &:hover {
+                    background: transparent;
+                }   
+            }
+        }
+    }
+}
+
+.mobile-layout .my-communities-explorer {
+    @apply gap-4;
+}

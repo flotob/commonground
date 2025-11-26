@@ -1,0 +1,11 @@
+
+.role-permission-title {
+    @apply cg-text-lg-500;
+    color: var(--cardTextMain);
+}
+
+.role-permission-section-title {
+    @apply cg-caption-md-600;
+    text-transform: uppercase;
+    color: var(--cardTextSecondary);
+}

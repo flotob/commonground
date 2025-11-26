@@ -1,0 +1,90 @@
+.area-list {
+  @apply flex flex-col;
+}
+
+.area-container {
+  @apply flex flex-col gap-0.5;
+  box-sizing: border-box;
+  transition: all 0.1s ease-out;
+  color: var(--cardTextMain);
+  --iconPrimary: var(--cardTextMain);
+  padding-bottom: 16px;
+
+  .area-chevron-icon {
+    transition: transform 0.1s ease;
+  }
+
+  .area-chevron-icon-rotated {
+    transform: rotate(-90deg);
+  }
+}
+
+.area-container-collapsed {
+  padding-bottom: 4px;
+  border-radius: 6px;
+}
+
+.area-container-collapsed:hover {
+  color: var(--cardTextMain);
+}
+
+.area-container.unread {
+  .area-name {
+    color: var(--cardTextMain);
+    font-weight: 500;
+  }
+}
+
+.area-name {
+  @apply py-1 px-3 gap-1 cg-text-lg-400;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  word-break: break-all;
+  transition: all 0.1s ease-in-out;
+  color: var(--text-secondary);
+
+  .area-name-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .area-name-rightside-info {
+    @apply flex items-center justify-center gap-1;
+    font-size: 16px;
+  }
+}
+
+.accessrule-modal-close-btn:hover {
+  background-color: var(--btnSecondaryHoverBg);
+}
+
+.locked-area-toggle {
+  @apply flex items-center justify-center p-2 gap-2 my-2 cursor-pointer cg-text-lg-500;
+  color: var(--cardTextSecondary);
+  --iconPrimary: var(--cardTextSecondary);
+
+  &.expanded {
+    background: var(--surface-background-2nd);
+  }
+
+  .area-chevron-icon {
+    transition: transform 0.1s ease;
+  }
+
+  .area-chevron-icon-rotated {
+    transform: rotate(-90deg);
+  }
+
+  .locked-area-toggle-number {
+    padding: 2px 12px;
+    border-radius: 12px;
+    background: var(--notificationCountBg);
+    color: var(--notificationCountText);
+  }
+
+  &:hover {
+    background: var(--cardBgHover);
+  }
+}

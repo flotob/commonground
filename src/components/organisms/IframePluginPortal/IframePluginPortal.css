@@ -1,0 +1,7 @@
+.collapsed-iframe-button {
+    @apply cursor-pointer p-2;
+    color: var(--text-secondary);
+    &:hover {
+        color: var(--text-primary);
+    }
+}

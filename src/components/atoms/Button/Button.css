@@ -1,0 +1,490 @@
+/* BUTTONS */
+
+.btnDefault, .btnPrimary, .btnSecondary, .btnBorderless, .btnInactive, .btnAdmin, .btnAudio, .btnTextual, .btnMenu, .btnChip, .btnDestructive, .btnFinal {
+    @apply py-3 px-4 flex gap-1 flex-row items-center justify-center cg-text-lg-500 cg-border-xl relative;
+    cursor: pointer;
+    transition: background-color 100ms, border-color 100ms, color 100ms, transform 100ms;
+    min-width: fit-content;
+
+    &.btnNoText {
+        @apply px-2 py-2;
+    }
+
+    svg {
+        display: block;
+    }
+
+    .btnIconLeft, .btnIconRight, .btnText {
+        flex-shrink: 0;
+    }
+
+    &:disabled, &:hover:disabled, &:active:disabled, &:active:hover:disabled, &:focus:disabled {
+        cursor: not-allowed;
+        color: var(--btnDisabledText);
+        box-shadow: var(--btnDisabledBoxShadow) !important;
+    }
+
+    &:focus {
+        outline: none !important;
+    }
+
+    &.longPress {
+        > * {
+            z-index: 1;
+        }
+
+        &:after{
+            @apply cg-border-xl;
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(196, 222, 255, 0.50);
+        }
+
+        &.pressing::after {
+            width: 100%;
+            animation: widthGrow 1s linear;
+        }
+    }
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@keyframes widthGrow {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.btnPrimary {
+    color: var(--text-inverted);
+    --iconPrimary: var(--text-inverted);
+    background: var(--surface-inverted);
+    border: solid 1px transparent;
+
+    &:focus {
+        /* box-shadow: var(--btnPrimaryFocusBoxShadow); */
+        outline: var(--btnPrimaryFocusOutline);
+    }
+
+    &:active {
+        opacity: 0.5;
+        transform: scale(0.97);
+    }
+
+    &.active {
+        cursor: default;
+    }
+
+    &:disabled, &:hover:disabled, &:active:disabled, &:active:hover:disabled, &:focus:disabled {
+        background: none;
+        box-shadow: none !important;
+        border: solid 1px var(--border-secondary);
+        color: var(--text-secondary);
+    }
+}
+
+.btnSecondary {
+    color: var(--text-primary, #ECEDFA);
+    background: var(--surface-buttons-secondary, rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(12.5px);
+    --iconPrimary: var(--text-primary);
+
+    &:focus {
+        /* box-shadow: var(--btnSecondaryFocusBoxShadow); */
+        outline: var(--text-primary);
+    }
+
+    &:hover {
+        background: var(--surface-buttons-secondary-hover, rgba(255, 255, 255, 0.10));
+    }
+
+    &.active {
+        background: var(--surface-subtleactive);
+    }
+
+    &:disabled, &:hover:disabled, &:active:disabled, &:active:hover:disabled, &:focus:disabled {
+        color: var(--text-secondary, #9298B8);
+        box-shadow: none !important;
+        .btnIconLeft, .btnIconRight {
+            color: var(--text-secondary, #9298B8);
+        }
+        .btnText {
+            color: var(--text-secondary, #9298B8);
+        }
+    }
+}
+
+.btnAudio {
+    color: var(--btnAudioText);
+    background-color: var(--btnAudioBg);
+    border: var(--btnAudioBorder);
+
+    .btnText {
+        color: var(--btnAudioText);
+    }
+    .btnIconLeft {
+        --iconPrimary: var(--btnAudioIconLeftPrimary);
+        --iconSecondary: var(--btnAudioIconLeftSecondary);
+        --iconComplementary: var(--btnAudioIconLeftComplementary);
+        > svg > line {
+            @apply hidden;
+        }
+    }
+    .btnIconRight {
+        --iconPrimary: var(--btnAudioIconRightPrimary);
+        --iconSecondary: var(--btnAudioIconRightSecondary);
+        --iconComplementary: var(--btnAudioIconRightComplementary);
+    }
+
+    &:hover {
+        background-color: var(--btnAudioHoverBg);
+    }
+
+    &.muted {
+        .btnIconLeft > svg > line {
+            @apply inline;
+        }
+    }
+
+    &:focus {
+        background-color: var(--btnAudioFocusBg);
+        outline: var(--btnAudioFocusOutline);
+    }
+}
+
+.btnAdmin {
+    color: var(--btnAdminText);
+    background-color: var(--btnAdminBg);
+    border: var(--btnAdminBorder);
+
+    .btnText {
+        color: var(--btnAdminText);
+    }
+    .btnIconLeft {
+        --iconPrimary: var(--btnAdminIconLeftPrimary);
+        --iconSecondary: var(--btnAdminIconLeftSecondary);
+        --iconComplementary: var(--btnAdminIconLeftComplementary);
+    }
+    .btnIconRight {
+        --iconPrimary: var(--btnAdminIconRightPrimary);
+        --iconSecondary: var(--btnAdminIconRightSecondary);
+        --iconComplementary: var(--btnAdminIconRightComplementary);
+    }
+
+    &:hover {
+        background-color: var(--btnAdminHoverBg);
+        border: var(--btnAdminHoverBorder);
+    }
+
+    &.active, &.active:hover, &:active, &:active:hover {
+        color: var(--btnAdminActiveText);
+       
+        .btnText {
+            color: var(--btnAdminActiveText);
+        }
+        .btnIconLeft {
+            --iconPrimary: var(--btnAdminActiveIconLeftPrimary);
+            --iconSecondary: var(--btnAdminActiveIconLeftSecondary);
+            --iconComplementary: var(--btnAdminActiveIconLeftComplementary);
+        }
+        .btnIconRight {
+            --iconPrimary: var(--btnAdminActiveIconRightPrimary);
+            --iconSecondary: var(--btnAdminActiveIconRightSecondary);
+            --iconComplementary: var(--btnAdminActiveIconRightComplementary);
+        }
+    }
+
+    &.active {
+        cursor: default;
+    }
+
+    &:focus {
+        background-color: var(--btnAdminFocusBg);
+        border: var(--btnAdminFocusBorder);
+        outline: var(--btnAdminFocusOutline);
+    }
+}
+
+.btnBorderless {
+    color: var(--text-primary);
+    background-color: var(--btnBorderlessBg);
+    border: var(--btnBorderlessBorder);
+
+    .btnText {
+        color: var(--btnBorderlessText);
+    }
+    .btnIconLeft {
+        --iconPrimary: var(--text-primary);
+    }
+    .btnIconRight {
+        --iconPrimary: var(--text-primary);
+    }
+
+    &:hover {
+        color: var(--btnBorderlessHoverText);
+    }
+
+    &.active, &.active:hover, &:active, &:active:hover {
+        color: var(--btnBorderlessActiveText);
+    }
+
+    &.active {
+        cursor: default;
+    }
+
+    &:focus {
+        color: var(--btnBorderlessFocusText);
+        outline: var(--btnBorderlessFocusOutline);
+    }
+
+    &:disabled, &:hover:disabled, &:active:disabled, &:active:hover:disabled, &:focus:disabled {
+        background-color: var(--btnBorderlessBg);
+        border: var(--btnBorderlessBorder);
+    }
+}
+
+.btnTextual {
+    @apply px-0 py-1;
+    color: var(--btnTextualText);
+    background-color: var(--btnTextualBg);
+    border: transparent;
+    border-bottom: var(--btnTextualBorder);
+    border-radius: 0;
+    border-width: 0.125rem;
+    max-width: unset;
+
+    .btnText {
+        color: var(--btnTextualText);
+    }
+
+    &:hover {
+        color: var(--btnTextualHoverText);
+        background-color: var(--btnTextualHoverBg);
+        border-bottom: var(--btnTextualHoverBorder);
+
+        .btnText {
+            color: var(--btnTextualHoverText);
+        }
+    }
+
+    &:disabled, &:hover:disabled, &:active:disabled, &:active:hover:disabled, &:focus:disabled {
+        background-color: var(--btnTextualDisabledBg) !important;
+        border-color: var(--btnTextualDisabledBorder);
+        box-shadow: none !important;
+        .btnIconLeft, .btnIconRight {
+            color: var(--btnDisabledText);
+        }
+    }
+
+    .btnIconLeft {
+        --iconPrimary: var(--btnTextualText);
+    }
+    .btnIconRight {
+        --iconPrimary: var(--btnTextualText);
+    }
+}
+
+.btnInactive {
+    @apply cursor-not-allowed;
+    color: var(--btnInactiveText);
+    background-color: var(--btnInactiveBg);
+    opacity: 0.5;
+}
+
+.btnMenu {
+    color: var(--btnMenuText);
+    background-color: var(--btnMenuBg);
+    border: var(--btnMenuBorder);
+
+    .btnText {
+        color: var(--btnMenuText);
+    }
+    .btnIconLeft {
+        --iconPrimary: var(--btnMenuIconLeftPrimary);
+        --iconSecondary: var(--btnMenuIconLeftSecondary);
+        --iconComplementary: var(--btnMenuIconLeftComplementary);
+    }
+    .btnIconRight {
+        --iconPrimary: var(--btnMenuIconRightPrimary);
+        --iconSecondary: var(--btnMenuIconRightSecondary);
+        --iconComplementary: var(--btnMenuIconRightComplementary);
+    }
+
+    &:hover {
+        color: var(--btnMenuHoverText);
+        border: var(--btnMenuHoverBorder);
+
+        .btnText {
+            color: var(--btnMenuHoverText);
+        }
+        .btnIconLeft {
+            --iconPrimary: var(--btnMenuHoverIconLeftPrimary);
+            --iconSecondary: var(--btnMenuHoverIconLeftSecondary);
+            --iconComplementary: var(--btnMenuHoverIconLeftComplementary);
+        }
+        .btnIconRight {
+            --iconPrimary: var(--btnMenuHoverIconRightPrimary);
+            --iconSecondary: var(--btnMenuHoverIconRightSecondary);
+            --iconComplementary: var(--btnMenuHoverIconRightComplementary);
+        }
+    }
+
+    &.active, &.active:hover, &:active, &:active:hover {
+        color: var(--btnMenuActiveText);
+        background-color: var(--btnMenuActiveBg);
+        border: var(--btnMenuActiveBorder);
+
+        .btnText {
+            color: var(--btnMenuActiveText);
+        }
+        .btnIconLeft {
+            --iconPrimary: var(--btnMenuActiveIconLeftPrimary);
+            --iconSecondary: var(--btnMenuActiveIconLeftSecondary);
+            --iconComplementary: var(--btnMenuActiveIconLeftComplementary);
+        }
+        .btnIconRight {
+            --iconPrimary: var(--btnMenuActiveIconRightPrimary);
+            --iconSecondary: var(--btnMenuActiveIconRightSecondary);
+            --iconComplementary: var(--btnMenuActiveIconRightComplementary);
+        }
+    }
+
+    &.active {
+        cursor: default;
+    }
+
+    &:focus {
+        color: var(--btnMenuFocusText);
+        border: var(--btnMenuFocusBorder);
+        outline: var(--btnMenuFocusOutline);
+
+        .btnText {
+            color: var(--btnMenuFocusText);
+        }
+        .btnIconLeft {
+            --iconPrimary: var(--btnMenuFocusIconLeftPrimary);
+            --iconSecondary: var(--btnMenuFocusIconLeftSecondary);
+            --iconComplementary: var(--btnMenuFocusIconLeftComplementary);
+        }
+        .btnIconRight {
+            --iconPrimary: var(--btnMenuFocusIconRightPrimary);
+            --iconSecondary: var(--btnMenuFocusIconRightSecondary);
+            --iconComplementary: var(--btnMenuFocusIconRightComplementary);
+        }
+    }
+
+    &:disabled, &:hover:disabled, &:active:disabled, &:active:hover:disabled, &:focus:disabled {
+        box-shadow: none !important;
+        color: var(--cardBgHover);
+        
+        .btnIconLeft {
+            --iconPrimary: var(--cardBgHover);
+            --btnMenuHoverIconLeftPrimary: var(--cardBgHover);
+        }
+        .btnText {
+            color: var(--cardBgHover);
+        }
+    }
+}
+
+.btnChip {
+    @apply cg-border-xl;
+    padding: 8px 16px;
+    color: var(--text-primary);
+    background: var(--surface-subtleoverlay);
+    /* border: solid 1px var(--border-primary); */
+
+    .btnText {
+        color: var(--text-primary);
+    }
+
+    &:hover {
+        background: var(--surface-hover);
+    }
+
+    &.active {
+        background-color: var(--surface-subtleactive);
+        color: var(--text-active);
+
+        >div>.btnText {
+            color: var(--text-active);
+        }
+    }
+
+    &:focus {
+        outline: solid 2px var(--text-primary) !important;
+    }
+}
+
+.btnDestructive {
+    color: var(--btnDestructiveText);
+    background-color: var(--btnDestructiveBg);
+    box-shadow: var(--btnDestructiveBoxShadow);
+    --iconPrimary: var(--btnDestructiveText);
+
+    .btnText {
+        color: var(--btnDestructiveText);
+    }
+
+    &:focus {
+        /* box-shadow: var(--btnDestructiveFocusBoxShadow); */
+        outline: var(--btnDestructiveFocusOutline);
+    }
+
+    &.active, &:active {
+        background-color: var(--btnDestructiveActiveBg);
+        box-shadow: var(--btnDestructiveActiveBoxShadow);
+    }
+
+    &.active {
+        cursor: default;
+    }
+}
+
+.btnFinal {
+    color: var(--btnFinalText);
+    background-color: var(--btnFinalBg);
+    box-shadow: var(--btnFinalBoxShadow);
+    --iconPrimary: var(--btnFinalText);
+
+    .btnText {
+        color: var(--btnFinalText);
+    }
+
+    &:focus {
+        /* box-shadow: var(--btnFinalFocusBoxShadow); */
+        outline: var(--btnFinalFocusOutline);
+    }
+
+    &.active, &:active {
+        background-color: var(--btnFinalActiveBg);
+        box-shadow: var(--btnFinalActiveBoxShadow);
+    }
+
+    &.active {
+        cursor: default;
+    }
+}
+
+/* BUTTON AGGREGATIONS */
+
+.btnList {
+    @apply flex flex-row gap-2;
+
+    > * {
+        min-width: fit-content;
+    }
+}

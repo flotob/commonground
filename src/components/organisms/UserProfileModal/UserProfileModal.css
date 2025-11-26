@@ -1,0 +1,135 @@
+.user-profile-modal-container {
+    /* background-color: transparent; */
+    max-height: inherit;
+
+    >.inner-container {
+        border-radius: 25px;
+    }
+}
+
+.own-profile-tooltip {
+    @apply p-2;
+    background: var(--surface-background-2nd);
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px;
+    width: auto !important;
+    font-size: 14px;
+}
+
+.user-profile-modal {
+    overflow: hidden;
+    background-color: var(--surface-background-2nd);
+    border-radius: 25px;
+}
+
+.mod-options-btn {
+    @apply absolute top-2 right-6;
+    z-index: 1;
+}
+
+.user-tooltip-inner,
+.user-profile-modal {
+    @apply relative;
+    width: 340px;
+    color: var(--text-primary);
+    border: 2px solid var(--border-panels, #FFF);
+    background: var(--surface-background-2nd, #F7F7F7);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.20), 0px 1px 4px 0px rgba(0, 0, 0, 0.06);
+}
+
+.react-modal-sheet-container {
+    .user-profile-modal {
+        @apply w-full;
+    }
+}
+
+/****** ADMIN VIEW *****/
+.mod-options-tooltip-container {
+    border: none;
+    background-color: transparent;
+}
+
+.admin {
+    background: var(--cardBg);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+
+    >.admin-header {
+        @apply p-2 flex items-center gap-2 justify-between cg-text-lg-500;
+        color: var(--cardTextSecondary);
+        border-bottom: 1px solid var(--cardBorder);
+
+        button {
+            @apply p-0;
+        }
+    }
+
+    >.username {
+        @apply mt-8 mb-4 cg-heading-4;
+        text-align: center;
+    }
+
+    >.admin-tools {
+        >.row {
+            @apply p-2 flex items-center justify-start gap-1;
+            border-radius: 6px;
+            border-bottom: 1px solid var(--transparent);
+
+            .title,
+            .sub-text {
+                @apply ml-3;
+            }
+
+            .title {
+                @apply cg-text-lg-500;
+                margin-top: 0.10rem;
+            }
+
+            .sub-text {
+                font-size: 14px;
+                color: var(--cardTextSecondary);
+            }
+
+            .drop-down {
+                @apply ml-auto;
+                justify-self: end;
+
+                .dropdown-items,
+                .dropdown-item {
+                    background: var(--dropdownBg);
+                }
+
+                .dropdown-item:hover,
+                .dropdown-item.selected {
+                    background: var(--dropdownHoverBg);
+                }
+            }
+
+            svg {
+                @apply mt-1;
+            }
+
+            &.banUser,
+            &.muteUser {
+                --iconPrimary: var(--errorColor);
+            }
+
+            &.warnUser {
+                --iconPrimary: var(--warningColor);
+            }
+        }
+
+        >.delete-row {
+            @apply cursor-pointer;
+        }
+
+        >.delete-row:hover {
+            background: var(--transparent);
+        }
+
+        >.row:last-of-type {
+            @apply pb-3;
+            border-bottom: none;
+        }
+    }
+}

@@ -1,0 +1,71 @@
+.jdenticon {
+    @apply relative m-0;
+
+    .status-container {
+        @apply my-0 mx-auto absolute;
+        right: -1px;
+        bottom: -1px;
+        width: 47%;
+        max-width: 13px;
+        line-height: 1px;
+    }
+
+    .jdenticon-status-circle {
+        stroke: var(--jdenticonBorder);
+    }
+
+    .user-photo {
+        border-radius: 50%;
+        height: auto;
+    }
+
+    &.default-avatar {
+        @apply flex items-center justify-center;
+        > svg {
+            @apply w-full h-full;
+            border-radius: 50%;
+        }
+
+        &.floating-border {
+            > svg {
+                border: 2px solid var(--border-panels, color(display-p3 1 1 1));
+                box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.20), 0px 1px 4px 0px rgba(0, 0, 0, 0.06);
+            }
+        }
+    }
+
+    &.jdenticon-80 {
+        height: 80px;
+        width: 80px;
+    }
+
+    &.jdenticon-60 {
+        height: 60px;
+        width: 60px;
+    }
+
+    &.jdenticon-40 {
+        height: 40px;
+        width: 40px;
+    }
+
+    &.jdenticon-32 {
+        height: 32px;
+        width: 32px;
+    }
+
+    &.jdenticon-24 {
+        height: 24px;
+        width: 24px;
+    }
+
+    &.jdenticon-20 {
+        height: 20px;
+        width: 20px;
+    }
+
+    &:not(.default-avatar).floating-border {
+        border: 2px solid var(--border-panels, color(display-p3 1 1 1));
+        box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.20), 0px 1px 4px 0px rgba(0, 0, 0, 0.06);
+    }
+}

@@ -1,0 +1,177 @@
+.menu-button-container {
+  @apply flex flex-row flex-grow-0 flex-none items-center;
+  /* padding: 0.125rem; */
+  transition: background-color 100ms, border-color 100ms, color 100ms;
+
+  &.round {
+    padding: 1px;
+  }  
+
+  > button.btnMenu {
+    &.btnNoText {
+      @apply p-0;
+      border-radius: 9px;
+      height: 2.5rem;
+      width: 2.5rem;
+    }
+  }
+
+  .btnIconLeft {
+    > .menu-icon-container {
+      @apply relative;
+
+      .notification-count {
+        @apply -top-4 -right-5 py-0 px-0.5;
+        min-width: 26px;
+        max-height: 18px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 18px;
+      }
+    
+      .menu-button-dot-icon {
+        @apply absolute -top-1 -right-1;
+      }
+    }
+  }
+}
+
+.menu-non-nft-button {
+  .jdenticon {
+    > svg {
+      height: 2.5rem;
+      width: 2.5rem;
+    }
+  }
+}
+
+.menu {
+  .menu-button-container {
+    border-radius: 12px;
+    border: var(--btnMenuBorder);
+
+    &.round {
+      border-radius: 500px;
+    }  
+  
+    &.active, &.active:hover {
+      border: var(--btnMenuActiveBorder);
+  
+      > button.btnMenu {
+        border: none;
+      }
+    }
+
+    &:hover {
+      border: var(--btnMenuHoverBorder);
+
+      > button.btnMenu {
+        border: none;
+      }
+    }
+
+    &:active {
+      border: var(--btnMenuFocusBorder);
+
+      &.disabled,
+      &:disabled {
+        border: var(--btnMenuBorder);
+      }
+
+      > button.btnMenu {
+        color: var(--btnMenuFocusText);
+
+        &:active, &.active, &:hover {
+          color: var(--btnMenuFocusText);
+          background: var(--btnMenuFocusBg);
+
+          .btnIconLeft {
+            --iconPrimary: var(--btnMenuFocusIconLeftPrimary);
+          }
+        }
+
+        &:disabled, &.disabled {
+          &:active, &.active, &:hover {
+            .btnIconLeft {
+              --iconPrimary: var(--btnMenuIconLeftPrimary);
+            }
+          }
+        }
+      }
+    }
+
+    > button.btnMenu {
+      border: none;
+      outline: none;
+
+      &:focus {
+        border: none;
+      }
+    }
+  }
+}
+
+.mobile-menu {
+  @apply pt-1 px-1;
+  .menu-button-container {
+    @apply border-none items-start;
+    background: none;
+
+    > button.btnMenu {
+      @apply flex flex-col gap-0 p-0 outline-none w-12 min-w-0 border-none;
+      background: none;
+      border-radius: 12px;
+  
+      > .btnText {
+        @apply w-full mt-1 overflow-hidden text-ellipsis whitespace-nowrap flex-grow flex-shrink flex-auto;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: center;
+        letter-spacing: -0.03em;
+      }
+
+      > .btnIconLeft {
+        > .menu-icon-container {
+          @apply relative;
+          > .multiple-icons {
+            @apply flex flex-row items-center;
+            svg {
+              @apply w-6 h-6;
+            }
+          }
+          .notification-count {
+            top: -0.2rem;
+            right: -0.75rem;
+            font-weight: 500;
+            font-size: 13px;
+            line-height: 16px;
+          }
+        }
+      }
+
+      &:active:hover:disabled {
+        background-color: transparent;
+      }
+
+      &.active {
+        background: var(--surface-subtleactive, rgba(24, 78, 126, 0.15));
+        color: var(--text-active);
+      }
+    }
+  }
+
+  .audio-widget {
+    background: none;
+  }
+}
+
+.mobile-pie-menu {
+  .menu-button-container {
+    > button.btnMenu {
+      width: 'auto !important';
+    }
+  }
+}

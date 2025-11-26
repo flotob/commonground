@@ -1,0 +1,172 @@
+.home {
+  .home-main-content {
+    @apply flex flex-col gap-16;
+  }
+
+  .home-user-widget-container {
+    @apply flex flex-col cg-border-xl overflow-hidden self-stretch;
+
+    background: var(--surface-background-2nd);
+    border: 1px solid var(--border-secondary);
+  }
+
+  .inner-content {
+    @apply p-6 py-8 flex flex-col gap-6;
+  }
+
+  .banner {
+    @apply flex flex-col items-center gap-8;
+
+    .bannerTop {
+      @apply flex items-center relative w-full;
+
+      &.desktop,
+      &.tablet {
+        @apply justify-center;
+
+        .bannerTopButtons {
+          @apply absolute right-0;
+        }
+      }
+
+      &.mobile,
+      &.small-tablet {
+        @apply justify-between;
+      }
+
+      .bannerTopButtons {
+        @apply flex gap-2;
+
+        >* {
+          font-weight: 400 !important;
+          font-size: 15px;
+        }
+      }
+    }
+
+    .bannerBottom {
+      color: var(--cardTextMain);
+
+      &.welcomeContainer {
+        @apply flex flex-col gap-2;
+        max-width: 360px;
+      }
+
+      .bannerBottomTitle {
+        @apply cg-heading-3;
+      }
+
+      .bannerBottomText {
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      .bannerBottomButtons {
+        @apply flex pt-2 gap-2;
+      }
+
+      .bannerLink {
+        @apply cursor-pointer underline;
+      }
+    }
+  }
+
+  .footer-divider {
+    @apply flex items-center gap-2;
+    --iconPrimary: var(--btnTextualText);
+
+    .footer-divider-line {
+      @apply flex-1;
+      border: solid 1px var(--btnTextualText);
+    }
+  }
+
+  .footer-buttons>* {
+    font-size: 15px;
+  }
+}
+
+.mobile-layout {
+  .home {
+
+    .cg-scrollable-content,
+    .inner-content {
+      @apply p-0;
+    }
+
+    .inner-content {
+      >*:first-child:not(.login-banner-container) {
+        @apply mt-6;
+      }
+    }
+
+    .banner {
+      @apply mx-2 mt-4;
+    }
+
+    .banner,
+    .my-communities-explorer-header,
+    .groupExplorer-group-container,
+    .article-explorer-container,
+    .event-explorer-container,
+    .blog-explorer-container,
+    .btnList {
+      @apply px-4;
+    }
+
+    .groupList {
+      .front-page-section-header {
+        @apply px-4;
+      }
+    }
+
+    .cards-container {
+      >button {
+        @apply mx-1;
+      }
+    }
+
+    .footer-divider {
+      @apply mx-4;
+    }
+
+    .footer-buttons {
+      @apply flex flex-col justify-center items-start px-1 mx-4 pb-10;
+    }
+  }
+}
+
+.desktop-layout {
+  .home {
+    .inner-content {
+      @apply mx-auto;
+      max-width: 848px;
+      padding-top: 0px;
+      margin-top: 2rem;
+      border-left: solid 1px var(--border-divider, rgba(255, 255, 255, 0.10));
+    }
+
+    .footer-buttons {
+      @apply flex flex-row items-center justify-center pt-8 gap-16;
+    }
+  }
+}
+
+.post-events-button {
+  transition: all ease-in-out;
+  &.inactive {
+    opacity: 0.5;
+  }
+}
+
+.home-section-btn {
+  @apply cg-heading-3;
+
+  &.active {
+    color: var(--surface-brand);
+    border-color: var(--surface-brand) !important;
+    .btnText {
+      color: var(--surface-brand) !important;
+    }
+  }
+}

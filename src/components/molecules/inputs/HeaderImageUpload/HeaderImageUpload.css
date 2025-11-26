@@ -1,0 +1,71 @@
+.add-image-container {
+  @apply w-full h-auto flex items-center justify-center flex-none order-none self-stretch flex-grow-0 cursor-default relative;
+  background: none;
+  border-radius: 6px;
+  overflow: hidden;
+  max-height: 322px;
+
+  .image-ratio-guide {
+    @apply absolute h-full hidden p-1;
+    border: solid 1px var(--cardTextSecondary);
+    color: var(--cardTextSecondary);
+    font-size: 14px;
+
+    &.ratio-1-1 {
+      aspect-ratio: 1 / 1;
+    }
+
+    &.ratio-16-9 {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  &.is-empty {
+    background: var(--imageBg);
+  }
+  
+  .header-image {
+    @apply w-full bg-no-repeat bg-center bg-contain;
+    border-radius: 6px;
+    transition: opacity 0.1s;
+
+    &.preview {
+      @apply h-auto;
+    }
+
+    &.empty {
+      aspect-ratio: 720 / 322;
+      max-height: 322px;
+    }
+  }
+
+  button {
+    @apply flex invisible absolute opacity-0;
+    transition: visibility 0.1s;
+  }
+
+  &.editable {
+    @apply cursor-pointer;
+
+    &.is-empty,
+    &:hover {
+      .header-image {
+        opacity: 0.5;
+        transition: opacity 0.1s;
+      }
+
+      .image-ratio-guide {
+        @apply block;
+      }
+
+      button {
+        @apply flex visible opacity-100;
+        transition: visibility 0.1s;
+      }
+    }
+  }
+}
+
+.header-error-msg {
+  @apply text-center;
+}

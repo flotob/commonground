@@ -1,0 +1,45 @@
+.groupSlider-group-container {
+    @apply grid grid-cols-2 gap-4 w-full;
+
+    &.large-cards {
+        @apply grid-cols-2;
+    }
+
+    &.mobile {
+        -ms-overflow-style: none;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+
+        > * {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        &:not(.large-cards) {
+            > * {
+                max-width: 155px;
+            }
+        }
+
+        &::-webkit-scrollbar {
+            display: none;  /* Safari and Chrome */
+        }
+
+        &:not(.grid-layout).large-cards {
+            > .large-society-card {
+                min-width: 65%;
+            }
+        }
+
+        &.grid-layout {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            &.large-cards {
+                @apply grid-cols-1;
+            }
+        }
+    }
+}

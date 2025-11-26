@@ -1,0 +1,168 @@
+.articleView {
+  @apply relative flex flex-col gap-4 items-center h-full m-auto;
+  color: var(--articleHeader);
+  max-width: 800px;
+
+  .articleViewContent {
+    @apply flex flex-col items-center gap-8 w-full mx-auto;
+    user-select: text;
+    max-width: 800px;
+  }
+
+  .articleViewLoading {
+    @apply flex items-center justify-center h-full;
+    width: min(800px, 95vw);
+  }
+
+  .articleViewHeader {
+    border-radius: 6px;
+    object-fit: cover;
+    width: 100%;
+    max-height: 322px;
+    height: auto;
+  }
+
+  .articleViewTitle {
+    @apply flex flex-col items-start justify-center self-stretch p-0 gap-2 flex-none order-none flex-grow-0;
+
+    .articleViewTitleInfo {
+      @apply w-full cg-heading-1;
+      overflow-wrap: break-word;
+      font-style: normal;
+    }
+
+    .articleViewSubtitleInfo {
+      @apply flex flex-row items-center justify-between self-stretch py-1 flex-grow-0 flex-wrap;
+      gap: 0.625rem;
+
+      font-size: 16px;
+      line-height: 24px;
+      white-space: nowrap;
+      /* identical to box height, or 150% */
+    }
+
+    .articleViewSubtitleInfoAuthor {
+      @apply flex items-center gap-2;
+    }
+  }
+
+  .articleViewDivider {
+    width: 80px;
+    border: 1px solid var(--hr);
+    align-self: center;
+  }
+
+  .articleViewDivider.long {
+    @apply w-full;
+  }
+
+  .sectionEndSliderContainer {
+    .content-slider {
+      .cards-container {
+        @apply grid-cols-1;
+
+        .content-card {
+          min-height: 300px;
+        }
+      }
+    }
+  }
+
+  .articleViewText {
+    @apply w-full;
+    max-width: 720px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    font-size: 18px;
+    line-height: 150%;
+    color: var(--articleText);
+    
+    strong {
+      color: var(--articleHeader);
+    }
+
+    h3 {
+      @apply cg-heading-2;
+      color: var(--articleHeader);
+    }
+
+    > * + div {
+      margin-top: 25px;
+    }
+
+    > * + .mediaElement {
+      margin-top: 40px;
+    }
+
+    > * + h3 {
+      margin-top: 50px;
+    }
+  }
+  
+  .articleLinkButton {
+    @apply fixed;
+    bottom: 20px;
+  }
+
+  .articleViewLockedView {
+    @apply flex flex-col items-center gap-4 mt-10 p-8;
+    background-color: var(--cardBg);
+    border-radius: 6px;
+
+    .button {
+      @apply flex items-center gap-2;
+    }
+  }
+
+  .section-end-button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+  }
+
+  &.sidebarMode {
+    position: unset;
+
+    .articleViewHeader {
+      border-radius: 6px 6px 0 0;
+    }
+
+    .articleViewTitle, .articleViewText, .articleViewDivider, .sectionEndSliderContainer {
+      @apply px-8;
+    }
+  }
+}
+
+.mobile-layout {
+  .articleView {
+    .articleViewContent {
+      @apply gap-4;
+
+      .articleViewTitle {
+        @apply flex flex-col justify-center items-start p-0 gap-4;
+
+        .articleViewTitleInfo {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 28px;
+          line-height: 30px;
+          letter-spacing: -0.05em;
+        }
+      }
+    }
+
+    &.sidebarMode {
+      .articleViewHeader {
+        border-radius: 6px 6px 0 0;
+      }
+  
+      .articleViewTitle, .articleViewText, .articleViewDivider, .sectionEndSliderContainer {
+        @apply px-4;
+      }
+    }
+  }
+}
+
+.tooltip.tooltip-article-share {
+  padding: 12px 16px;
+}

@@ -1,0 +1,11 @@
+.wallet-visibility {
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .connectedWalletsModal-subText {
+        @apply cg-text-lg-500;
+        color: var(--cardTextMain);
+    }
+}

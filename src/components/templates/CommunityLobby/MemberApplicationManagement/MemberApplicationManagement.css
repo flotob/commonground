@@ -1,0 +1,59 @@
+.member-applications-management {
+    > .intro {
+        @apply cg-heading-2;
+        max-width: 692px;
+        font-style: normal;
+        color: var(--headerText);
+    }
+}
+
+.member-management-role-buttons {
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(165, 165, 165, 0);
+        border-radius: 53px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 53px;
+        background: #929292;
+    }
+}
+
+.desktop-member-applications-management {
+    max-width: 800px;
+    margin: auto;
+
+    .member-item-text {
+        @apply flex-row items-center flex-wrap;
+    }
+
+    .member-item:hover {
+        background: var(--cardBgHover);
+    }
+}
+
+.mobile-member-applications-management {
+    @apply flex flex-col overflow-hidden;
+    .member-item-text {
+        @apply flex-col items-start;
+    }
+
+    .member-display-name {
+        @apply text-start overflow-hidden text-ellipsis w-full;
+    }
+}
+
+.member-management-pending {
+    @apply cg-border-xl flex flex-col;
+    background: var(--surface-subtleoverlay, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.03));
+
+    > *:not(:last-child) {
+        border-bottom: 1px solid var(--border-subtle, color(display-p3 1 1 1 / 0.03));
+    }
+}

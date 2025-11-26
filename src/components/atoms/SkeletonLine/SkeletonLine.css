@@ -1,0 +1,5 @@
+.skeleton-line {
+    @apply cg-border-m;
+    background: var(--surface-background-2nd);
+    height: 16px;
+}

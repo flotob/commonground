@@ -1,0 +1,9 @@
+.toggle-title {
+    @apply cg-text-lg-500 flex items-center gap-1;
+    color: var(--cardTextMain);
+}
+
+.toggle-description {
+    @apply cg-text-lg-400;
+    color: var(--cardTextSecondary);
+}

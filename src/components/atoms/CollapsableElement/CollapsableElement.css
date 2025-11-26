@@ -1,0 +1,18 @@
+.collapsable-element {
+    @apply w-full flex flex-col items-start p-0 gap-0 self-stretch flex-none order-none flex-grow-0;
+
+    > .collapsable-trigger {
+        @apply w-full;
+    }
+    > .collapsable-view {
+        @apply w-full p-2;
+        transition: display 300ms;
+
+        &.collapsed {
+            display: none;
+        }
+        &.expanded {
+            display: block;
+        }
+    }
+}

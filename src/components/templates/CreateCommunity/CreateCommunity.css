@@ -1,0 +1,145 @@
+.create-community-view {
+  grid-column: content-left-start / content-full-end;
+  border-left: none;
+}
+
+.create-community-view,
+.create-community-modal {
+  .cg-scrollable-content {
+    @apply w-full h-full;
+    color: var(--cardTextMain);
+
+    .content {
+      @apply w-full mx-auto px-5;
+      max-width: 1022px;
+
+      >.intro {
+        @apply w-full mx-auto mt-6 mb-0;
+        max-width: 514px;
+
+        >h1 {
+          @apply my-4;
+          color: var(--cardTextMain);
+          font-size: 40px;
+          font-weight: 300;
+          line-height: 48px;
+        }
+
+        >p {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          color: var(--cardTextMain);
+        }
+
+        >button {
+          @apply mt-4;
+        }
+      }
+
+      >.community-image-uploads {
+        @apply relative w-full;
+        margin-bottom: 76px;
+
+        >.community-logo-upload {
+          @apply absolute my-0;
+          left: 24px;
+          bottom: -70px;
+          z-index: 1;
+        }
+      }
+    }
+  }
+}
+
+.create-community-modal {
+  background: var(--bgColor);
+  max-width: 810px;
+  height: 100%;
+
+  .modal-content {
+    padding: 0;
+    height: 100%;
+  }
+
+  .create-community-modal-content {
+    @apply flex flex-col;
+    padding: 16px 24px 32px;
+    gap: 32px;
+
+    .create-community-modal-header {
+      @apply flex justify-between items-center;
+
+      span {
+        @apply cg-heading-2;
+        color: var(--headerText);
+      }
+
+      .create-community-modal-header-button {
+        border-radius: 500px;
+      }
+    }
+
+    .content {
+      @apply flex flex-col;
+      gap: 32px;
+
+      .input-container {
+        label {
+          color: var(--cardTextMain);
+        }
+      }
+    }
+  }
+}
+
+.mobile-layout {
+  .create-community-modal-content {
+    padding: 16px 0px 0px;
+
+    .create-community-modal-header {
+      @apply px-2;
+    }
+
+    .content {
+      @apply p-0;
+
+      > div {
+        @apply px-2;
+      }
+
+      .tag-input-field {
+        padding: 0;
+        
+        .input-container {
+          > :not(.cohorts-scroll-container) {
+            @apply px-2;
+
+            .cohorts-container {
+              @apply px-2;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.create-community-modal {
+    margin: 0;
+  }
+
+  .community-image-uploads {
+    @apply flex flex-col items-center mb-0 gap-2;
+    margin-bottom: 0 !important;
+
+    .community-logo-upload {
+      @apply m-0;
+      position: unset !important;
+      height: 150px;
+    }
+
+    .community-logo-error-msg {
+      position: unset !important;
+    }
+  }
+}

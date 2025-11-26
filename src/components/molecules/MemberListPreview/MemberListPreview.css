@@ -1,0 +1,14 @@
+.member-list-preview {
+    @apply flex gap-2 items-center justify-center;
+    padding: 6px 10px;
+    border-radius: 12px;
+    color: var(--cardTextMain);
+
+    &:hover {
+        background: var(--surface-hover);
+    }
+
+    &.expanded {
+        border: 1px solid var(--border-active);
+    }
+}

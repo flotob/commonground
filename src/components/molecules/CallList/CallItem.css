@@ -1,0 +1,34 @@
+.call-item {
+    @apply flex py-2 px-3 flex-col gap-2 cursor-pointer;
+    
+    &:not(:last-child) {
+        border-bottom: solid 1px var(--cardBorder);
+    }
+
+    &:hover {
+        background: var(--cardBgHover);
+    }
+
+    &.active {
+        background: var(--btnPrimaryBg);
+        --cardTextMain: var(--btnPrimaryText);
+        --cardTextSecondary: var(--btnPrimaryText);
+
+        .call-timer {
+            color: var(--cardTextMain);
+        }
+    }
+
+    .call-item-title {
+        color: var(--cardTextMain);
+    }
+
+    .call-item-title-text {
+        @apply cg-text-lg-400 text-ellipsis overflow-hidden flex-1 whitespace-nowrap;
+    }
+
+    .call-timer {
+        @apply cg-text-sm-500;
+        min-width: 0px;
+    }
+}

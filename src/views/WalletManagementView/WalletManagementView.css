@@ -1,0 +1,27 @@
+.mobile-layout {
+    .wallet-management-view {
+        @apply flex flex-col p-0 h-full;
+
+        .mobile-tray-trigger {
+            @apply w-full;
+        }
+
+        .wallets-management {
+            @apply p-4;
+
+            .wallets-management-title {
+                @apply mb-2;
+            }
+
+            .wallet-settings-section {
+                @apply py-4 px-2;
+
+                .wallet-settings-section-title {
+                    h3 {
+                        @apply cg-heading-4;
+                    }
+                }
+            }
+        }
+    }
+}

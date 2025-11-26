@@ -1,0 +1,48 @@
+.emoji-reaction-item {
+    width: fit-content;
+    border-radius: 999px;
+    background-color: var(--reactionItemBg);
+    opacity: 0;
+    transition: opacity 0.3s;
+    gap: 2px;
+    border: 1px solid transparent;
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+    @apply flex items-center px-3;
+
+    > span {
+        @apply flex items-center;
+    }
+
+    > .emoji {
+        width: 20px;
+        height: 20px;
+        font-size: 15px;
+        margin-top: 0px;
+    }
+
+    > .reaction-count {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 14px;
+        color: var(--reactionItemText);
+    }
+
+    &:hover {
+        border-color: var(--reactionItemHoverBorder);
+
+        > .reaction-count {
+            color: var(--reactionItemHoverText);
+        }
+    }
+}
+
+.emoji-reaction-item:active,
+.active-emoji-reaction-item {
+    border-color: var(--reactionItemFocusBorder);
+        
+        > .reaction-count {
+            color: var(--reactionItemFocusText);
+        }
+}

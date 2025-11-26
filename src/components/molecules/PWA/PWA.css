@@ -1,0 +1,48 @@
+.pwa-wall {
+    .logo {
+        @apply flex items-center justify-center;
+        width: 100px;
+        height: 100px;
+        padding: 15.032px 12.5px 15.033px 12.5px;
+    }
+
+    .modal-content {
+        @apply flex flex-col items-center;
+        padding: 64px 24px;
+    }
+}
+
+.modal-centered.pwa-wall {
+    @apply cg-border-xxl relative overflow-hidden !important;
+    width: 360px !important;
+    margin: 0 !important;
+}
+
+body.dark {
+    .modal-centered.pwa-wall {
+        background: radial-gradient(143% 143% at 50% -50%, #F99100 0%, rgba(64, 75, 187, 0.00) 100%), #222430 !important;
+    }
+}
+
+.bottom-slider-modal-container.pwa-wall {
+    .react-modal-sheet-content .cg-scrollable>.cg-scrollable-content {
+        padding: 64px 24px;
+    }
+}
+
+body.dark {
+    .bottom-slider-modal-container.pwa-wall {
+        --tooltipBg: #222430;
+        .react-modal-sheet-content .cg-scrollable>.cg-scrollable-content {
+            background: radial-gradient(143% 143% at 50% -50%, #F99100 0%, rgba(64, 75, 187, 0.00) 100%), #222430;
+        }
+    }
+}
+
+.pwa-close-btn {
+    @apply absolute p-2 top-4 right-4 cursor-pointer;
+    color: var(--text-primary);
+    border-radius: 500px;
+    background: var(--surface-subtleoverlay);
+    backdrop-filter: blur(7.5px);
+}

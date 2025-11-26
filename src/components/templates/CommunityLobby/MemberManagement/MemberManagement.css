@@ -1,0 +1,134 @@
+.member-roles-management {
+    > .intro {
+        @apply cg-heading-2;
+        max-width: 692px;
+        font-style: normal;
+        color: var(--headerText);
+    }
+
+    .members-list {
+        @apply w-full mx-auto flex flex-col gap-8;
+
+        .title {
+            @apply mb-6;
+        }
+
+        .section-title {
+            @apply cg-text-md-500;
+            color: var(--headerText);
+        }
+
+        .role-filter {
+            @apply mt-4 mb-6 flex items-center gap-4 cg-text-md-500;
+            color: var(--cardTextMain);
+
+            .role-filter-input {
+                width: auto;
+            }
+        }
+
+        .member-list-inner {
+            @apply cg-border-xl overflow-hidden;
+            border: solid 1px var(--cardBorder);
+
+            .member-item {
+                @apply p-4 flex items-center;
+                min-height: 81px;
+                height: 81px;
+                max-height: 81px;
+
+                button {
+                    @apply w-full;
+                }
+
+                .jdenticon {
+                    width: 48px;
+                    height: 48px;
+                    margin: 0 !important;
+                }
+
+                .member-item-text {
+                    @apply flex flex-1 gap-2 justify-between overflow-hidden;
+                }
+
+                .member-display-name {
+                    @apply cg-text-lg-400;
+                    color: var(--cardTextMain);
+                }
+
+                .member-list-role {
+                    @apply cg-text-sm-400 px-2 py-0.5 whitespace-nowrap;
+                    border-radius: 500px;
+                    background: var(--surface-background-2nd);
+                    color: var(--cardTextMain);
+                }        
+
+                .role-dropdown-label {
+                    @apply self-end ml-auto;
+                }
+
+                > div {
+                    overflow: hidden;
+                    flex-grow: 1;
+                }
+
+                .self-indicator {
+                    @apply cg-text-md-500;
+                    color: var(--cardTextMain);
+                }
+                
+                &:not(:last-child) {
+                    border-bottom: solid 1px var(--cardBorder);
+                }
+            }
+        }
+    }
+}
+
+.member-management-role-buttons {
+    &::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(165, 165, 165, 0);
+        border-radius: 53px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 53px;
+        background: #929292;
+    }
+}
+
+.desktop-member-roles-management {
+    .member-item-text {
+        @apply flex-row items-center flex-wrap;
+    }
+
+    .member-item:hover {
+        background: var(--cardBgHover);
+    }
+}
+
+.mobile-member-roles-management {
+    @apply flex flex-col overflow-hidden;
+    .member-item-text {
+        @apply flex-col items-start;
+    }
+
+    .member-display-name {
+        @apply text-start overflow-hidden text-ellipsis w-full;
+    }
+}
+
+.member-management-pending {
+    @apply cg-border-xl flex flex-col;
+    background: var(--surface-subtleoverlay, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.03));
+
+    > *:not(:last-child) {
+        border-bottom: 1px solid var(--border-subtle, color(display-p3 1 1 1 / 0.03));
+    }
+}

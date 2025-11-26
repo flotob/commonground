@@ -1,0 +1,12 @@
+.schedule-modal-image-bg {
+    @apply cg-border-l;
+    background: var(--surface-subtleoverlay);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.event-roles-container {
+    background: var(--surface-subtleoverlay);
+}

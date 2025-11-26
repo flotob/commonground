@@ -1,0 +1,42 @@
+.messageAttachments {
+    @apply flex flex-col gap-2 py-2;
+
+    .messageAttachmentImages {
+        @apply flex flex-wrap items-center gap-2;
+    }
+    
+    .messageAttachmentImageContainer {
+        @apply cg-border-l;
+        background: var(--surface-subtleoverlay);
+        animation: attachmentImageBackgroundAnimation 1s infinite alternate;
+    }
+    .messageAttachmentImage {
+        @apply cg-border-l;
+        box-sizing: content-box;
+        cursor: zoom-in;
+        height: 150px;
+        max-height: 150px;
+        max-width: min(500px, 100%);
+        object-fit: cover;
+        opacity: 0;
+        transform: scale(0.92);
+        transition: opacity 0.1s ease, transform 0.1s ease;
+    }
+
+    .messageAttachmentGiphy {
+        @apply cg-border-l;
+        cursor: zoom-in;
+        max-height: 150px;
+    }
+}
+
+.own-message {
+    .messageAttachments {
+        @apply items-end;
+    }
+}
+
+@keyframes attachmentImageBackgroundAnimation {
+    from {background-color: var(--surface-subtleoverlay);}
+    to {background-color: var(--surface-hover);}
+}

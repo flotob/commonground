@@ -1,0 +1,73 @@
+.pinned-channel {
+    @apply cg-border-l w-full cursor-pointer relative;
+    animation: grow-in-pinned-channel 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+    .pinned-channel-content {
+        @apply inline-flex h-10 pr-2 items-center gap-1 cg-border-l w-fit max-w-full;
+    }
+    
+    .pinned-channel-title {
+        @apply overflow-hidden whitespace-nowrap overflow-ellipsis;
+        color: var(--text-secondary);
+    }
+    
+    &:hover {
+        .pinned-channel-content {
+            background: var(--surface-hover);
+        }
+
+        .pinned-channel-title {
+            color: var(--text-primary);
+        }
+    }
+
+    &.collapsed {
+        .pinned-channel-content {
+            @apply w-10 justify-center pr-0;
+        }
+
+        .pinned-channel-notification {
+            @apply absolute top-0 right-0;
+        }
+    }
+
+    &.active {
+        .pinned-channel-content {
+            border: solid 2px var(--surface-inverted);
+        }
+    }
+    /* If not collapsed or active, add small margin to compensate for active border */
+    &:not(.collapsed):not(.active) {
+        .pinned-channel-content {
+            @apply ml-0.5;
+        }
+    }
+}
+
+.pinned-channel-icon {
+    @apply p-2 cg-border-l;
+    color: var(--text-secondary);
+    &:not(:hover) {
+        .pinned-x {
+            display: none;
+        }
+    }
+
+    &.desktop-icon:hover {
+        color: var(--text-primary);
+        background: var(--surface-hover);
+
+        .pinned-arrow {
+            display: none;
+        }
+    }
+}
+
+@keyframes grow-in-pinned-channel {
+    from {
+      transform: scale(0.2);
+    }
+    to {
+      transform: scale(1);
+    }
+  }

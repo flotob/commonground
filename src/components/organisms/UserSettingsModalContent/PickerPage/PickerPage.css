@@ -1,0 +1,10 @@
+.picker-page-inverted-box {
+    @apply cg-caption-md-600 cg-border-l ml-2;
+    padding: 6px 8px;
+    color: var(--surface-background-3rd);
+    background-color: var(--cardTextMain);
+}
+
+.picker-page-spark-bg {
+    background: var(--surface-background-3rd);
+}

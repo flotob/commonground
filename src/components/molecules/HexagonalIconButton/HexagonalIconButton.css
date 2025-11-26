@@ -1,0 +1,61 @@
+button.hexagonal-icon-button {
+  @apply flex items-center flex-none m-0 gap-2 cg-text-lg-500 cg-border-m;
+  
+  > .btnIconLeft {
+    > .complex-icon {
+      @apply flex items-center justify-center;
+      width: 48px;
+      height: 48px;
+      position: relative;
+      
+      > * {
+        position: absolute;
+      }
+
+      > svg {
+        width: 100%;
+      }
+      .jdenticon {
+        @apply h-6 w-6 mx-auto;
+      }
+      
+      .hover {
+        z-index: 20;
+        @apply hidden;
+      }
+
+      .bgIcon {
+        z-index: 0;
+      }
+
+      &:hover {
+        .hover {
+          @apply inline-block;
+        }
+      }
+
+      > .foreground-icon {
+        z-index: 10;
+        > svg {
+          display: inline-block;
+        }
+      } 
+    }
+  }
+
+  > .btnIconRight {
+    @apply absolute;
+    top: 34px;
+    left: 34px;
+  }
+
+  > .btnText {
+    text-align: left;
+  }
+
+  &:hover {
+    .hover {
+      @apply block;
+    }
+  }
+}

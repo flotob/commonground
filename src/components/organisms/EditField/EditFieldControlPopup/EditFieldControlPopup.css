@@ -1,0 +1,25 @@
+.edit-field-control-popup-container {
+    @apply absolute mb-2;
+    left: 0;
+    z-index: 1;
+
+    .edit-field-control-popup {
+        @apply p-2 w-full;
+        border: 1px solid var(--cardBorder);
+        background: var(--surface-background-2nd);
+        border-radius: 6px;
+    }
+}
+
+.desktop-layout {
+    .edit-field-control-popup-container {
+        min-width: 375px;
+    }
+}
+
+.mobile-layout {
+    .edit-field-control-popup-container {
+        @apply px-2;
+        width: 100%;
+    }
+}

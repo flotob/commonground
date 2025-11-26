@@ -1,0 +1,42 @@
+.replying-to-content {
+    @apply flex items-center gap-2 p-2 cursor-pointer;
+    word-wrap: break-word;
+    border-radius: 6px;
+    border: 1px solid var(--cardBorder);
+    background-color: var(--surface-background-2nd);
+    font-size: 14px;
+
+    .jdenticon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .sender-display-name {
+        @apply cg-text-lg-500;
+        color: var(--cardTextMain);
+    }
+
+    .message-content-tag,
+    .message-content-ticker,
+    .message-content-link {
+        color: var(--linkColor);
+    }
+
+    .message-content-link {
+        @apply underline;
+    }
+
+    .reply-close {
+        cursor: pointer;
+        height: 24px;
+        width: 24px;
+    }
+
+    .reply-preview-message {
+        @apply overflow-hidden text-ellipsis flex-1 whitespace-nowrap  ;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 20px;
+        color: var(--cardTextMain);
+    }
+}

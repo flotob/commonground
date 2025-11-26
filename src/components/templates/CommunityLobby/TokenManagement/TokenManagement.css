@@ -1,0 +1,31 @@
+.token-management-tooltip {
+    .dropdown-items {
+        overflow: auto;
+        max-height: 400px;
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            border-radius: 53px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 53px;
+            background: rgb(146, 146, 146);
+        }
+
+        &::-webkit-scrollbar {
+            height: 4px;
+            width: 4px;
+        }
+    }
+}
+
+.token-management-limit-tip {
+    @apply flex flex-col gap-2 p-2 items-start justify-center self-stretch cg-border-l cg-text-md-500;
+    background: var(--surface-subtleactive, rgba(24, 78, 126, 0.15));
+    color: var(--surface-brand);
+}
+
+.token-management-tokens-desktop {
+    width: 240px;
+}

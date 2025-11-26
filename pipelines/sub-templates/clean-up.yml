@@ -1,0 +1,12 @@
+steps:
+  - task: DeleteFiles@1
+    displayName: 'Post-job: Cleanup work directory'
+    inputs:
+      SourceFolder: '$(Agent.BuildDirectory)'
+      Contents: |
+        **/s/*
+        **/a
+        **/b
+        **/TestResults
+      RemoveSourceFolder: true
+    condition: always()

@@ -1,0 +1,9 @@
+.call-configuration-box {
+    @apply flex flex-col p-2 gap-2 flex-1 cg-border-xl cursor-pointer;
+    background: var(--surface-subtleoverlay);
+    border: 2px solid transparent;
+
+    &.selected {
+        border: 2px solid var(--border-active, #E4E6F2);
+    }
+}

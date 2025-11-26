@@ -1,0 +1,25 @@
+.mobile-layout {
+    .profile-management-view {
+        @apply flex flex-col p-0 h-full;
+
+        .mobile-tray-trigger {
+            @apply w-full;
+        }
+
+        .user-profile-management {
+            @apply p-4 gap-4;
+        }
+
+        .user-profile-photo-with-blurred-background {
+            @apply w-full;
+        }
+
+        .user-socials-link-editor {
+            @apply w-full;
+
+            label {
+                @apply w-full;
+            }
+        }
+    }
+}

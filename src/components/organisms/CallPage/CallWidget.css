@@ -1,0 +1,114 @@
+.video-call-container {
+    @apply overflow-hidden w-full;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bgColor);
+    flex-shrink: 0;
+    align-self: stretch;
+    border-bottom: 1px solid var(--cardBorder);
+
+    &.not-connected {
+        height: auto;
+
+        .jdenticon {
+            @apply h-6 w-6;
+        }
+
+        .user-tag-clickable {
+            @apply p-0.5 pr-2;
+            background: var(--transparentWeak);
+            border-radius: 600px;
+        }
+    }
+
+    .active-users-list {
+        @apply flex gap-2 flex-1 overflow-x-scroll;
+
+        >* {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        &::-webkit-scrollbar {
+            display: none;
+            /* Safari and Chrome */
+        }
+    }
+
+    .video-call-cards {
+        @apply flex flex-col items-center gap-2 flex-1 overflow-hidden relative;
+    }
+}
+
+.desktop-layout {
+    .video-call-container {
+        @apply h-full cg-border-xl;
+        border: 1px solid var(--cardBorder);
+
+        .call-peers-active-speaker:not(.alone) {
+            flex: 1;
+        }
+
+        .call-peers-other-peers {
+            flex: 6;
+        }
+
+        &.full-screen {
+            max-width: 100%;
+
+            .call-peers-container {
+                @apply flex-row items-start;
+
+                .call-peers-active-speaker {
+                    @apply h-full;
+                    flex: 3;
+
+                    .call-peer-card {
+                        @apply cg-border-l h-full;
+                        aspect-ratio: none;
+
+                        .blur {
+                            @apply cg-border-l;
+                        }
+                    }
+                }
+
+                .call-peers-other-peers {
+                    @apply h-full;
+                    grid-template-columns: auto;
+                    flex: 1;
+                }
+            }
+
+            .broadcast-container {
+                @apply flex-col;
+
+                .broadcast-peers-active-speaker {
+                    @apply h-full;
+                    flex: 3;
+
+                    .call-peer-card {
+                        @apply cg-border-l h-full;
+                        aspect-ratio: none;
+
+                        .blur {
+                            @apply cg-border-l;
+                        }
+                    }
+                }
+
+                .broadcast-peers-other-peers {
+                    height: 100%;
+                    flex: 1;
+                }
+            }
+        }
+    }
+
+    .video-call-cards {
+        background: var(--surface-background-3rd);
+    }
+}

@@ -1,0 +1,78 @@
+.member-preview-jdenticons {
+    @apply flex flex-row;
+
+    > div {
+        padding: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        border: 2px solid var(--cardBorder);
+
+        &:not(:first-child) {
+            margin-left: -7px;
+        }
+    }
+
+    &.vertical {
+        @apply flex-col items-center w-full;
+        > div:not(:first-child) {
+            margin-left: 0px;
+            margin-top: -7px;
+        }
+    }
+
+    .extra-members {
+        @apply flex items-center justify-center overflow-hidden;
+        z-index: 10;
+        border: 2px solid var(--cardBorder);
+        background: var(--surface-background-2nd);
+        color: var(--cardTextMain);
+        text-align: center;
+    }
+}
+
+.member-preview {
+    &:not(:first-child) {
+        margin-left: -7px;
+    }
+
+    > *:not(:last-child) {
+        border: solid 3px var(--surface-background-2nd);
+    }
+}
+
+.member-preview-2 {
+    > *:not(:first-child) {
+        margin-left: -12px;
+    }
+
+    > *:not(:last-child) {
+        -webkit-mask:radial-gradient(circle 24px at 48px 50%,transparent 99%,#fff 100%);
+                mask:radial-gradient(circle 24px at 48px 50%,transparent 99%,#fff 100%);
+    }
+    
+    .jdenticon { 
+        border-radius: 500px;
+    }
+
+    &.vertical {
+        @apply flex-col items-center w-full;
+        > *:not(:first-child) {
+            margin-left: 0px;
+            margin-top: -12px;
+        }
+
+        > *:not(:last-child) {
+            -webkit-mask:radial-gradient(circle 24px at 50% 48px,transparent 99%,#fff 100%);
+                    mask:radial-gradient(circle 24px at 50% 48px,transparent 99%,#fff 100%);
+        }
+    }
+}
+
+.member-preview-text {
+    @apply flex h-10 py-2 px-4 gap-1 items-center justify-center;
+
+    z-index: 1;
+    border-radius: 500px;
+    background: var(--surface-background-3rd, #252939);
+}

@@ -1,0 +1,12 @@
+.call-timer {
+    @apply flex justify-center items-center gap-2;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums lining-nums;
+
+    &:not(.noBg) {
+        @apply px-1 px-3;
+        border: 1px solid var(--border-secondary);
+        border-radius: 500px;
+        background: var(--surface-background-3rd, #252939);
+    }
+}

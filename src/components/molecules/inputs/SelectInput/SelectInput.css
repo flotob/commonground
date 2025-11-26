@@ -1,0 +1,95 @@
+.select-input {
+    width: 110px;
+
+    .select-input__input {
+        box-shadow: none;
+    }
+
+    .select-input__indicators {
+        > .select-input__indicator-separator {
+            display: none;
+        }
+
+        > .select-input__indicator {
+            @apply p-0;
+            
+            svg {
+                color: var(--btnPrimaryText);
+            }
+        }
+    }
+
+    .select-input__control {
+        @apply m-0 pr-1;
+        box-sizing: border-box;
+        border: 1px solid transparent;
+        background-color: var(--btnPrimaryBg);
+        cursor: pointer;
+        min-height: 40px;
+        box-shadow: none;
+        transition: all 0s;
+
+        > .select-input__value-container {
+            @apply py-0 pr-0;
+
+            > .select-input__single-value {
+                @apply cg-text-md-500;
+            }
+        }
+    }
+
+    .select-input__control:hover,
+    .select-input__control--is-focused,
+    .select-input__control--menu-is-open {
+        border-color: transparent;
+        background-color: var(--btnPrimaryHoverBg);
+        box-shadow: none;
+
+        > .select-input__indicators > .select-input__indicator > svg {
+            color: var(--btnPrimaryText);
+        }
+    }
+
+    .select-input__placeholder {
+        @apply cg-text-md-500;
+        color: var(--btnPrimaryText);
+    }
+
+    .select-input__menu {
+        @apply my-1;
+        width: 190px;
+        background-color: var(--btnPrimaryBg);
+        border: none;
+        border-radius: 6px;
+
+        .select-input__menu-list {
+            @apply py-0;
+
+            .select-input__option {
+                @apply py-2 px-4 cg-text-md-500;
+                cursor: pointer;
+                color: var(--btnPrimaryText);
+            }
+
+            .select-input__option--is-selected {
+                background: transparent;
+            }
+    
+            .select-input__option:hover {
+                color: var(--btnPrimaryText);
+            } 
+    
+            .select-input__option--is-focused {
+                background-color: var(--btnPrimaryHoverBg);
+            }
+            .select-input__option--is-focused:first-of-type {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+            }
+            .select-input__option--is-focused:last-of-type {
+                border-bottom-left-radius: 6px;
+                border-bottom-right-radius: 6px;
+            }
+        }
+    }
+}

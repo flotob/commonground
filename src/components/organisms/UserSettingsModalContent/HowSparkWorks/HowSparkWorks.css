@@ -1,0 +1,48 @@
+.spark-title {
+    text-align: center;
+    font-size: 33.28px;
+    font-style: normal;
+    font-weight: 1000;
+    line-height: 130%; /* 43.264px */
+
+    background: linear-gradient(146deg, #FFD200 20.09%, #FF393B 108.39%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.spark-fire-bg {
+    position: absolute;
+    bottom: 0;
+    font-size: 24px;
+	filter: blur(1em);
+	margin: 3em auto 0 auto;
+    width: 100%;
+	height: 15em;
+}
+
+.spark-fire-particle {
+    animation: spark-particle-rise 2s ease-in infinite;
+	background-image: radial-gradient(rgb(255,80,0) 20%, rgba(255,80,0,0) 70%);
+	border-radius: 50%;
+	mix-blend-mode: screen;
+	opacity: 0;
+	position: absolute;
+	bottom: 0;
+	width: 5em;
+	height: 5em;
+}
+
+@keyframes spark-particle-rise {
+	from {
+		opacity: 0;
+		transform: translateY(0) scale(1);
+	}
+	25% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-13em) scale(0);
+	}
+}

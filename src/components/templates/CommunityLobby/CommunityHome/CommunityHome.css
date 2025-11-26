@@ -1,0 +1,70 @@
+.community-home-page {
+    @apply flex flex-col gap-4 py-4 px-4 w-full;
+    max-width: 832px;
+
+    .header-image {
+        border-radius: 6px;
+    }
+
+    .community-description {
+        transition: all 200ms ease-in-out;
+        max-height: 100vh;
+
+        &.collapsed {
+            max-height: 64px;
+            overflow: hidden;
+        }
+
+        &.desc-grad {
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+    }
+
+    .community-lobby-topbar {
+        @apply flex items-center;
+    }
+
+    .community-lobby-empty-posts {
+        @apply flex items-center justify-center flex-col;
+
+        >p {
+            @apply mr-11 mt-8;
+        }
+    }
+
+    .community-lobby-content-articles {
+        @apply flex flex-col gap-8;
+    }
+
+    .horizontal-card-slider {
+        @apply mb-8;
+
+        >.slider-title-button-container {
+            >.slider-title-container {
+                @apply items-center;
+
+                >.slider-title {
+                    @apply cg-text-lg-500;
+                    color: var(--cardTextMain);
+                }
+
+            }
+        }
+
+        >.cards-container {
+            >.content-card-container {
+                padding: 0.125rem;
+            }
+
+            &.scrollbar {
+                &.desktop {
+                    >* {
+                        min-width: calc((100% - 1.5rem) * (1/4));
+                        max-width: calc((100% - 1.5rem) * (1/4));
+                    }
+                }
+            }
+        }
+    }
+}

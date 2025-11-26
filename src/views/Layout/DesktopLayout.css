@@ -1,0 +1,54 @@
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+
+  height: var(--visualHeight);
+  min-height: var(--visualHeight);
+  max-height: var(--visualHeight);
+
+  z-index: -10;
+  background-color: var(--surface-global-background);
+  background-repeat: repeat;
+  background-blend-mode: color;
+}
+
+.layout.desktop-layout {
+  grid-template-columns: [start menu-start] 240px [menu-end content-start] auto [content-end end];
+  grid-template-rows: [start menu-start content-start] minmax(0, 100vh) [menu-end content-end end];
+  /* width: min(100vw, 1430px);
+  min-width: min(100vw, 1430px);
+  max-width: min(100vw, 1430px); */
+
+  /* 100vh bug fix for some mobile devices */
+  grid-template-rows: [start menu-start content-start] minmax(0, var(--visualHeight)) [menu-end content-end end];
+
+  > .menu, .menu-expanded {
+    grid-column: menu-start / menu-end;
+    grid-row: menu-start / menu-end;
+  }
+
+  > .content {
+    grid-column: content-start / content-end;
+    grid-row: content-start / content-end;
+  }
+
+  &.menu-collapsed {
+    grid-template-columns: [start menu-start] 80px [menu-end content-start] auto [content-end end];
+  }
+
+  @media (min-width: 1430px) {
+    &.menu-collapsed&:has(.group-member-list) {
+      grid-template-columns: [start menu-start] 80px [menu-end content-start] auto [content-end member-list-start] 280px [member-list-end end];
+    }
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .layout.desktop-layout {
+    grid-template-columns: [start menu-start] 80px [menu-end content-start] minmax(0, calc(theme('screens.xl') - 80px)) [content-end end];
+  }
+}

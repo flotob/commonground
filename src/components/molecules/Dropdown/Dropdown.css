@@ -1,0 +1,14 @@
+.tooltip.dropdown-tooltip {
+    @apply p-0;
+}
+
+.dropdown-title {
+    @apply px-4 py-2 cg-text-md-500;
+    color: var(--dropdownTitle);
+    border-bottom: 1px solid var(--dropdownTitleBorder);
+}
+
+.dropdown-items-container {
+    border-radius: 6px;
+    max-height: 33vh;
+}

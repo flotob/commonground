@@ -1,0 +1,27 @@
+.radiobutton {
+    @apply flex p-4 items-center gap-2 cursor-pointer justify-between;
+    flex: 1 0 0;
+    border-radius: 16px;
+    border: 1px solid var(--border-highlight);
+
+    &.checked {
+        background-color: var(--surface-buttons-primary);
+    }
+
+    &.unchecked {
+        background-color: var(--surface-subtleoverlay);
+    }
+
+    > .radiobutton-checkmark {
+        @apply w-6 h-6;
+
+        &.checked > svg {
+            --iconPrimary: var(--inputText);
+        }
+    
+        &.unchecked > svg {
+            --iconPrimary: var(--inputPlaceholder);
+        }
+
+    }
+}

@@ -1,0 +1,18 @@
+.user-settings {
+  @apply flex flex-col items-start self-stretch p-0 mb-4 flex-none order-1 flex-grow-0;
+  gap: 0.125rem;
+
+  > .list-header {
+    @apply w-full py-2;
+  }
+
+  > .list-item {
+    @apply w-full gap-4 p-4;
+  }
+}
+
+.desktop-layout {
+  .user-settings {
+    border-right: 1px solid var(--cardBorder);
+  }
+}

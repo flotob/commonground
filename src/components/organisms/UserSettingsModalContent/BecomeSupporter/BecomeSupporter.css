@@ -1,0 +1,6 @@
+.blurred-support-tile {
+    opacity: 0.65;
+    transform: scale(2);
+    filter: blur(25px);
+    top: 24px;
+}

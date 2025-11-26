@@ -1,0 +1,14 @@
+.collapsable-group {
+    @apply flex flex-col items-start p-0 self-stretch flex-none order-none flex-grow-0;
+
+    border: 1px solid var(--cardBorder);
+    border-radius: 12px;
+
+    > .collapsable-element {
+        border-top: 1px solid var(--cardBorder);
+
+        &:first-child {
+            border: none;
+        }
+    }
+}

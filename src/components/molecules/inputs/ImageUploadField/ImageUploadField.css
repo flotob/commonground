@@ -1,0 +1,17 @@
+.image-upload-field-image {
+    @apply cg-border-xl relative flex items-center justify-center cursor-pointer;
+    border: 1px solid var(--border-secondary, #3C425E);
+    background-color: var(--surface-background-3rd, #252939);
+    color: var(--text-secondary);
+
+    &:hover {
+        background-color: var(--surface-hover);
+    }
+
+    height: 50px;
+    width: 50px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

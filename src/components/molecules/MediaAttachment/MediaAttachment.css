@@ -1,0 +1,79 @@
+.inputMediaAttachment {
+    @apply flex items-center justify-center relative cursor-pointer;
+    padding: 2px;
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    border: 3px solid transparent;
+    transition: border 0.2s ease-in-out;
+    
+    .inputMediaAttachmentImage {
+        background: var(--attachmentImageBg);
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 2px;
+    }
+
+    .spinner {
+        @apply absolute w-full h-full;
+    }
+
+    .loadingOverlay {
+        @apply absolute w-full h-full;
+        background: var(--attachmentImageLoadingOverlay);
+    }
+
+    .attachmentCloseButton {
+        @apply absolute flex items-center justify-center;
+        transition: opacity 0.1s ease-in-out;
+        opacity: 0;
+        visibility: hidden;
+        width: 24px;
+        height: 24px;
+        top: -8px;
+        right: -8px;
+        border-radius: 500px;
+        background: var(--attachmentCloseButtonBg);
+        cursor: pointer;
+
+        .attachmentCloseButtonInternal {
+            @apply relative flex items-center justify-center;
+
+            span {
+                @apply absolute cg-text-md-500;
+                top: -40px;
+                padding: 0.25rem;
+                color: var(--tooltipText);
+                text-align: 'center';
+                border-radius: 6px;
+                background-color: var(--tooltipBg);
+                border: 1px solid var(--tooltipBorder);
+                visibility: hidden;
+            }
+        }
+    }
+
+    .attachmentCloseButton:hover .attachmentCloseButtonInternal span {
+        visibility: visible;
+    }
+}
+
+.inputMediaAttachment:hover {
+    border: 3px solid var(--attachmentHoverBorder);
+
+    .attachmentCloseButton {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.inputMediaAttachment.error {
+    border: 3px solid var(--attachmentHoverBorderError);
+}
+
+.mediaAttachmentTooltip {
+    font-weight: 500;
+}

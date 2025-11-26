@@ -1,0 +1,80 @@
+.desktop-layout {
+  .blog-view {
+    @apply h-full;
+    display: grid;
+    grid-template-columns: [start channel-browser-start area-list-start community-content-start] auto [community-content-end end];
+    grid-template-rows: [start channel-browser-start community-content-start] auto [channel-browser-end area-list-start] 1fr [area-list-end community-content-end end];
+
+    .community-header {
+      grid-column: channel-browser-start / channel-browser-end;
+      grid-row: channel-browser-start / channel-browser-end;
+    }
+
+    .area-list {
+      grid-column: area-list-start / area-list-end;
+      grid-row: area-list-start / area-list-end;
+    }
+
+    >.cg-scrollable,
+    >.content-message-list,
+    >.blog-management {
+      @apply px-6 py-4;
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+
+    /* small fix to use whole scrollable area */
+    >.cg-scrollable>.cg-scrollable-content>div {
+      @apply h-full;
+    }
+
+    .floating-left-bar {
+      grid-row: channel-browser-start / area-list-end;
+    }
+
+    >.user-profile-details {
+      @apply flex-grow;
+      grid-row: start / end;
+    }
+  }
+}
+
+.mobile-layout {
+  .blog-view {
+    @apply p-0 h-full;
+    grid-template-columns: [start channel-browser-bar-start community-content-start] 1fr [channel-browser-bar-end community-content-end end];
+    grid-template-rows: [start channel-browser-bar-start] auto [channel-browser-bar-end community-content-start] 1fr [community-content-end end];
+    grid-gap: 1rem;
+
+    >* {
+      @apply p-0;
+    }
+
+    .blogView {
+      @apply px-2 gap-0;
+    }
+
+    >.cg-scrollable,
+    >.content-message-list,
+    >.blog-management {
+      grid-column: community-content-start / community-content-end;
+      grid-row: community-content-start / community-content-end;
+    }
+
+    .blogLinkButton {
+      transform: translateY(0);
+      transition-property: transform;
+      transition-duration: 225ms;
+      transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+    }
+  }
+
+  &.with-mobile-menu {
+    .blog-view {
+      .blogLinkButton {
+        transform: translateY(-80px);
+        transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+      }
+    }
+  }
+}

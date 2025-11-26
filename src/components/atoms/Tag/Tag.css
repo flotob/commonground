@@ -1,0 +1,218 @@
+.tag-tooltip-trigger {
+    @apply inline-block;
+}
+
+.tag {
+    @apply flex items-center gap-0.5 py-1 px-1.5;
+    width: fit-content;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: var(--tagDefaultBg);
+    border-color: var(--tagDefaultBorder);
+
+    &:hover {
+        background-color: var(--tagDefaultBgHover);
+
+        .tagIconLeft {
+            svg {
+                opacity: 1;
+            }
+        }
+    }
+
+    .tagLabel {
+        @apply cg-text-sm-500;
+        color: var(--tagDefaultText);
+    }
+
+    &.largeTag {
+        .tagLabel {
+            @apply cg-text-lg-400;
+        }
+    }
+
+    &.active {
+        .tagLabel {
+            color: var(--surface-brand);
+        }
+
+        background: var(--surface-subtleactive, rgba(24, 78, 126, 0.15));
+        &:hover {
+            background: var(--surface-subtleactive-hover, rgba(24, 78, 126, 0.35));
+        }
+    }
+
+    &.tag-tag {
+        @apply px-2;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        background-color: transparent;
+        border-color: var(--border-secondary);
+
+        &:hover {
+            background-color: var(--tagDefaultBgHover);
+        }
+
+        &.hovered {
+            background-color: var(--tagDefaultBgHover);
+            outline: solid 1px var(--border-secondary);
+        }
+
+        &.active {
+            background: var(--surface-subtleactive, rgba(24, 78, 126, 0.15));
+            &:hover {
+                background: var(--surface-subtleactive-hover, rgba(24, 78, 126, 0.35));
+            }
+        }
+    }
+
+    &.tag-warning {
+        background-color: var(--surface-warn-background);
+        border-color: var(--surface-warn-background);
+
+        .tagIconLeft {
+            svg path {
+                fill: var(--text-warning);
+            }
+        }
+
+        .tagLabel {
+            color: var(--text-warning);
+        }
+
+        &:hover {
+            background-color: var(--surface-warn-background);
+        }
+    }
+
+    &.tag-safe {
+        background-color: var(--tagSafeBg);
+        border-color: var(--tagSafeBorder);
+
+        .tagIconLeft {
+            svg path {
+                fill: var(--tagSafeText);
+            }
+        }
+
+        .tagLabel {
+            color: var(--tagSafeText);
+        }
+
+        &:hover {
+            background-color: var(--tagSafeBgHover);
+        }
+    }
+
+    &.tag-success {
+        background-color: var(--tagSuccessBg);
+        border-color: var(--tagSuccessBorder);
+
+        .tagIconLeft {
+            svg path {
+                fill: var(--tagSuccessText);
+            }
+        }
+
+        .tagLabel {
+            color: var(--tagSuccessText);
+        }
+
+        &:hover {
+            background-color: var(--tagSuccessBgHover);
+        }
+    }
+
+    &.tag-error {
+        background-color: var(--tagErrorBg);
+        border-color: var(--tagErrorBorder);
+
+        .tagIconLeft {
+            svg path {
+                fill: var(--tagErrorText);
+            }
+        }
+
+        .tagLabel {
+            color: var(--tagErrorText);
+        }
+
+        &:hover {
+            background-color: var(--tagErrorBgHover);
+        }
+    }
+
+    &.tag-info {
+        background: var(--surface-subtleactive, rgba(24, 78, 126, 0.25));
+        border: none;
+
+        .tagIconLeft {
+            svg path {
+                fill: var(--surface-brand, #009EE0);
+            }
+        }
+
+        .tagLabel {
+            color: var(--surface-brand, #009EE0);
+        }
+
+        &:hover {
+            background: var(--surface-subtleactive, rgba(24, 78, 126, 0.25));
+        }
+    }
+
+    &.tag-help {
+        .tagIconLeft,
+        .tagIconRight {
+            svg path {
+                fill: var(--text-secondary);
+            }
+        }
+
+        .tagLabel {
+            color: var(--text-secondary);
+        }
+    }
+
+    &.tag-wallet {
+        background: var(--cardSubBg);
+        color: var(--cardTextMain);
+        border: none;
+
+        &:hover {
+            background-color: var(--cardSubBgHover);
+        }
+    }
+
+    &.tag-live {
+        @apply cursor-default;
+        background: rgba(2, 245, 141, 0.10);
+        color: var(--text-success);
+        border: none;
+
+        .tagLabel {
+            color: var(--text-success);
+        }
+
+        &:hover {
+            background: rgba(2, 245, 141, 0.10);
+        }
+    }
+
+    &.tag-new {
+        @apply cursor-default;
+        background: rgba(68, 156, 218, 0.10);
+        color: #009EE0;
+        border: none;
+
+        .tagLabel {
+            @apply cg-caption-md-600;
+            line-height: 12px;
+            color: #009EE0;
+        }
+
+        &:hover {
+            background: rgba(68, 156, 218, 0.10);
+        }
+    }
+}

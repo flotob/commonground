@@ -1,0 +1,14 @@
+  .voice-call-manager {
+    @apply flex flex-col items-start p-1 gap-0 cursor-pointer;
+    background-color: var(--audioWidgetBg);
+    width: 230px;
+    border-radius: 12px;
+
+    &.mobile {
+      @apply p-0;
+    }
+  }
+
+  .sidebar-voice-call-manager {
+    @apply flex flex-col items-start gap-2 p-2 cursor-pointer;
+  }

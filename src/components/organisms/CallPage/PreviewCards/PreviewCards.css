@@ -1,0 +1,31 @@
+.preview-cards {
+    display: grid;
+    width: 100%;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-auto-rows: min-content;
+    overflow-y: auto;
+
+    > div {
+        opacity: 0.5;
+    }
+    
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 500px;
+        background: rgb(146, 146, 146);
+    }
+}
+
+.mobile-layout {
+    .preview-cards {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+
+        .call-peer-card {
+            width: auto;
+        }
+    }
+}

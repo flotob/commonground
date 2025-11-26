@@ -1,0 +1,20 @@
+.role-card {
+    @apply gap-2;
+    &.own-role {
+        background: var(--surface-background-2nd, #222432);
+    }    
+
+    &:not(:last-child) {
+        border-bottom: solid 1px var(--border-secondary);
+    }
+}
+
+.simple-claimed {
+    background: var(--surface-background-3rd);
+}
+
+.mobile-layout {
+    .role-card {
+        @apply gap-4;
+    }
+}

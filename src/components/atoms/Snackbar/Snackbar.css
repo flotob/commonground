@@ -1,0 +1,42 @@
+.snackbar {
+    @apply flex items-center justify-between cg-border-xl gap-2 p-4 cg-box-shadow-md absolute top-4 right-4 cursor-pointer;
+    transform: translateY(-100px);
+    transition: all 0.2s ease-in-out;
+    z-index: 10200;
+
+    &.info {
+        background: var(--tooltipBg);
+        border: solid 1px var(--cardBorder);
+        color: var(--cardTextMain);
+    }
+
+    &.warning {
+        background: var(--btnDestructiveBg);
+        border: solid 1px var(--warningColor);
+        color: var(--warningColor);
+    }
+
+    &.updating {
+        background: var(--btnDestructiveBg);
+        border: solid 1px var(--warningColor);
+        color: var(--warningColor);
+    }
+
+    &.success {
+        background: var(--surface-success);
+        border: solid 1px var(--text-success);
+        color: var(--text-success);
+    }
+
+    &.showing {
+        transform: translateY(0px);
+    }
+}
+
+.desktop-snackbar {
+    min-width: 360px;
+}
+
+.mobile-snackbar {
+    @apply left-4;
+}

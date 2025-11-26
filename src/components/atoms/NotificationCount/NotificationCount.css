@@ -1,0 +1,19 @@
+.notification-count {
+    @apply inline-block py-0 px-2.5;
+    top: 0;
+    right: 0;
+    background: var(--notificationCountBg);
+    border-radius: 500px;
+
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 19px;
+    color: var(--notificationCountText);
+    text-align: center;
+
+    &.outlined {
+        outline: solid 2px var(--bgColor);
+    }
+
+    z-index: 10;
+}

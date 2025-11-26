@@ -1,0 +1,186 @@
+.menu-expanded {
+    @apply grid overflow-x-hidden pb-4 gap-4 pr-4;
+    padding-left: 18px;
+
+    grid-template-rows: 1fr auto;
+
+    .menu-expanded-top {
+        @apply flex flex-col gap-4 pt-4;
+    }
+
+    .menu-content {
+        @apply flex flex-col gap-2 overflow-hidden;
+    }
+
+    .menu-buttons {
+        grid-row: 2;
+        @apply flex flex-col items-start gap-1 flex-none flex-grow-0 m-0;
+
+        .menu-non-nft-button {
+            .jdenticon {
+                @apply h-9 w-9;
+            }
+        }
+    }
+
+    .community-icons {
+        grid-row: 3;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 95%, transparent 100%);
+        mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 95%, transparent 100%);
+
+        &.top {
+            animation: fadeInTop 500ms forwards;
+
+            @keyframes fadeInTop {
+                0% {
+                    -webkit-mask-position: 0 50%;
+                    mask-position: 0 50%;
+                }
+
+                50% {
+                    -webkit-mask-size: 100% 100%;
+                    mask-size: 100% 100%;
+                }
+
+                100% {
+                    -webkit-mask-size: 100% 170%;
+                    mask-size: 100% 170%;
+                    -webkit-mask-position: 0 100%;
+                    mask-position: 0 100%;
+                }
+            }
+        }
+
+        &.middle.down {
+            animation: fadeInMiddleDown 500ms forwards;
+
+            @keyframes fadeInMiddleDown {
+                0% {
+                    -webkit-mask-position: 0 100%;
+                    mask-position: 0 100%;
+                    -webkit-mask-size: 100% 170%;
+                    mask-size: 100% 170%;
+                }
+
+                100% {
+                    -webkit-mask-size: 100% 100%;
+                    mask-size: 100% 100%;
+                    -webkit-mask-position: 0 50%;
+                    mask-position: 0 50%;
+                }
+            }
+        }
+
+        &.middle.up {
+            animation: fadeInMiddleUp 500ms forwards;
+
+            @keyframes fadeInMiddleUp {
+                0% {
+                    -webkit-mask-size: 100% 170%;
+                    mask-size: 100% 170%;
+                    -webkit-mask-position: 0 0%;
+                    mask-position: 0 0%;
+                }
+
+                100% {
+                    -webkit-mask-size: 100% 100%;
+                    mask-size: 100% 100%;
+                    -webkit-mask-position: 0 50%;
+                    mask-position: 0 50%;
+                }
+            }
+        }
+
+        &.bottom {
+            animation: fadeInBottom 500ms forwards;
+
+            @keyframes fadeInBottom {
+                0% {
+                    -webkit-mask-position: 0 50%;
+                    mask-position: 0 50%;
+                }
+
+                50% {
+                    -webkit-mask-size: 100% 100%;
+                    mask-size: 100% 100%;
+                }
+
+                100% {
+                    -webkit-mask-size: 100% 170%;
+                    mask-size: 100% 170%;
+                    -webkit-mask-position: 0 0%;
+                    mask-position: 0 0%;
+                }
+            }
+        }
+    }
+
+    .expanded-menu-button {
+        @apply flex flex-row gap-4 items-center cursor-pointer w-full relative;
+        transition: all 100ms;
+        border-radius: 12px;
+        color: var(--text-primary);
+
+        .icon-container {
+            @apply flex items-center justify-center h-10;
+            width: 40px;
+            color: var(--text-secondary);
+        }
+
+        &:active {
+            transform: scale(0.97);
+            opacity: 0.7;
+        }
+
+        &.active {
+            font-weight: 500;
+            color: var(--text-active);
+            background: var(--surface-subtleactive, rgba(24, 78, 126, 0.25));
+
+            .icon-container {
+                color: var(--text-active);
+            }
+        }
+
+        &.disabled {
+            cursor: default;
+            background: transparent;
+            color: var(--cardTextSecondary);
+            transform: unset;
+        }
+
+        .notification-count {
+            position: unset;
+        }
+    }
+
+    .menu-user-container {
+        @apply self-end overflow-hidden flex flex-col justify-center items-center gap-4;
+    }
+
+    &.collapsed {
+        @apply pl-0 pr-0;
+
+        .expanded-menu-button {
+            @apply justify-center w-fit;
+
+            .notification-count {
+                position: absolute;
+            }
+        }
+
+        .menu-buttons {
+            @apply items-center;
+        }
+
+        .menu-user-container {
+            @apply flex justify-center;
+        }
+
+        .create-community-square-button-w-text {
+            span {
+                display: none;
+            }
+        }
+    }
+}

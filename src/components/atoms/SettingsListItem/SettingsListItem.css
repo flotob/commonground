@@ -1,0 +1,20 @@
+.settings-list-item {
+    @apply py-2 px-4 w-full flex justify-between cursor-pointer cg-border-xl cg-text-lg-400;
+    color: var(--cardTextMain);
+
+    &:hover {
+        background: var(--cardBgHover);
+    }
+
+    &.selected {
+        @apply cg-text-lg-500;
+        background: var(--cardSelectedBg);
+        color: var(--cardSelectedText);
+    }
+}
+
+.mobile-layout, .react-modal-sheet-container {
+    .settings-list-item:hover {
+        background: var(--surface-background-2nd);
+    }
+}

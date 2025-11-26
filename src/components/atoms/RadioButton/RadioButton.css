@@ -1,0 +1,27 @@
+.radiobutton {
+    @apply flex flex-row items-center py-2 px-3 gap-2 self-stretch flex-none order-none flex-grow-0;
+    border-radius: 6px;
+    background-color: var(--inputBg);
+
+    > .radiobutton-checkmark {
+        @apply cursor-pointer;
+
+        &.checked > svg {
+            --iconPrimary: var(--inputText);
+        }
+    
+        &.unchecked > svg {
+            --iconPrimary: var(--inputPlaceholder);
+        }
+
+    }
+    &:hover {
+        background-color: var(--inputHoverBg);
+
+        > .radiobutton-checkmark {
+            &.checked > svg {
+                --iconPrimary: var(--inputPlaceholder);
+            }
+        }
+    }
+}

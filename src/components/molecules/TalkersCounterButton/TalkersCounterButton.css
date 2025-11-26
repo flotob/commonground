@@ -1,0 +1,9 @@
+button {
+  &.btnTalkersCounter {
+    @apply w-8 h-8 m-0 p-2;
+    border-radius: 50%;
+    > .btnText {
+      line-height: normal;
+    }
+  }
+}
