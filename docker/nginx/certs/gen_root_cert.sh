@@ -1,6 +1,7 @@
 #!/bin/bash
 
 BASEDIR="$1"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 LOGGING_PREFIX="gen_root_cert.sh >> "
 
 PASSKEY="$2"
@@ -23,7 +24,7 @@ echo
 # create and self sign the root CA certificate
 echo
 echo "${LOGGING_PREFIX} Creating self-signed root CA certificate"
-openssl req -x509 -new -nodes -key ${BASEDIR}/rootCA.key -sha512 -days 365000 -out ${BASEDIR}/rootCA.crt -subj "/emailAddress=infrastructure@cryptogram.sh/C=DE/ST=Bavaria/L=Bayreuth/O=cryptogram/OU=cryptogram GmbH & Co. KG/CN=cryptogram-pg-ca" -extensions v3_ca
+openssl req -x509 -new -nodes -key ${BASEDIR}/rootCA.key -sha512 -days 365000 -out ${BASEDIR}/rootCA.crt -subj "/emailAddress=infrastructure@cryptogram.sh/C=DE/ST=Bavaria/L=Bayreuth/O=cryptogram/OU=cryptogram GmbH & Co. KG/CN=cryptogram-pg-ca" -extensions v3_ca -config ${SCRIPT_DIR}/openssl.cnf
 echo "${LOGGING_PREFIX} Self-signed root CA certificate (${BASEDIR}/rootCA.crt) is:"
 openssl x509 -in ${BASEDIR}/rootCA.crt -text -noout
 echo

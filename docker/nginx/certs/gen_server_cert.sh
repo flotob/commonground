@@ -7,6 +7,8 @@ PASSKEY="$4"
 SAN_IP1="$5"
 SAN_IP2="$6"
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 LOGGING_PREFIX="gen_cert.sh >> "
 
 if [ -d ${BASEDIR} ]
@@ -31,12 +33,12 @@ echo
 echo "${LOGGING_PREFIX} Creating certificate"
 if [ -z "$SAN_IP1" ]
 then
-    openssl req -new -key ${BASEDIR}/server.key -out ${BASEDIR}/server.csr -subj "/emailAddress=infrastructure@cryptogram.sh/C=DE/ST=Bavaria/L=Bayreuth/O=cryptogram/OU=cryptogram GmbH & Co. KG/CN=${COMMON_NAME}" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1"))
+    openssl req -new -key ${BASEDIR}/server.key -out ${BASEDIR}/server.csr -subj "/emailAddress=infrastructure@cryptogram.sh/C=DE/ST=Bavaria/L=Bayreuth/O=cryptogram/OU=cryptogram GmbH & Co. KG/CN=${COMMON_NAME}" -reqexts SAN -config <(cat ${SCRIPT_DIR}/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1"))
 elif [ -z "$SAN_IP2" ]
 then
-    openssl req -new -key ${BASEDIR}/server.key -out ${BASEDIR}/server.csr -subj "/emailAddress=infrastructure@cryptogram.sh/C=DE/ST=Bavaria/L=Bayreuth/O=cryptogram/OU=cryptogram GmbH & Co. KG/CN=${COMMON_NAME}" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1,IP:${SAN_IP1}"))
+    openssl req -new -key ${BASEDIR}/server.key -out ${BASEDIR}/server.csr -subj "/emailAddress=infrastructure@cryptogram.sh/C=DE/ST=Bavaria/L=Bayreuth/O=cryptogram/OU=cryptogram GmbH & Co. KG/CN=${COMMON_NAME}" -reqexts SAN -config <(cat ${SCRIPT_DIR}/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1,IP:${SAN_IP1}"))
 else
-    openssl req -new -key ${BASEDIR}/server.key -out ${BASEDIR}/server.csr -subj "/emailAddress=infrastructure@cryptogram.sh/C=DE/ST=Bavaria/L=Bayreuth/O=cryptogram/OU=cryptogram GmbH & Co. KG/CN=${COMMON_NAME}" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1,IP:${SAN_IP1},IP:${SAN_IP2}"))
+    openssl req -new -key ${BASEDIR}/server.key -out ${BASEDIR}/server.csr -subj "/emailAddress=infrastructure@cryptogram.sh/C=DE/ST=Bavaria/L=Bayreuth/O=cryptogram/OU=cryptogram GmbH & Co. KG/CN=${COMMON_NAME}" -reqexts SAN -config <(cat ${SCRIPT_DIR}/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1,IP:${SAN_IP1},IP:${SAN_IP2}"))
 fi
 
 echo "${LOGGING_PREFIX} certificate signing request (${BASEDIR}/server.csr) is:"
@@ -48,12 +50,12 @@ echo
 echo "${LOGGING_PREFIX} Signing certificate using our root CA certificate and key"
 if [ -z "$SAN_IP1" ]
 then
-    openssl x509 -req -sha512 -days 3650 -in ${BASEDIR}/server.csr -CA ${CA_DIR}/rootCA.crt -CAkey ${CA_DIR}/rootCA.key -CAcreateserial -out ${BASEDIR}/server.crt -extensions SAN -extfile <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1"))
+    openssl x509 -req -sha512 -days 3650 -in ${BASEDIR}/server.csr -CA ${CA_DIR}/rootCA.crt -CAkey ${CA_DIR}/rootCA.key -CAcreateserial -out ${BASEDIR}/server.crt -extensions SAN -extfile <(cat ${SCRIPT_DIR}/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1"))
 elif [ -z "$SAN_IP2" ]
 then
-    openssl x509 -req -sha512 -days 3650 -in ${BASEDIR}/server.csr -CA ${CA_DIR}/rootCA.crt -CAkey ${CA_DIR}/rootCA.key -CAcreateserial -out ${BASEDIR}/server.crt -extensions SAN -extfile <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1,IP:${SAN_IP1}"))
+    openssl x509 -req -sha512 -days 3650 -in ${BASEDIR}/server.csr -CA ${CA_DIR}/rootCA.crt -CAkey ${CA_DIR}/rootCA.key -CAcreateserial -out ${BASEDIR}/server.crt -extensions SAN -extfile <(cat ${SCRIPT_DIR}/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1,IP:${SAN_IP1}"))
 else
-    openssl x509 -req -sha512 -days 3650 -in ${BASEDIR}/server.csr -CA ${CA_DIR}/rootCA.crt -CAkey ${CA_DIR}/rootCA.key -CAcreateserial -out ${BASEDIR}/server.crt -extensions SAN -extfile <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1,IP:${SAN_IP1},IP:${SAN_IP2}"))
+    openssl x509 -req -sha512 -days 3650 -in ${BASEDIR}/server.csr -CA ${CA_DIR}/rootCA.crt -CAkey ${CA_DIR}/rootCA.key -CAcreateserial -out ${BASEDIR}/server.crt -extensions SAN -extfile <(cat ${SCRIPT_DIR}/openssl.cnf <(printf "[SAN]\nsubjectAltName=DNS:localhost,DNS:${COMMON_NAME},IP:127.0.0.1,IP:${SAN_IP1},IP:${SAN_IP2}"))
 fi
 chmod og-rwx ${BASEDIR}/server.key
 echo "${LOGGING_PREFIX} certificate signed with our root CA certificate (${BASEDIR}/server.crt) is:"
