@@ -4,9 +4,23 @@
 
 # Common Ground
 
+<img src="screenshots/01.webp" width="100%" alt="Common Ground Screenshot">
+
 Common Ground is a browser-based, open-source social platform for communities, built as a robust alternative to Discord. 
 
 After years of development, we are proud to release the Common Ground platform under the **AGPLv3 license**. Our goal is to build a fully open social infrastructure that offers the convenience and familiar patterns of modern social platforms while remaining open, accessible, and free from the control of big tech monopolies.
+
+<details>
+<summary>Click to see more screenshots</summary>
+<br>
+
+| | | |
+|:---:|:---:|:---:|
+| <img src="screenshots/02.webp" width="100%"> | <img src="screenshots/03.webp" width="100%"> | <img src="screenshots/04.webp" width="100%"> |
+| <img src="screenshots/05.webp" width="100%"> | <img src="screenshots/06.webp" width="100%"> | <img src="screenshots/07.webp" width="100%"> |
+| <img src="screenshots/08.webp" width="100%"> | <img src="screenshots/09.webp" width="100%"> | <img src="screenshots/10.webp" width="100%"> |
+
+</details>
 
 ## Features
 
