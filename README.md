@@ -30,12 +30,6 @@ We have released several open-source plugins to showcase these capabilities:
 *   **Sauerbraten**: A WebAssembly port of the Quake-like arcade shooter.
 *   **Utilities**: Forums, Airdrop/Vesting tools, and a boilerplate `cg-base-plugin` for builders.
 
-## Our Mission
-
-We acknowledge the responsibilities and impact that today's social networks have on society. Currently, human connection is mediated by a small number of tech giants whose interests often diverge from those of an open society. 
-
-Common Ground is our answer: a democratized, decentralized platform. While currently running on centralized infrastructure for ease of use, our roadmap moves towards a federated model where communities can host their own instances while remaining connected to the global Common Ground network.
-
 ## Setup & Getting Started
 
 If you just cloned the project:
@@ -48,6 +42,16 @@ If you just cloned the project:
 
 4.  If you want to test voice calls locally, you need to run `./run.sh start_https` instead. The frontend will now run on `https://localhost:3000`, and you'll have to ignore the certificate warning.
 
+## Our Mission
+
+Currently, human connection is mediated by a small number of tech giants whose interests often diverge from those of an open society. 
+
+Common Ground is our answer: a democratized, decentralized platform. While currently running on centralized infrastructure for ease of use, our roadmap moves towards a federated model where communities can host their own instances while remaining connected to the global Common Ground network.
+
 ## Join the Community
 
 You are invited to join our own [Common Ground community on app.cg](https://app.cg/c/commonground/) to get in touch with the team, contributors, and supporters. Let's shape the future of the project together.
+
+## Disclaimer
+
+DISCLAIMER: THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
