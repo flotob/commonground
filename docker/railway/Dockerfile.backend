@@ -57,24 +57,25 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-# Enable corepack for yarn
-RUN corepack enable
+# Enable corepack and set up Yarn 4
+RUN corepack enable && corepack prepare yarn@4.1.0 --activate
 
 # Copy package files first (better layer caching)
-COPY srv/package.json srv/yarn.lock srv/.yarnrc.yml ./
-COPY srv/.yarn ./.yarn
+COPY srv/package.json srv/yarn.lock ./
+
+# Create .yarnrc.yml without the yarnPath (we use corepack instead)
+RUN echo 'nodeLinker: node-modules' > .yarnrc.yml
 
 # Install dependencies
-RUN yarn install --immutable
+RUN yarn install
 
-# Copy shared common code (srv/common is a symlink to ../src/common)
-COPY src/common ./common
-
-# Copy backend source code
+# Copy backend source code (srv/)
+# Note: srv/common is a symlink to ../src/common which won't work in Docker
 COPY srv/ ./
 
-# Remove the symlink and use the copied common directory
+# Remove the broken symlink and copy the actual common directory
 RUN rm -f common 2>/dev/null || true
+COPY src/common ./common
 
 # Build TypeScript
 RUN yarn tsc
