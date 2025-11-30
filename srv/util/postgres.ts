@@ -13,7 +13,7 @@ const ssl_cert = dockerSecret('appservers.crt') || null;
 const options: PoolConfig = {
   user: process.env.PG_SU_NAME || process.env.DB_TYPE || 'cryptoadmin',
   host: process.env.DB_HOST || 'db',
-  database: 'cryptogram',
+  database: process.env.PG_SU_DATABASE || 'cryptogram',
   password: dockerSecret('pg_su_password') || dockerSecret('pg_password') || process.env.PG_SU_PASSWORD || process.env.PG_PASSWORD,
   port: Number(process.env.DB_PORT) || 5432,
 }

@@ -18,7 +18,7 @@ export const connectionOptions: DataSourceOptions = {
   host: process.env.DB_HOST || 'db',
   port: Number(process.env.DB_PORT) || 5432,
   username: process.env.PG_SU_NAME || process.env.DB_TYPE || 'cryptoadmin',
-  database: 'cryptogram',
+  database: process.env.PG_SU_DATABASE || 'cryptogram',
   schema: 'public',
   password: dockerSecret('pg_su_password') || dockerSecret('pg_password') || process.env.PG_SU_PASSWORD || process.env.PG_PASSWORD,
   entities: [path.join(__dirname, '..', 'entities', '*.js')],
