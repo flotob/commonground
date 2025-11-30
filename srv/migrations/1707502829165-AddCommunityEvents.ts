@@ -3,7 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { grantTablePermissions } from "./migrationUtils";
+import { grantTablePermissions } from "../util/migrationUtils";
 
 export class AddCommunityEvents1707502829165 implements MigrationInterface {
     name = 'AddCommunityEvents1707502829165'

@@ -3,7 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { grantTablePermissions } from "./migrationUtils";
+import { grantTablePermissions } from "../util/migrationUtils";
 
 export class createAreasTable1650973948118 implements MigrationInterface {
     name = 'createAreasTable1650973948118'

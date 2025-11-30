@@ -4,7 +4,7 @@
 
 import { MigrationInterface,
         QueryRunner } from "typeorm";
-import { grantTablePermissions } from "./migrationUtils";
+import { grantTablePermissions } from "../util/migrationUtils";
 
 export class addCallDataModel1688898047959 implements MigrationInterface {
     name = 'addCallDataModel1688898047959'

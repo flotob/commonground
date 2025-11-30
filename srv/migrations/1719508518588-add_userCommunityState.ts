@@ -5,7 +5,7 @@
 import format from "pg-format";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { PredefinedRole, RoleType } from "../common/enums";
-import { grantTablePermissions } from "./migrationUtils";
+import { grantTablePermissions } from "../util/migrationUtils";
 
 export class AddUserCommunityState1719508518588 implements MigrationInterface {
     name = 'AddUserCommunityState1719508518588'

@@ -6,7 +6,7 @@ import format from "pg-format";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { PredefinedRole, RoleType } from "../common/enums";
 import { rolePermissionPresets } from "../common/presets";
-import { grantTablePermissions } from "./migrationUtils";
+import { grantTablePermissions } from "../util/migrationUtils";
 
 export class rolesAndPermissions1676888170060 implements MigrationInterface {
   name = 'rolesAndPermissions1676888170060'

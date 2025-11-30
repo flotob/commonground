@@ -3,7 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { grantToWriter } from "./migrationUtils";
+import { grantToWriter } from "../util/migrationUtils";
 
 export class addLastblockToDb1654874838181 implements MigrationInterface {
     name = 'addLastblockToDb1654874838181'

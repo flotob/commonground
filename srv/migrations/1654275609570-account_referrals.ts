@@ -3,7 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { grantToWriter } from "./migrationUtils";
+import { grantToWriter } from "../util/migrationUtils";
 
 export class accountReferrals1654275609570 implements MigrationInterface {
     name = 'accountReferrals1654275609570'

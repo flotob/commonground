@@ -4,7 +4,7 @@
 
 import format from "pg-format";
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { grantTablePermissions } from "./migrationUtils";
+import { grantTablePermissions } from "../util/migrationUtils";
 
 type GatingRule = {
     contractId: string;

@@ -3,7 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { grantToWriter, grantToReader } from "./migrationUtils";
+import { grantToWriter, grantToReader } from "../util/migrationUtils";
 
 export class addLogTable1654545030883 implements MigrationInterface {
     name = 'addLogTable1654545030883'

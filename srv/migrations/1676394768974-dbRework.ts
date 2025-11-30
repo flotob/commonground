@@ -5,7 +5,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import format from 'pg-format';
 import { convertContentToPlainText } from "../common/converters"
-import { grantTablePermissions } from "./migrationUtils";
+import { grantTablePermissions } from "../util/migrationUtils";
 
 export class dbRework1676394768974 implements MigrationInterface {
     name = 'dbRework1676394768974'
