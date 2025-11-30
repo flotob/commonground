@@ -1,0 +1,64 @@
+# Frontend Dockerfile for Railway deployment
+# Builds React app and serves with nginx
+#
+# Railway Config:
+#   Root Directory: /
+#   Dockerfile Path: docker/railway/Dockerfile.frontend
+#   No custom start command needed (nginx runs automatically)
+
+# ============================================
+# Stage 1: Build the React application
+# ============================================
+FROM node:20.11-bookworm AS builder
+
+WORKDIR /app
+
+# Enable corepack for yarn
+RUN corepack enable
+
+# Copy package files first (better layer caching)
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn ./.yarn
+
+# Install dependencies
+RUN yarn install --immutable
+
+# Copy source code and config files
+COPY src/ ./src/
+COPY public/ ./public/
+COPY craco.config.js tailwind.config.js postcss.config.js tsconfig.json ./
+
+# Build arguments for environment variables
+# These can be set in Railway's service variables
+ARG DEPLOYMENT=staging
+ARG GENERATE_SOURCEMAP=false
+ARG IMAGE_INLINE_SIZE_LIMIT=5000
+
+ENV DEPLOYMENT=${DEPLOYMENT}
+ENV GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
+ENV IMAGE_INLINE_SIZE_LIMIT=${IMAGE_INLINE_SIZE_LIMIT}
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
+# Build the application
+RUN yarn craco --openssl-legacy-provider build
+
+# ============================================
+# Stage 2: Serve with nginx
+# ============================================
+FROM nginx:alpine AS production
+
+# Copy custom nginx config
+COPY docker/railway/nginx.frontend.conf /etc/nginx/nginx.conf
+
+# Copy built files from builder stage
+COPY --from=builder /app/build /usr/share/nginx/html
+
+# Expose port 80 (Railway will handle HTTPS)
+EXPOSE 80
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]
+
