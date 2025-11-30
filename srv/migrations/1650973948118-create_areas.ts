@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class createAreasTable1650973948118 implements MigrationInterface {
     name = 'createAreasTable1650973948118'
@@ -13,8 +14,7 @@ export class createAreasTable1650973948118 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "areas" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "name" character varying(100) NOT NULL, "tags" jsonb, "access_changed" TIMESTAMP(3) WITH TIME ZONE DEFAULT NULL, "group_id" uuid NOT NULL, CONSTRAINT "PK_5110493f6342f34c978c084d0d6" PRIMARY KEY ("id"))`);
         await queryRunner.query(`ALTER TABLE "areas" ADD CONSTRAINT "FK_97ab31f05420178a3f0cebb9ffb" FOREIGN KEY ("group_id") REFERENCES "groups"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "channels" ADD CONSTRAINT "FK_b254f3328915f6e063e49dd513e" FOREIGN KEY ("area_id") REFERENCES "areas"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "areas" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "areas" TO reader`);
+        await grantTablePermissions(queryRunner, 'areas');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

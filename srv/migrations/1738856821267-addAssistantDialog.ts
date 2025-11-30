@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddAssistantDialog1738856821267 implements MigrationInterface {
     name = 'AddAssistantDialog1738856821267'
@@ -14,8 +15,7 @@ export class AddAssistantDialog1738856821267 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "assistant_dialogs" ADD CONSTRAINT "FK_2842388c3bdd5dec94a7e61fd09" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "assistant_dialogs" ADD CONSTRAINT "FK_d12afab5acd2a0a4c87ee1dd721" FOREIGN KEY ("communityId") REFERENCES "communities"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "assistant_dialogs" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "assistant_dialogs" TO reader`);
+        await grantTablePermissions(queryRunner, 'assistant_dialogs');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

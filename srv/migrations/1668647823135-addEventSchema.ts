@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class addEventSchema1668647823135 implements MigrationInterface {
     name = 'addEventSchema1668647823135'
@@ -14,8 +15,7 @@ export class addEventSchema1668647823135 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "events" ADD CONSTRAINT "FK_d05bc4893a9526dc481435edb86" FOREIGN KEY ("subject_user") REFERENCES "accounts"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "events" ADD CONSTRAINT "FK_49477f556b2fb265e5fb08bcd22" FOREIGN KEY ("subject_group") REFERENCES "groups"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "events" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "events" TO reader`);
+        await grantTablePermissions(queryRunner, 'events');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -6,6 +6,7 @@ import format from "pg-format";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { PredefinedRole, RoleType } from "../common/enums";
 import { rolePermissionPresets } from "../common/presets";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class rolesAndPermissions1676888170060 implements MigrationInterface {
   name = 'rolesAndPermissions1676888170060'
@@ -179,15 +180,13 @@ export class rolesAndPermissions1676888170060 implements MigrationInterface {
     // communities-channels
     await queryRunner.query(`CREATE TYPE "public"."communities_channels_roles_permissions_permissions_enum" AS ENUM('CHANNEL_EXISTS', 'CHANNEL_READ', 'CHANNEL_WRITE', 'CHANNEL_MODERATE')`);
     await queryRunner.query(`CREATE TABLE "communities_channels_roles_permissions" ("communityId" uuid NOT NULL, "channelId" uuid NOT NULL, "roleId" uuid NOT NULL, "permissions" "public"."communities_channels_roles_permissions_permissions_enum" array NOT NULL, CONSTRAINT "PK_c9b14dd08a895d2ad04b0906842" PRIMARY KEY ("communityId", "channelId", "roleId"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_channels_roles_permissions" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "communities_channels_roles_permissions" TO reader`);
+    await grantTablePermissions(queryRunner, 'communities_channels_roles_permissions');
     await queryRunner.query(`CREATE INDEX "IDX_89bcf47ebf32545b97b0ceb1da" ON "communities_channels_roles_permissions" ("permissions") `);
     await queryRunner.query(`CREATE INDEX "IDX_b841c306c38207d63603aa04e6" ON "communities_channels_roles_permissions" ("communityId", "channelId") `);
 
     // chats
     await queryRunner.query(`CREATE TABLE "chats" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "userIds" uuid array NOT NULL, "adminIds" uuid array NOT NULL, "channelId" uuid NOT NULL, "createdAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP(3) WITH TIME ZONE, CONSTRAINT "UQ_5f3b9ee5b6b54172d99f2b5175e" UNIQUE ("channelId"), CONSTRAINT "REL_5f3b9ee5b6b54172d99f2b5175" UNIQUE ("channelId"), CONSTRAINT "PK_0117647b3c4a4e5ff198aeb6206" PRIMARY KEY ("id"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "chats" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "chats" TO reader`);
+    await grantTablePermissions(queryRunner, 'chats');
     await queryRunner.query(`CREATE INDEX "IDX_4fbd89e00402a163074aafee22" ON "chats" ("userIds") `);
 
     // communities-channels
@@ -302,8 +301,7 @@ export class rolesAndPermissions1676888170060 implements MigrationInterface {
     // channels
     await queryRunner.query(`ALTER TABLE "channels" RENAME TO "communities_channels"`);
     await queryRunner.query(`CREATE TABLE "channels" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), CONSTRAINT "PK_ADSadassddASDD" PRIMARY KEY ("id"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "channels" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "channels" TO reader`);
+    await grantTablePermissions(queryRunner, 'channels');
     await queryRunner.query(`
       INSERT INTO channels ("id")
       SELECT "channelId"
@@ -315,8 +313,7 @@ export class rolesAndPermissions1676888170060 implements MigrationInterface {
 
     // files
     await queryRunner.query(`CREATE TABLE "files" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "creatorId" uuid, "objectId" character varying(64) NOT NULL, "accessedAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "data" jsonb, "createdAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), CONSTRAINT "UQ_0a7ef7e11c4f38bc46644aaa1bd" UNIQUE ("objectId"), CONSTRAINT "PK_6c16b9093a142e0e7613b04a3d9" PRIMARY KEY ("id"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "files" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "files" TO reader`);
+    await grantTablePermissions(queryRunner, 'files');
     await queryRunner.query(`CREATE INDEX "IDX_0a7ef7e11c4f38bc46644aaa1b" ON "files" ("objectId") `);
     await queryRunner.query(`CREATE INDEX "IDX_1d71b8b0be427a102d1e7930a4" ON "files" ("accessedAt") `);
 
@@ -378,8 +375,7 @@ export class rolesAndPermissions1676888170060 implements MigrationInterface {
     await queryRunner.query(`CREATE TYPE "public"."roles_type_enum" AS ENUM('PREDEFINED', 'CUSTOM_MANUAL_ASSIGN', 'CUSTOM_AUTO_ASSIGN')`);
     await queryRunner.query(`CREATE TYPE "public"."roles_permissions_enum" AS ENUM('COMMUNITY_MANAGE_INFO', 'COMMUNITY_MANAGE_CHANNELS', 'COMMUNITY_MANAGE_ROLES', 'COMMUNITY_MANAGE_ARTICLES', 'COMMUNITY_MODERATE', 'WEBRTC_CREATE', 'WEBRTC_CREATE_CUSTOM', 'WEBRTC_MODERATE')`);
     await queryRunner.query(`CREATE TABLE "roles" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "communityId" uuid NOT NULL, "title" character varying(64) NOT NULL, "type" "public"."roles_type_enum" NOT NULL, "assignmentRules" jsonb, "permissions" "public"."roles_permissions_enum" array NOT NULL, "createdAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP(3) WITH TIME ZONE, CONSTRAINT "PK_c1433d71a4838793a49dcad46ab" PRIMARY KEY ("id"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "roles" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "roles" TO reader`);
+    await grantTablePermissions(queryRunner, 'roles');
     await queryRunner.query(`CREATE INDEX "IDX_fb2994209e76f9948683d49e6f" ON "roles" ("communityId") `);
 
     // users
@@ -432,20 +428,17 @@ export class rolesAndPermissions1676888170060 implements MigrationInterface {
     // userblocking
     await queryRunner.query(`CREATE TYPE "public"."userblocking_blockstate_enum" AS ENUM('CHAT_MUTED', 'BANNED')`);
     await queryRunner.query(`CREATE TABLE "userblocking" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "communityId" uuid NOT NULL, "channelId" uuid, "userId" uuid NOT NULL, "until" TIMESTAMP(3) WITH TIME ZONE, "blockState" "public"."userblocking_blockstate_enum" NOT NULL, "createdAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP(3) WITH TIME ZONE, CONSTRAINT "PK_6374675935dcb858c7344fa1310" PRIMARY KEY ("id"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "userblocking" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "userblocking" TO reader`);
+    await grantTablePermissions(queryRunner, 'userblocking');
 
     // roles-users
     await queryRunner.query(`CREATE TABLE "roles_users_users" ("rolesId" uuid NOT NULL, "usersId" uuid NOT NULL, CONSTRAINT "PK_d9b9cca39b8cc7e99072274dafa" PRIMARY KEY ("rolesId", "usersId"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "roles_users_users" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "roles_users_users" TO reader`);
+    await grantTablePermissions(queryRunner, 'roles_users_users');
     await queryRunner.query(`CREATE INDEX "IDX_6baa1fce24dde516186c4f0269" ON "roles_users_users" ("rolesId") `);
     await queryRunner.query(`CREATE INDEX "IDX_391282056f6da8665b38480a13" ON "roles_users_users" ("usersId") `);
 
     // roles-contracts
     await queryRunner.query(`CREATE TABLE "roles_contracts_contracts" ("rolesId" uuid NOT NULL, "contractsId" uuid NOT NULL, CONSTRAINT "PK_1ac90acf7f4b73f4c6e4d80198a" PRIMARY KEY ("rolesId", "contractsId"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "roles_contracts_contracts" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "roles_contracts_contracts" TO reader`);
+    await grantTablePermissions(queryRunner, 'roles_contracts_contracts');
     await queryRunner.query(`CREATE INDEX "IDX_3f4bab8171ee914ba47803f520" ON "roles_contracts_contracts" ("rolesId") `);
     await queryRunner.query(`CREATE INDEX "IDX_8082c886acc5cb4d1347f0dd3c" ON "roles_contracts_contracts" ("contractsId") `);
 
@@ -547,12 +540,10 @@ export class rolesAndPermissions1676888170060 implements MigrationInterface {
 
     // communities-articles (and permissions)
     await queryRunner.query(`CREATE TABLE "communities_articles" ("communityId" uuid NOT NULL, "articleId" uuid NOT NULL, "url" character varying(30), "published" TIMESTAMP(3) WITH TIME ZONE, "createdAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP(3) WITH TIME ZONE, CONSTRAINT "UQ_5c955fa4ba8e16c3e98ce0f78ed" UNIQUE ("communityId", "url"), CONSTRAINT "PK_a90fe9c78cca2a0ec607309f878" PRIMARY KEY ("communityId", "articleId"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_articles" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "communities_articles" TO reader`);
+    await grantTablePermissions(queryRunner, 'communities_articles');
     await queryRunner.query(`CREATE TYPE "public"."communities_articles_roles_permissions_permissions_enum" AS ENUM('ARTICLE_PREVIEW', 'ARTICLE_READ')`);
     await queryRunner.query(`CREATE TABLE "communities_articles_roles_permissions" ("communityId" uuid NOT NULL, "articleId" uuid NOT NULL, "roleId" uuid NOT NULL, "permissions" "public"."communities_articles_roles_permissions_permissions_enum" array NOT NULL, CONSTRAINT "PK_f2919c107065354676792b25087" PRIMARY KEY ("communityId", "articleId", "roleId"))`);
-    await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_articles_roles_permissions" TO writer`);
-    await queryRunner.query(`GRANT SELECT ON "communities_articles_roles_permissions" TO reader`);
+    await grantTablePermissions(queryRunner, 'communities_articles_roles_permissions');
     await queryRunner.query(`CREATE INDEX "IDX_1ad6e3599c3864e11fa47fc526" ON "communities_articles_roles_permissions" ("permissions") `);
 
     await queryRunner.query(`

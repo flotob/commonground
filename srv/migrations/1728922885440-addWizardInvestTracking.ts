@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddWizardInvestTracking1728922885440 implements MigrationInterface {
     name = 'AddWizardInvestTracking1728922885440'
@@ -14,8 +15,7 @@ export class AddWizardInvestTracking1728922885440 implements MigrationInterface 
         await queryRunner.query(`ALTER TABLE "wizard_investment_data" ADD CONSTRAINT "FK_2de9f191bfb12d495c958f0cc6d" FOREIGN KEY ("wizardId") REFERENCES "wizards"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "wizard_investment_data" ADD CONSTRAINT "FK_ac3c3cf733d16d4933c36acaca2" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "wizard_investment_data" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "wizard_investment_data" TO reader`);
+        await grantTablePermissions(queryRunner, 'wizard_investment_data');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

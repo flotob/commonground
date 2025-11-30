@@ -4,6 +4,7 @@
 
 import { MigrationInterface,
         QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class addCallDataModel1688898047959 implements MigrationInterface {
     name = 'addCallDataModel1688898047959'
@@ -18,8 +19,7 @@ export class addCallDataModel1688898047959 implements MigrationInterface {
             "deletedAt" TIMESTAMP(3) WITH TIME ZONE,
             CONSTRAINT "PK_286fa45c0496167acf0eff1f35d" PRIMARY KEY ("id")
         )`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "callservers" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "callservers" TO reader`);
+        await grantTablePermissions(queryRunner, 'callservers');
 
         await queryRunner.query(`CREATE TABLE "calls" (
             "id" uuid NOT NULL DEFAULT gen_random_uuid(),
@@ -33,8 +33,7 @@ export class addCallDataModel1688898047959 implements MigrationInterface {
             "endedAt" TIMESTAMP(3) WITH TIME ZONE,
             CONSTRAINT "PK_d9171d91f8dd1a649659f1b6a20" PRIMARY KEY ("id")
         )`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "calls" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "calls" TO reader`);
+        await grantTablePermissions(queryRunner, 'calls');
 
         await queryRunner.query(`CREATE TABLE "callmembers" (
             "id" uuid NOT NULL,
@@ -44,8 +43,7 @@ export class addCallDataModel1688898047959 implements MigrationInterface {
             "leftAt" TIMESTAMP(3) WITH TIME ZONE,
             CONSTRAINT "PK_9fc8c9656510da9d4a8e56e66fd" PRIMARY KEY ("id")
         )`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "callmembers" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "callmembers" TO reader`);
+        await grantTablePermissions(queryRunner, 'callmembers');
 
         await queryRunner.query(`CREATE INDEX "IDX_bb44dfe2e05e56944dac0af199" ON "calls" ("communityId") `);
         await queryRunner.query(`CREATE INDEX "IDX_44a435e05ff55b1e38c3164472" ON "calls" ("channelId") `);

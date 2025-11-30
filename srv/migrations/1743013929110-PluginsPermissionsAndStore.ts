@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class PluginsPermissionsAndStore1743013929110 implements MigrationInterface {
     name = 'PluginsPermissionsAndStore1743013929110'
@@ -36,10 +37,8 @@ export class PluginsPermissionsAndStore1743013929110 implements MigrationInterfa
         await queryRunner.query(`ALTER TABLE "user_plugin_state" ADD CONSTRAINT "FK_db107b5b249242f4823f3f8cd0a" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "user_plugin_state" ADD CONSTRAINT "FK_c9cf045b325fff92d026d34c14d" FOREIGN KEY ("pluginId") REFERENCES "plugins"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_plugins" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "communities_plugins" TO reader`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "user_plugin_state" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "user_plugin_state" TO reader`);
+        await grantTablePermissions(queryRunner, 'communities_plugins');
+        await grantTablePermissions(queryRunner, 'user_plugin_state');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

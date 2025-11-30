@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class addDevicesReworkArticles1673893185971 implements MigrationInterface {
     name = 'addDevicesReworkArticles1673893185971'
@@ -23,8 +24,7 @@ export class addDevicesReworkArticles1673893185971 implements MigrationInterface
         await queryRunner.query(`ALTER TABLE "articles" RENAME "header_image_id" TO "headerImageId"`);
         await queryRunner.query(`ALTER TABLE "articles" RENAME "thumbnail_image_id" TO "thumbnailImageId"`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "devices" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "devices" TO reader`);
+        await grantTablePermissions(queryRunner, 'devices');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

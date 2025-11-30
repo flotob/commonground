@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class ChannelPinSetting1697030816019 implements MigrationInterface {
     name = 'ChannelPinSetting1697030816019'
@@ -14,8 +15,7 @@ export class ChannelPinSetting1697030816019 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_d473843db51768af4a7f1bb946" ON "user_channel_settings" ("userId") `);
         await queryRunner.query(`ALTER TABLE "user_channel_settings" ADD CONSTRAINT "FK_d473843db51768af4a7f1bb946f" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "user_channel_settings" ADD CONSTRAINT "FK_8a9567416724dbabbb2e7a0d302" FOREIGN KEY ("communityId", "channelId") REFERENCES "communities_channels"("communityId","channelId") ON DELETE CASCADE ON UPDATE NO ACTION`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "user_channel_settings" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "user_channel_settings" TO reader`);
+        await grantTablePermissions(queryRunner, 'user_channel_settings');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

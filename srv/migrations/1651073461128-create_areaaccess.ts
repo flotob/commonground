@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class createAreaAccessTable1651073461128 implements MigrationInterface {
     name = 'createAreaAccessTable1651073461128'
@@ -12,8 +13,7 @@ export class createAreaAccessTable1651073461128 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "areaaccess" ADD CONSTRAINT "FK_9f55634a12b66b0cbb5fa9d35f6" FOREIGN KEY ("account_id") REFERENCES "accounts"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "areaaccess" ADD CONSTRAINT "FK_f26389b6203a831aa5d2e55179b" FOREIGN KEY ("area_id") REFERENCES "areas"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "areaaccess" ADD CONSTRAINT "FK_3922480d401b1caf30bb01d0b3d" FOREIGN KEY ("linkedaddress_id") REFERENCES "linkedaddresses"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "areaaccess" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "areaaccess" TO reader`);
+        await grantTablePermissions(queryRunner, 'areaaccess');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

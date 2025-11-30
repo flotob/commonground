@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddCommunityAirdropTable1734751783314 implements MigrationInterface {
     name = 'AddCommunityAirdropTable1734751783314'
@@ -13,8 +14,7 @@ export class AddCommunityAirdropTable1734751783314 implements MigrationInterface
         await queryRunner.query(`ALTER TABLE "user_community_airdrops" ADD CONSTRAINT "FK_8f2bba225f5c139c676e5522351" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "user_community_airdrops" ADD CONSTRAINT "FK_83c3c8ba29c3cd7629856690a79" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "user_community_airdrops" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "user_community_airdrops" TO reader`);
+        await grantTablePermissions(queryRunner, 'user_community_airdrops');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

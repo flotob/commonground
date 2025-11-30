@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddTokenSaleRegistration1724917574391 implements MigrationInterface {
     name = 'AddTokenSaleRegistration1724917574391'
@@ -16,8 +17,7 @@ export class AddTokenSaleRegistration1724917574391 implements MigrationInterface
 
         await queryRunner.query(`CREATE UNIQUE INDEX "idx_tokensale_email_lower_unique" ON tokensale_registrations( LOWER(email) )`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "tokensale_registrations" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "tokensale_registrations" TO reader`);
+        await grantTablePermissions(queryRunner, 'tokensale_registrations');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

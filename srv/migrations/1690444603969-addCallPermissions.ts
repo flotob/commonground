@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class addCallPermissions1690444603969 implements MigrationInterface {
     name = 'addCallPermissions1690444603969'
@@ -15,9 +16,12 @@ export class addCallPermissions1690444603969 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "callpermissions" ADD CONSTRAINT "FK_0216955211d539078762325a9f5" FOREIGN KEY ("callId") REFERENCES "calls"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "callpermissions" ADD CONSTRAINT "FK_de44d227dabf1973a6af85a9ecd" FOREIGN KEY ("roleId") REFERENCES "roles"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "callpermissions" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "callpermissions" TO reader`);
-        await queryRunner.query(`GRANT SELECT ON "callpermissions" TO mediasoup`);
+        await grantTablePermissions(queryRunner, 'callpermissions');
+        // Keep mediasoup grant (special role for mediasoup server)
+        const mediasoupExists = await queryRunner.query(`SELECT 1 FROM pg_roles WHERE rolname = 'mediasoup'`);
+        if (mediasoupExists && mediasoupExists.length > 0) {
+            await queryRunner.query(`GRANT SELECT ON "callpermissions" TO mediasoup`);
+        }
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

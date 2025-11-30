@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddWizardAndReferral1728331452133 implements MigrationInterface {
     name = 'AddWizardAndReferral1728331452133'
@@ -22,14 +23,10 @@ export class AddWizardAndReferral1728331452133 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "wizard_user_data" ADD CONSTRAINT "FK_da61af35def417f2960bcd4d16c" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "wizard_user_data" ADD CONSTRAINT "FK_722d0d41ee2342146bf8cbc46b2" FOREIGN KEY ("wizardId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "wizards" TO writer`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "wizard_role_permission" TO writer`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "wizard_claimable_codes" TO writer`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "wizard_user_data" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "wizards" TO reader`);
-        await queryRunner.query(`GRANT SELECT ON "wizard_role_permission" TO reader`);
-        await queryRunner.query(`GRANT SELECT ON "wizard_claimable_codes" TO reader`);
-        await queryRunner.query(`GRANT SELECT ON "wizard_user_data" TO reader`);
+        await grantTablePermissions(queryRunner, 'wizards');
+        await grantTablePermissions(queryRunner, 'wizard_role_permission');
+        await grantTablePermissions(queryRunner, 'wizard_claimable_codes');
+        await grantTablePermissions(queryRunner, 'wizard_user_data');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

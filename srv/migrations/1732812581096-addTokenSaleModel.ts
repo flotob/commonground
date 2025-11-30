@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddTokenSaleModel1732812581096 implements MigrationInterface {
     name = 'AddTokenSaleModel1732812581096'
@@ -72,12 +73,9 @@ export class AddTokenSaleModel1732812581096 implements MigrationInterface {
             FOR EACH ROW EXECUTE FUNCTION notify_tokensale_change()
         `);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "tokensales" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "tokensales" TO reader`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "tokensale_userdata" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "tokensale_userdata" TO reader`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "tokensale_investments" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "tokensale_investments" TO reader`);
+        await grantTablePermissions(queryRunner, 'tokensales');
+        await grantTablePermissions(queryRunner, 'tokensale_userdata');
+        await grantTablePermissions(queryRunner, 'tokensale_investments');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

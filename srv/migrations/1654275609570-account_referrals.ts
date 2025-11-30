@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantToWriter } from "./migrationUtils";
 
 export class accountReferrals1654275609570 implements MigrationInterface {
     name = 'accountReferrals1654275609570'
@@ -12,7 +13,7 @@ export class accountReferrals1654275609570 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "accounts" ADD "referral_id" uuid`);
         await queryRunner.query(`CREATE INDEX "idx_account_referral" ON "accounts" ("referral_id") `);
         await queryRunner.query(`ALTER TABLE "accounts" ADD CONSTRAINT "FK_14160da127fa09244c4efbffc27" FOREIGN KEY ("referral_id") REFERENCES "referral"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`GRANT SELECT ON "referral" TO writer`);
+        await grantToWriter(queryRunner, 'referral', 'SELECT');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

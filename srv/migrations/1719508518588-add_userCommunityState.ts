@@ -5,6 +5,7 @@
 import format from "pg-format";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { PredefinedRole, RoleType } from "../common/enums";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddUserCommunityState1719508518588 implements MigrationInterface {
     name = 'AddUserCommunityState1719508518588'
@@ -65,8 +66,7 @@ export class AddUserCommunityState1719508518588 implements MigrationInterface {
             DO UPDATE SET "userLeftCommunity" = NULL
         `);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "user_community_state" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "user_community_state" TO reader`);
+        await grantTablePermissions(queryRunner, 'user_community_state');
 
         await queryRunner.query(`DROP TABLE "communities_ingress_data"`);
         await queryRunner.query(`DROP TABLE "userblocking"`)

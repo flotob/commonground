@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddReports1754969368152 implements MigrationInterface {
     name = 'AddReports1754969368152'
@@ -16,8 +17,7 @@ export class AddReports1754969368152 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "reports" ADD CONSTRAINT "FK_4353be8309ce86650def2f8572d" FOREIGN KEY ("reporterId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "reports" ADD CONSTRAINT "UQ_2d2d34a8b875e0a96f694fb3f41" UNIQUE ("reporterId", "targetId", "type")`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "reports" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "reports" TO reader`);
+        await grantTablePermissions(queryRunner, 'reports');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -4,6 +4,7 @@
 
 import format from "pg-format";
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 type GatingRule = {
     contractId: string;
@@ -261,15 +262,10 @@ export class AddPremiumAndCommunityTokens1707754792853 implements MigrationInter
             `);
         }
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "users_premium" TO writer`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_premium" TO writer`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_tokens" TO writer`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "point_transactions" TO writer`);
-
-        await queryRunner.query(`GRANT SELECT ON "users_premium" TO reader`);
-        await queryRunner.query(`GRANT SELECT ON "communities_premium" TO reader`);
-        await queryRunner.query(`GRANT SELECT ON "communities_tokens" TO reader`);
-        await queryRunner.query(`GRANT SELECT ON "point_transactions" TO reader`);
+        await grantTablePermissions(queryRunner, 'users_premium');
+        await grantTablePermissions(queryRunner, 'communities_premium');
+        await grantTablePermissions(queryRunner, 'communities_tokens');
+        await grantTablePermissions(queryRunner, 'point_transactions');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

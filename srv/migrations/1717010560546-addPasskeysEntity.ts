@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddPasskeysEntity1717010560546 implements MigrationInterface {
     name = 'AddPasskeysEntity1717010560546'
@@ -12,8 +13,7 @@ export class AddPasskeysEntity1717010560546 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "passkeys" ADD CONSTRAINT "FK_6629ffb39461ac3fcc050166695" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`CREATE UNIQUE INDEX "IDX_passkeys_data_credentialID_webAuthnUserID" ON "passkeys" ((data->>'credentialID'), (data->>'webAuthnUserID'))`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "passkeys" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "passkeys" TO reader`);
+        await grantTablePermissions(queryRunner, 'passkeys');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

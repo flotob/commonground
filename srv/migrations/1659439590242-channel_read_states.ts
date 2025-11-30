@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class channelReadStates1659439590242 implements MigrationInterface {
     name = 'channelReadStates1659439590242'
@@ -14,8 +15,7 @@ export class channelReadStates1659439590242 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "channelreadstate" ADD CONSTRAINT "FK_50bac70cf884a09b6d4791e69fa" FOREIGN KEY ("channel_id") REFERENCES "channels"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "channelreadstate" ADD CONSTRAINT "FK_9f702b296412b2d0fc69cdedcc8" FOREIGN KEY ("account_id") REFERENCES "accounts"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "channelreadstate" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "channelreadstate" TO reader`);
+        await grantTablePermissions(queryRunner, 'channelreadstate');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

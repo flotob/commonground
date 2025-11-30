@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class reworkedDbStructure1653299352345 implements MigrationInterface {
     name = 'reworkedDbStructure1653299352345'
@@ -30,8 +31,7 @@ export class reworkedDbStructure1653299352345 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "idx_posts_channel" ON "posts" ((message->>'channelId')) `);
         await queryRunner.query(`DROP TABLE public.txcount`);
         await queryRunner.query(`DROP TABLE public.userblocks`);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "followers" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "followers" TO reader`);
+        await grantTablePermissions(queryRunner, 'followers');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

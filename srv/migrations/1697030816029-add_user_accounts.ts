@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddUserAccounts1697030816029 implements MigrationInterface {
     name = 'AddUserAccounts1697030816029'
@@ -21,8 +22,7 @@ export class AddUserAccounts1697030816029 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "users" ADD "features" jsonb NOT NULL DEFAULT '{}'`);
         await queryRunner.query(`CREATE INDEX "idx_user_accounts_type_id" ON "user_accounts" ("type", (data->>'id'))`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "user_accounts" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "user_accounts" TO reader`);
+        await grantTablePermissions(queryRunner, 'user_accounts');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class NewsletterTables1720729195823 implements MigrationInterface {
     name = 'NewsletterTables1720729195823'
@@ -17,8 +18,7 @@ export class NewsletterTables1720729195823 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "user_community_state" ADD "newsletterLeftAt" TIMESTAMP(3) WITH TIME ZONE`);
         await queryRunner.query(`ALTER TABLE "user_newsletter_status" ADD CONSTRAINT "FK_e9efcbb861362f6ee3ef5c37c3b" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "user_newsletter_status" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "user_newsletter_status" TO reader`);
+        await grantTablePermissions(queryRunner, 'user_newsletter_status');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddCommunitiesIngressData1716585854384 implements MigrationInterface {
     name = 'AddCommunitiesIngressData1716585854384'
@@ -16,8 +17,7 @@ export class AddCommunitiesIngressData1716585854384 implements MigrationInterfac
         await queryRunner.query(`ALTER TABLE "communities_ingress_data" ADD CONSTRAINT "FK_a779a744d2fcb227b6b2822e01d" FOREIGN KEY ("communityId") REFERENCES "communities"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "communities_ingress_data" ADD CONSTRAINT "FK_c30b6a43d526fda16b9a1369613" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_ingress_data" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "communities_ingress_data" TO reader`);
+        await grantTablePermissions(queryRunner, 'communities_ingress_data');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -5,6 +5,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import format from 'pg-format';
 import { convertContentToPlainText } from "../common/converters"
+import { grantTablePermissions } from "./migrationUtils";
 
 export class dbRework1676394768974 implements MigrationInterface {
     name = 'dbRework1676394768974'
@@ -93,8 +94,7 @@ export class dbRework1676394768974 implements MigrationInterface {
         await queryRunner.query(`CREATE TYPE "public"."wallets_visibility_enum" AS ENUM('private', 'followed', 'public')`);
         await queryRunner.query(`CREATE TABLE "wallets" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "type" "public"."wallets_type_enum" NOT NULL DEFAULT 'evm', "loginEnabled" boolean NOT NULL DEFAULT false, "walletIdentifier" text NOT NULL, "signatureData" jsonb NOT NULL, "visibility" "public"."wallets_visibility_enum" NOT NULL DEFAULT 'private', "createdAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP(3) WITH TIME ZONE, "accountId" uuid, CONSTRAINT "PK_8402e5df5a30a229380e83e4f7e" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_b2cb163694d1e180388b6ada46" ON "wallets" ("accountId") `);
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "wallets" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "wallets" TO reader`);
+        await grantTablePermissions(queryRunner, 'wallets');
         // add grant select / insert for new table
         // also, fill wallets table?
 

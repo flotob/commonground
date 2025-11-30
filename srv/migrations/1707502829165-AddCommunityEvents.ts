@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class AddCommunityEvents1707502829165 implements MigrationInterface {
     name = 'AddCommunityEvents1707502829165'
@@ -31,14 +32,9 @@ export class AddCommunityEvents1707502829165 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "communities_events" ADD "type" "public"."communities_events_type_enum" NOT NULL`);
         await queryRunner.query(`ALTER TABLE "communities_events" ADD CONSTRAINT "FK_2330151bad940d022d04566f7e7" FOREIGN KEY ("callId") REFERENCES "calls"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
         
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_events" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "communities_events" TO reader`);
-
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_events_participants" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "communities_events_participants" TO reader`);
-
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "communities_events_permissions" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "communities_events_permissions" TO reader`);
+        await grantTablePermissions(queryRunner, 'communities_events');
+        await grantTablePermissions(queryRunner, 'communities_events_participants');
+        await grantTablePermissions(queryRunner, 'communities_events_permissions');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

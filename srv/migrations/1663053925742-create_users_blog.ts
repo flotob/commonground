@@ -3,6 +3,7 @@
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { grantTablePermissions } from "./migrationUtils";
 
 export class createUsersBlog1663053925742 implements MigrationInterface {
     name = 'createUsersBlog1663053925742'
@@ -55,8 +56,7 @@ export class createUsersBlog1663053925742 implements MigrationInterface {
             FOR EACH ROW EXECUTE PROCEDURE blogs_tsvector_update();
         `);
 
-        await queryRunner.query(`GRANT ALL PRIVILEGES ON "blogs" TO writer`);
-        await queryRunner.query(`GRANT SELECT ON "blogs" TO reader`);
+        await grantTablePermissions(queryRunner, 'blogs');
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
