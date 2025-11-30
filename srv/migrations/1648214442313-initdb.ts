@@ -54,14 +54,26 @@ export class initdb1648214442313 implements MigrationInterface {
             await queryRunner.query(`ALTER TABLE "userblocks" ADD CONSTRAINT "FK_a6f37553e796c42aa09c22d5f97" FOREIGN KEY ("account_id") REFERENCES "accounts"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
             await queryRunner.query(`ALTER TABLE "userblocks" ADD CONSTRAINT "FK_4bd7607429a659f1de621705b54" FOREIGN KEY ("other_account_id") REFERENCES "accounts"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
 
-            await queryRunner.query(`ALTER TABLE "channelaccess" ADD CONSTRAINT "channelaccess_linkedaddress_id_access_id_key" UNIQUE ("linkedaddress_id", "access_id")`);
-            await queryRunner.query(`ALTER TABLE "conversations" ADD CONSTRAINT "conversations_account_id_other_account_id_key" UNIQUE ("account_id", "other_account_id")`);
-            await queryRunner.query(`ALTER TABLE "groupblocks" ADD CONSTRAINT "groupblocks_group_id_account_id_key" UNIQUE ("group_id", "account_id")`);
-            await queryRunner.query(`ALTER TABLE "reactions" ADD CONSTRAINT "reactions_account_id_item_id_key" UNIQUE ("account_id", "item_id")`);
-            await queryRunner.query(`ALTER TABLE "userblocks" ADD CONSTRAINT "userblocks_account_id_other_account_id_key" UNIQUE ("account_id", "other_account_id")`);
         } catch (err) {
             console.log('It seems like database is already existing')
         }
+
+        // These constraints are already defined in CREATE TABLE, so they may fail - that's OK
+        try {
+            await queryRunner.query(`ALTER TABLE "channelaccess" ADD CONSTRAINT "channelaccess_linkedaddress_id_access_id_key" UNIQUE ("linkedaddress_id", "access_id")`);
+        } catch (err) { /* constraint already exists */ }
+        try {
+            await queryRunner.query(`ALTER TABLE "conversations" ADD CONSTRAINT "conversations_account_id_other_account_id_key" UNIQUE ("account_id", "other_account_id")`);
+        } catch (err) { /* constraint already exists */ }
+        try {
+            await queryRunner.query(`ALTER TABLE "groupblocks" ADD CONSTRAINT "groupblocks_group_id_account_id_key" UNIQUE ("group_id", "account_id")`);
+        } catch (err) { /* constraint already exists */ }
+        try {
+            await queryRunner.query(`ALTER TABLE "reactions" ADD CONSTRAINT "reactions_account_id_item_id_key" UNIQUE ("account_id", "item_id")`);
+        } catch (err) { /* constraint already exists */ }
+        try {
+            await queryRunner.query(`ALTER TABLE "userblocks" ADD CONSTRAINT "userblocks_account_id_other_account_id_key" UNIQUE ("account_id", "other_account_id")`);
+        } catch (err) { /* constraint already exists */ }
 
         // update permissions for new created tables
         const connectionOptions = queryRunner.manager.connection.options;
