@@ -34,3 +34,5 @@ tools/BrowserStack
 dbdump*
 
 .yarn/
+
+docs/
