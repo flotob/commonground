@@ -77,12 +77,14 @@ const ExpandedMenu: React.FC<Props> = ({ expanded }) => {
                 isActive={homeActive}
                 onClick={onHomeClick}
               />
+              {/* <EcosystemPicker expanded={expanded} /> 
               {(config.TOKEN_SALE_ENABLED || config.DEPLOYMENT !== 'prod') && <ExpandedMenuButton
                 text={expanded ? 'Token' : undefined}
                 icon={<CoinVertical weight='duotone' className='h-6 w-6' />}
                 isActive={isActiveButton(location.pathname, getUrl({type: 'token'}))}
                 onClick={() => navigate(getUrl({type: 'token'}))}
               />}
+               */}
               {!!ownUser && <ExpandedMenuButton
                 text={expanded ? 'Chats' : undefined}
                 icon={<ChatsTeardrop weight='duotone' className='h-6 w-6' />}
@@ -90,12 +92,14 @@ const ExpandedMenu: React.FC<Props> = ({ expanded }) => {
                 onClick={() => navigate(getUrl({ type: 'chats' }))}
                 notificationCount={unreadChats}
               />}
+              {/*
               {!!ownUser && config.PERSONAL_ASSISTANT_ENABLED && <ExpandedMenuButton
                 text={expanded ? 'Assistant' : undefined}
                 icon={<Brain weight='duotone' className='h-6 w-6' />}
                 isActive={isActiveButton(location.pathname, getUrl({ type: 'assistant' }))}
                 onClick={() => navigate(getUrl({ type: 'assistant' }))}
               />}
+              */}
               {!!ownUser && <ExpandedMenuButton
                 text={expanded ? 'Notifications' : undefined}
                 icon={<Bell weight='duotone' className='h-6 w-6' />}
@@ -105,12 +109,14 @@ const ExpandedMenu: React.FC<Props> = ({ expanded }) => {
                 }}
                 notificationCount={unreadCount}
               />}
+              {/*
               {!!ownUser && config.DEPLOYMENT === 'dev' && <ExpandedMenuButton
                 text={expanded ? 'ID Verification' : undefined}
                 icon={<IdentificationCard weight='duotone' className='h-6 w-6' />}
                 isActive={isActiveButton(location.pathname, getUrl({ type: 'id-verification' }))}
                 onClick={() => navigate(getUrl({ type: 'id-verification' }))}
               />}
+              */}
               <ExpandedMenuButton
                 text={expanded ? 'Apps' : undefined}
                 icon={<Storefront weight='duotone' className='h-6 w-6' />}
@@ -129,7 +135,8 @@ const ExpandedMenu: React.FC<Props> = ({ expanded }) => {
                 icon={isActiveButton(getUrl({ type: 'browse-communities' })) ? <UserGroupIconFilled className='h-7 w-7' /> : <UserGroupIcon className='h-7 w-7' />}
                 isActive={isActiveButton(getUrl({ type: 'browse-communities' }))}
                 onClick={() => navigate(getUrl({ type: 'browse-communities' }))}
-              /> */}
+              />
+              */}
             </div>
             <div className='cg-separator'/>
             <div className="menu-buttons">
