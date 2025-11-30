@@ -81,15 +81,15 @@ COPY src/common ./common
 # We use corepack instead, so just need nodeLinker setting
 RUN echo 'nodeLinker: node-modules' > .yarnrc.yml
 
-# Build TypeScript
+# Build TypeScript (outputs .js files next to .ts files in /app/)
 RUN yarn tsc
 
-# Copy healthcheck script
-RUN mkdir -p /app/dist/healthcheck && \
-    cp /app/healthcheck/healthcheck.sh /app/dist/healthcheck/ 2>/dev/null || true
+# Copy healthcheck script to a known location
+RUN mkdir -p /app/healthcheck && \
+    cp /app/healthcheck/healthcheck.sh /app/healthcheck/ 2>/dev/null || true
 
-# Set working directory to dist for runtime
-WORKDIR /app/dist
+# Working directory is /app where compiled .js files are
+WORKDIR /app
 
 # Default command (override via Railway's Start Command)
 CMD ["node", "api.js"]
