@@ -75,23 +75,36 @@ export class initdb1648214442313 implements MigrationInterface {
             await queryRunner.query(`ALTER TABLE "userblocks" ADD CONSTRAINT "userblocks_account_id_other_account_id_key" UNIQUE ("account_id", "other_account_id")`);
         } catch (err) { /* constraint already exists */ }
 
-        // update permissions for new created tables
+        // update permissions for new created tables (only if roles exist - they don't on managed databases like Railway)
         const connectionOptions = queryRunner.manager.connection.options;
         const database = connectionOptions.database;
-        try {
-            await queryRunner.query(`GRANT CONNECT on DATABASE ${database} TO writer`);
-            await queryRunner.query(`GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO writer`);
-            await queryRunner.query(`GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO writer`);
-        } catch (err) {
-            console.log('Cannot grant privileges to writer');
+        
+        // Check if writer role exists before granting
+        const writerExists = await queryRunner.query(`SELECT 1 FROM pg_roles WHERE rolname = 'writer'`);
+        if (writerExists && writerExists.length > 0) {
+            try {
+                await queryRunner.query(`GRANT CONNECT on DATABASE ${database} TO writer`);
+                await queryRunner.query(`GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO writer`);
+                await queryRunner.query(`GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO writer`);
+            } catch (err) {
+                console.log('Cannot grant privileges to writer');
+            }
+        } else {
+            console.log('Skipping writer grants - role does not exist (managed database)');
         }
 
-        try {
-            await queryRunner.query(`GRANT CONNECT on DATABASE ${database} TO reader`);
-            await queryRunner.query(`GRANT SELECT ON ALL TABLES IN SCHEMA public TO reader`);
-            await queryRunner.query(`GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO reader`);
-        } catch (err) {
-            console.log('Cannot grant privileges to reader');
+        // Check if reader role exists before granting
+        const readerExists = await queryRunner.query(`SELECT 1 FROM pg_roles WHERE rolname = 'reader'`);
+        if (readerExists && readerExists.length > 0) {
+            try {
+                await queryRunner.query(`GRANT CONNECT on DATABASE ${database} TO reader`);
+                await queryRunner.query(`GRANT SELECT ON ALL TABLES IN SCHEMA public TO reader`);
+                await queryRunner.query(`GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO reader`);
+            } catch (err) {
+                console.log('Cannot grant privileges to reader');
+            }
+        } else {
+            console.log('Skipping reader grants - role does not exist (managed database)');
         }
     }
 
