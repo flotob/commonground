@@ -77,6 +77,10 @@ COPY srv/ ./
 RUN rm -f common 2>/dev/null || true
 COPY src/common ./common
 
+# Fix .yarnrc.yml - the copied one references .yarn/releases which doesn't exist
+# We use corepack instead, so just need nodeLinker setting
+RUN echo 'nodeLinker: node-modules' > .yarnrc.yml
+
 # Build TypeScript
 RUN yarn tsc
 
