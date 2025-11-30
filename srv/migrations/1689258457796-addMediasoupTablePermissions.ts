@@ -7,6 +7,14 @@ import { MigrationInterface, QueryRunner } from "typeorm"
 export class addMediasoupTablePermissions1689258457796 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+        // Check if mediasoup role exists (it won't on managed databases like Railway)
+        const mediasoupRoleExists = await queryRunner.query(`SELECT 1 FROM pg_roles WHERE rolname='mediasoup';`);
+        
+        if (mediasoupRoleExists.length === 0) {
+            console.log('Skipping mediasoup grants - role does not exist (managed database)');
+            return;
+        }
+
         const permissionExistsResult = await queryRunner.query(`
             SELECT has_table_privilege('mediasoup', 'devices', 'SELECT') AS "permissionExists";
         `);
