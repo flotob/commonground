@@ -31,7 +31,7 @@ import './CommunityHeader.css';
 import BottomSliderModal from "components/atoms/BottomSliderModal/BottomSliderModal";
 import { ShareListItem } from "components/atoms/ShareButton/ShareButton";
 import { getCommunityDisplayName } from "../../../util";
-import { Asterisk, ChatsTeardrop, DoorOpen, Envelope, EnvelopeSimple, HandWaving, HouseSimple, Plug, PokerChip, Prohibit, UserCircle, UserCirclePlus, Users } from "@phosphor-icons/react";
+import { Asterisk, ChatsTeardrop, DoorOpen, Envelope, EnvelopeSimple, HandWaving, HouseSimple, Plug, PokerChip, Prohibit, Robot, UserCircle, UserCirclePlus, Users } from "@phosphor-icons/react";
 import { useOwnUser } from "context/OwnDataProvider";
 import communityApi from "data/api/community";
 import { useEmailConfirmationContext } from "context/EmailConfirmationProvider";
@@ -206,6 +206,9 @@ const CommunityHeader: React.FC<Props> = ({ onHeaderClick, banned, collapsed }) 
       }
       if (ownRoles.some(role => role.title === PredefinedRole.Admin && role.type === RoleType.PREDEFINED)) {
         menuItems.push(<ManagementContentModalMenuItem key="Plugins" leftElement={<Plug weight="duotone" className="w-5 h-5" />} text="Plugins" url="plugins" />);
+      }
+      if (ownRoles.some(role => role.title === PredefinedRole.Admin && role.type === RoleType.PREDEFINED)) {
+        menuItems.push(<ManagementContentModalMenuItem key="Bots" leftElement={<Robot weight="duotone" className="w-5 h-5" />} text="Bots" url="bots" />);
       }
       return menuItems;
     }

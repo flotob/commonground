@@ -39,6 +39,7 @@ import { CommunityPluginProvider } from "context/CommunityPluginProvider";
 import PluginView from "views/PluginView/PluginView";
 import CommunityTokenView from "views/CommunityTokenView/CommunityToken";
 import PluginSettingsView from "views/PluginSettingsView/PluginSettingsView";
+import BotSettingsView from "views/BotSettingsView/BotSettingsView";
 import BanManagementView from "views/BanManagementView/BanManagementView";
 type Props = {
 
@@ -97,6 +98,7 @@ function CommunityRouter(props: Props) {
               <Route path='onboarding/' element={<OnboardingManagementView />} />
               <Route path='token/' element={<TokenSettingsView />} />
               <Route path='plugins/' element={<PluginSettingsView />} />
+              <Route path='bots/' element={<BotSettingsView />} />
             </Routes>
           } />
           <Route path={`create/${config.URL_ARTICLE}/`} element={<CreateArticleView />} />
