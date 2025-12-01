@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import Jdenticon from "../../../atoms/Jdenticon/Jdenticon";
 import UserTooltip from "../../../organisms/UserTooltip/UserTooltip";
 import UsernameWithVerifiedIcon from "../../../../components/molecules/UsernameWithVerifiedIcon/UsernameWithVerifiedIcon";
+import BotBadge from "../../../atoms/BotBadge/BotBadge";
 
 import './ScrollingMessageList.css';
 import { useOwnUser } from "context/OwnDataProvider";
@@ -57,7 +58,8 @@ type Props= {
   canReply: boolean;
 }
 
-type MessageGroupsArray = [string, ([string, string, Models.Message.Message[]])[]][];
+// [dateString, [...[groupKey (creatorId or botId), firstMessageId, messages[], isBot]]]
+type MessageGroupsArray = [string, ([string, string, Models.Message.Message[], boolean])[]][];
 
 const SCROLL_BOTTOM_THRESHOLD = 30;
 const SOFT_ITEM_LIMIT = 200;
@@ -153,9 +155,15 @@ export default function ScrollingMessageList(props: Props) {
         latestDayArray = [currentDay, []];
         result.push(latestDayArray);
       }
+      
+      // Group by creatorId for user messages, botId for bot messages
+      const isBot = !!message.botId;
+      const groupKey = isBot ? message.botId! : message.creatorId!;
+      
       let messageGroupArray = latestDayArray[1][latestDayArray[1].length - 1];
-      if (!messageGroupArray || messageGroupArray[0] !== message.creatorId) {
-        messageGroupArray = [message.creatorId, message.id, []];
+      // Start a new group if the key differs OR if isBot status changes
+      if (!messageGroupArray || messageGroupArray[0] !== groupKey || messageGroupArray[3] !== isBot) {
+        messageGroupArray = [groupKey, message.id, [], isBot];
         latestDayArray[1].push(messageGroupArray);
       }
       messageGroupArray[2].push(message);
@@ -435,7 +443,7 @@ const MessagesLoadingIndicator = (props: {
 
 const MessagesPerDay = (props: {
   dateString: string;
-  messageGroupsData: [string, string, Models.Message.Message[]][];
+  messageGroupsData: [string, string, Models.Message.Message[], boolean][];
   Renderer: React.FC<RendererProps>,
   replyClick: (id: string, senderId: string, body: Models.Message.Body) => void,
   editClick: (message: Models.Message.Message) => void,
@@ -459,18 +467,19 @@ const MessagesPerDay = (props: {
   } = props;
 
   const messageGroups = useMemo(() => {
-    return messageGroupsData.map(([creatorId, messageId, messages]) => (
-      <MessagesPerUserList
+    return messageGroupsData.map(([groupKey, messageId, messages, isBot]) => (
+      <MessagesPerSenderList
         messages={messages}
         Renderer={Renderer}
         replyClick={replyClick}
         editClick={editClick}
-        key={`${creatorId} ${messageId}`}
+        key={`${groupKey} ${messageId}`}
         messageToEdit={messageToEdit}
         messageIdFocus={messageIdFocus}
         allCurrentItemsByIdRef={allCurrentItemsByIdRef}
         canReply={canReply}
         ownUserId={ownUserId}
+        isBot={isBot}
       />
     ));
   }, [messageGroupsData, Renderer, replyClick, editClick, messageToEdit, messageIdFocus, canReply, ownUserId]);
@@ -483,7 +492,7 @@ const MessagesPerDay = (props: {
   )
 }
 
-const MessagesPerUserList = (props: {
+const MessagesPerSenderList = (props: {
   messages: Models.Message.Message[],
   Renderer: React.FC<RendererProps>,
   replyClick: (id: string, senderId: string, body: Models.Message.Body) => void,
@@ -493,13 +502,15 @@ const MessagesPerUserList = (props: {
   allCurrentItemsByIdRef: React.MutableRefObject<Map<string, Models.Message.Message>>;
   canReply: boolean;
   ownUserId?: string;
+  isBot: boolean;
 }) => {
-  const { messages, Renderer, replyClick, editClick, allCurrentItemsByIdRef, canReply, ownUserId } = props;
-  const { creatorId } = messages[0];
-  const isSelf = creatorId === ownUserId;
-  const firstPostItem = messages[0];
-  const channelId = firstPostItem.channelId || '';
-  const creator = useUserData(creatorId);
+  const { messages, Renderer, replyClick, editClick, allCurrentItemsByIdRef, canReply, ownUserId, isBot } = props;
+  const firstMessage = messages[0];
+  const creatorId = firstMessage.creatorId;
+  const isSelf = !isBot && creatorId === ownUserId;
+  const channelId = firstMessage.channelId || '';
+  const creator = useUserData(isBot ? undefined : creatorId || undefined);
+  const botInfo = isBot ? firstMessage.bot : null;
 
   const messageElements = React.useMemo(() => {
     return props.messages.map((i, index) => {
@@ -540,25 +551,52 @@ const MessagesPerUserList = (props: {
     });
   }, [props.messages, props.messageIdFocus, props.messageToEdit?.id, Renderer, replyClick, editClick, allCurrentItemsByIdRef, canReply]);
 
+  // Render bot message group
+  if (isBot && botInfo) {
+    return (
+      <div className="message-group bot-message-group">
+        <div className="message-group-inner">
+          <div className="message-group-icon">
+            <Jdenticon userId={botInfo.id} />
+          </div>
+          <div className="message-group-content">
+            <div className="message-group-header">
+              <div className="message-group-display-name">
+                <span className="flex items-center gap-1.5 overflow-hidden text-ellipsis">
+                  <span className="cg-text-md-700 cg-text-main truncate">{botInfo.displayName}</span>
+                  <BotBadge />
+                </span>
+              </div>
+            </div>
+            <div className="message-container">
+              {messageElements}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Render user message group
   return (
     <div className={`message-group${isSelf ? ' self-group' : ''}`}>
       <div className="message-group-inner">
         <div className="message-group-icon">
           <UserTooltip
-            userId={creatorId}
+            userId={creatorId || ''}
             isMessageTooltip={false}
             placement='right'
             channelId={channelId}
             openDelay={500}
             closeDelay={100}
           >
-            <Jdenticon userId={creatorId} onlineStatus={creator?.onlineStatus} />
+            <Jdenticon userId={creatorId || ''} onlineStatus={creator?.onlineStatus} />
           </UserTooltip>
         </div>
         <div className="message-group-content">
           <div className="message-group-header">
             <UserTooltip
-              userId={creatorId}
+              userId={creatorId || ''}
               isMessageTooltip={false}
               placement='right'
               channelId={channelId}

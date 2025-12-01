@@ -16,6 +16,7 @@ import {
 } from "typeorm";
 import { User } from "./users";
 import { Channel } from "./channels";
+import { Bot } from "./bots";
 
 @Entity({ name: 'messages' })
 @Unique(['channelId', 'createdAt'])
@@ -23,15 +24,26 @@ export class Message {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
-    @Column({ type: 'uuid', nullable: false })
-    creatorId!: string;
+    @Column({ type: 'uuid', nullable: true })
+    creatorId!: string | null;
 
     @ManyToOne(() => User, { onDelete: 'CASCADE' })
     @JoinColumn({
         name: 'creatorId',
         referencedColumnName: 'id'
     })
-    creator!: User;
+    creator!: User | null;
+
+    @Index()
+    @Column({ type: 'uuid', nullable: true })
+    botId!: string | null;
+
+    @ManyToOne(() => Bot, { onDelete: 'SET NULL' })
+    @JoinColumn({
+        name: 'botId',
+        referencedColumnName: 'id'
+    })
+    bot!: Bot | null;
 
     @Index()
     @Column({ type: 'uuid', nullable: false })

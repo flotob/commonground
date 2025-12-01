@@ -49,10 +49,18 @@ declare namespace Models {
     type Reactions = {
       [emoji: string]: number;
     }
+
+    // Bot info for messages sent by bots
+    type BotInfo = {
+      id: string;
+      name: string;
+      displayName: string;
+      avatarId: string | null;
+    };
   
     type Message = {
       id: string;
-      creatorId: string;
+      creatorId: string | null;  // null for bot messages
       channelId: string;
       body: Body;
       attachments: Attachment[];
@@ -63,6 +71,9 @@ declare namespace Models {
       ownReaction: string | null;
       parentMessageId: string | null;
       sendStatus?: Models.ItemList.Item["sendStatus"];
+      // Bot message fields
+      botId?: string | null;
+      bot?: BotInfo | null;
     };
 
     type ApiMessage = Omit<Message, "createdAt" | "updatedAt" | "sendStatus"> & {

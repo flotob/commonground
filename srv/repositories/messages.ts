@@ -10,6 +10,14 @@ import { type Pool, type PoolClient } from "pg";
 import { ChannelNotificationTypeEnum, ChannelPinTypeEnum } from "../common/enums";
 import fileHelper from "./files";
 
+// Bot info type for messages
+type BotInfo = {
+  id: string;
+  name: string;
+  displayName: string;
+  avatarId: string | null;
+} | null;
+
 async function _getMessages<T extends boolean>(
   db: Pool | PoolClient,
   options: {
@@ -20,7 +28,7 @@ async function _getMessages<T extends boolean>(
     order?: 'DESC' | 'ASC';
     includeDeleted: T;
   }
-): Promise<T extends true ? (Models.Message.ApiMessage & { deletedAt: string | null })[] : Models.Message.ApiMessage[]> {
+): Promise<T extends true ? (Models.Message.ApiMessage & { deletedAt: string | null; botId: string | null; bot: BotInfo })[] : (Models.Message.ApiMessage & { botId: string | null; bot: BotInfo })[]> {
   const query = `
     SELECT
       m."id",
@@ -33,12 +41,22 @@ async function _getMessages<T extends boolean>(
       m."updatedAt",
       m."parentMessageId",
       m."reactions",
+      m."botId",
       ${!!options.userId
         ? `rea."reaction" AS "ownReaction"`
         : `NULL AS "ownReaction"`
-      }
+      },
+      CASE WHEN m."botId" IS NOT NULL THEN
+        json_build_object(
+          'id', b.id,
+          'name', b.name,
+          'displayName', b."displayName",
+          'avatarId', b."avatarId"
+        )
+      ELSE NULL END AS "bot"
       ${options.includeDeleted ? ', m."deletedAt" ' : ''}
     FROM messages m
+    LEFT JOIN bots b ON b.id = m."botId" AND b."deletedAt" IS NULL
     ${!!options.userId
       ? `
       LEFT JOIN reactions rea
@@ -57,7 +75,7 @@ async function _getMessages<T extends boolean>(
   const result = await db.query(query);
   return result.rows as {
     id: string;
-    creatorId: string;
+    creatorId: string | null;
     channelId: string;
     body: Models.Message.ApiMessage["body"];
     attachments: Models.Message.ApiMessage["attachments"];
@@ -68,6 +86,8 @@ async function _getMessages<T extends boolean>(
     parentMessageId: string | null;
     reactions: Models.Message.ApiMessage["reactions"];
     ownReaction: string | null;
+    botId: string | null;
+    bot: BotInfo;
   }[];
 }
 
@@ -159,6 +179,94 @@ async function _createMessage(
       message,
       userAlias,
     };
+  }
+  throw new Error(errors.server.NOT_ALLOWED);
+}
+
+// Bot message creation data type
+type CreateBotMessageData = {
+  id: string;
+  channelId: string;
+  body: Models.Message.Body;
+  attachments: Models.Message.Attachment[];
+  parentMessageId: string | null;
+};
+
+async function _createBotMessage(
+  db: Pool | PoolClient,
+  botId: string,
+  data: CreateBotMessageData
+): Promise<{
+  message: Models.Message.ApiMessage & { botId: string; bot: BotInfo };
+}> {
+  const query = `
+    WITH bot_data AS (
+      SELECT 
+        id,
+        name,
+        "displayName",
+        "avatarId"
+      FROM bots
+      WHERE id = $2::uuid AND "deletedAt" IS NULL
+    )
+    INSERT INTO messages (
+      "id",
+      "botId",
+      "channelId",
+      "body",
+      "attachments",
+      "parentMessageId"
+    ) VALUES (
+      $1::uuid,
+      $2::uuid,
+      $3::uuid,
+      $4::json,
+      $5::json,
+      $6::uuid
+    )
+    RETURNING 
+      "createdAt", 
+      "updatedAt", 
+      "id",
+      (SELECT json_build_object(
+        'id', id,
+        'name', name,
+        'displayName', "displayName",
+        'avatarId', "avatarId"
+      ) FROM bot_data) AS "bot"
+  `;
+  const result = await db.query(query, [
+    data.id,
+    botId,
+    data.channelId,
+    JSON.stringify(data.body),
+    JSON.stringify(data.attachments),
+    data.parentMessageId,
+  ]);
+  if (result.rows.length === 1) {
+    const row = result.rows[0] as {
+      createdAt: string;
+      updatedAt: string;
+      id: string;
+      bot: BotInfo;
+    };
+    const message: Models.Message.ApiMessage & { botId: string; bot: BotInfo } = {
+      id: row.id,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+      creatorId: null as any, // Bot messages don't have a creatorId
+      botId: botId,
+      bot: row.bot,
+      channelId: data.channelId,
+      body: data.body,
+      attachments: data.attachments || [],
+      parentMessageId: data.parentMessageId,
+      reactions: {},
+      ownReaction: null,
+      editedAt: null
+    };
+
+    return { message };
   }
   throw new Error(errors.server.NOT_ALLOWED);
 }
@@ -440,6 +548,16 @@ class MessageHelper {
   }> {
     await this.ensureAttachmentMetadata(data);
     return _createMessage(pool, userId, data);
+  }
+
+  public async createBotMessage(
+    botId: string,
+    data: CreateBotMessageData
+  ): Promise<{
+    message: Models.Message.ApiMessage & { botId: string; bot: BotInfo };
+  }> {
+    await this.ensureAttachmentMetadata(data);
+    return _createBotMessage(pool, botId, data);
   }
 
   public async editMessage(

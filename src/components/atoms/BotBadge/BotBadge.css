@@ -1,0 +1,14 @@
+.bot-badge {
+  @apply inline-flex items-center justify-center;
+  @apply cg-caption-md-600;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: var(--surface-brand, #009EE0);
+  color: white;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+

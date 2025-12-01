@@ -98,7 +98,8 @@ export default function Message(props: Props) {
   const communityState = useSafeCommunityContext();
 
   const canModerateUser = communityState.state === "loaded" && communityState.communityPermissions.has('COMMUNITY_MODERATE');
-  const ownMessage = !!ownUser && ownUser?.id === message.creatorId;
+  const isBot = !!message.botId;
+  const ownMessage = !isBot && !!ownUser && ownUser?.id === message.creatorId;
 
   useEffect(() => {
     const element = messageRef.current;
@@ -235,7 +236,8 @@ export default function Message(props: Props) {
             return; // cancel is already handled
           }
           if (type === 'end' && touchTriggeredRef.current === true) {
-            replyClick(message.id, message.creatorId, message.body);
+            const senderId = isBot ? message.botId! : message.creatorId!;
+            replyClick(message.id, senderId, message.body);
           }
           touchOngoingRef.current = false;
           touchTriggeredRef.current = false;
@@ -287,7 +289,7 @@ export default function Message(props: Props) {
         replyDiv.style.transform = `translate(-${touchShiftRef.current}px, 0px) ${touchTriggeredRef.current ? 'scale(1)' : 'scale(0.8)'}`;
       }
     }
-  }, [context.refs.reference.current, showReplyIndicator, replyClick, message.id, message.updatedAt.getTime(), canReply, ownUser?.id]);
+  }, [context.refs.reference.current, showReplyIndicator, replyClick, message.id, message.updatedAt.getTime(), canReply, ownUser?.id, isBot, message.botId, message.creatorId]);
 
   const tooltipSetReaction = React.useCallback((reaction: string) => {
     setReaction(reaction);
@@ -383,7 +385,7 @@ export default function Message(props: Props) {
           </>}
           <ReactionsDisplay key={`reactions-${message.id}`} message={message} setReaction={setReaction} unsetReaction={unsetReaction} />
         </div>
-        {canModerateUser && <UserTooltip
+        {canModerateUser && !isBot && message.creatorId && <UserTooltip
           ref={userTooltipRef}
           placement='right'
           userId={message.creatorId}
@@ -400,6 +402,8 @@ export default function Message(props: Props) {
 
   const messageHoveredContent = useMemo(() => {
     if (messageIsHovered) {
+      // For bot messages, use the botId as the senderId for reply context
+      const senderId = isBot ? message.botId! : message.creatorId!;
       return ReactDOM.createPortal((
         <AnimatePresence>
           <motion.div
@@ -416,16 +420,16 @@ export default function Message(props: Props) {
               replyClick={replyClick}
               replyTo={{
                 id: message.id,
-                senderId: message.creatorId,
+                senderId: senderId,
                 body: message.body,
               }}
               updatePosition={update}
-              senderId={message.creatorId}
+              senderId={senderId}
               messageId={message.id}
               isSpecialMessage={message.body.content.some(entry => entry.type === 'special')}
               onEditClick={() => editClick(message)}
               stickTooltip={setTooltipSticked}
-              onOpenUserTooltip={() => userTooltipRef.current?.open()}
+              onOpenUserTooltip={isBot ? undefined : () => userTooltipRef.current?.open()}
             />
           </motion.div>
         </AnimatePresence>
@@ -434,7 +438,7 @@ export default function Message(props: Props) {
     else {
       return null;
     }
-  }, [messageIsHovered, message.body, message.id, message.updatedAt.getTime(), channelId, editClick, floating, floatingStyle, replyClick, tooltipSetReaction, update])
+  }, [messageIsHovered, message.body, message.id, message.updatedAt.getTime(), channelId, editClick, floating, floatingStyle, replyClick, tooltipSetReaction, update, isBot, message.botId, message.creatorId])
 
   const returnValue = useMemo(() => {
     const content = (
