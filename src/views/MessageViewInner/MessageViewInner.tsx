@@ -62,7 +62,7 @@ function RendererWithObserver(props: RendererProps & {
     if (!!parentMessage) {
       return {
         id: parentMessage.id,
-        creatorId: parentMessage.creatorId,
+        senderId: parentMessage.botId || parentMessage.creatorId || '',
         body: parentMessage.body
       };
     }
@@ -200,7 +200,7 @@ export default function MessageViewInner(props: {
         setReplyTo({
           id: item?.id,
           body: item.body,
-          senderId: item.creatorId,
+          senderId: item.botId || item.creatorId || '',
         });
       }
       unsubscribe();

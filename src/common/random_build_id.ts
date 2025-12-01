@@ -2,6 +2,6 @@
 //
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
-const buildId = "1sTkXOy47Mu/hQ==";
+const buildId = "D5ggXnWv8UUmKg==";
 
 export default buildId;

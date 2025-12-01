@@ -37,13 +37,13 @@ type Props = {
   attachments?: Models.Message.Attachment[];
   repliedTo: {
     id: string;
-    creatorId: string;
+    senderId: string;  // creatorId or botId
     body: Models.Message.Body;
   } | null;
   channelId: string;
   setReaction: (reaction: string) => void;
   unsetReaction: () => void;
-  replyClick: (id: string, creatorId: string, body: Models.Message.Body) => void;
+  replyClick: (id: string, senderId: string, body: Models.Message.Body) => void;
   editClick: (message: Models.Message.Message) => void;
   visibilityObserver: IntersectionObserver;
   selected?: boolean;
@@ -355,7 +355,7 @@ export default function Message(props: Props) {
         {repliedTo &&
           <ReplyContentRenderer
             id={repliedTo.id}
-            senderId={repliedTo.creatorId}
+            senderId={repliedTo.senderId}
             body={repliedTo.body}
             scrollToMessage={scrollToMessage}
           />
@@ -429,7 +429,7 @@ export default function Message(props: Props) {
               isSpecialMessage={message.body.content.some(entry => entry.type === 'special')}
               onEditClick={() => editClick(message)}
               stickTooltip={setTooltipSticked}
-              onOpenUserTooltip={isBot ? undefined : () => userTooltipRef.current?.open()}
+              onOpenUserTooltip={isBot ? () => {} : () => userTooltipRef.current?.open()}
             />
           </motion.div>
         </AnimatePresence>

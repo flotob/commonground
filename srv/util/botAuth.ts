@@ -67,7 +67,7 @@ export async function authenticateBot(
   } catch (error) {
     console.error('Bot authentication error:', error);
     res.status(500).json({
-      error: errors.server.SERVER_ERROR,
+      error: errors.server.UNKNOWN,
       message: 'Authentication failed.',
     });
   }

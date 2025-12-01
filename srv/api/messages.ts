@@ -292,12 +292,13 @@ async function createMessage(user: User, data: API.Messages.createMessage.Reques
   const notifiedUsers: Set<string> = new Set();
 
   if (!!parentMessage) {
-    // is a reply
-    if ('communityId' in access && !notifiedUsers.has(parentMessage.creatorId) && parentMessage.creatorId !== user.id) {
-      notifiedUsers.add(parentMessage.creatorId);
+    // is a reply - only notify if parent was from a user (not a bot)
+    const parentCreatorId = parentMessage.creatorId;
+    if (parentCreatorId && 'communityId' in access && !notifiedUsers.has(parentCreatorId) && parentCreatorId !== user.id) {
+      notifiedUsers.add(parentCreatorId);
       const notification: typeof notifications[0] = {
         type: 'Reply',
-        userId: parentMessage.creatorId,
+        userId: parentCreatorId,
         subjectCommunityId: access.communityId,
         subjectItemId: message.id,
         subjectUserId: user.id,
@@ -312,7 +313,7 @@ async function createMessage(user: User, data: API.Messages.createMessage.Reques
       notifications.push(notification);
     }
 
-    if ('articleId' in access && !notifiedUsers.has(parentMessage.creatorId) && parentMessage.creatorId !== user.id) {
+    if (parentCreatorId && 'articleId' in access && !notifiedUsers.has(parentCreatorId) && parentCreatorId !== user.id) {
       let article: API.Community.getArticleList.Response[number] | API.User.getArticleList.Response[number] | null = null;
       if ('articleCommunityId' in access) {
         [article] = await articleHelper.getCommunityArticleList(user.id, { ids: [access.articleId], limit: 1 });
@@ -321,11 +322,11 @@ async function createMessage(user: User, data: API.Messages.createMessage.Reques
       }
 
       if (article) {
-        notifiedUsers.add(parentMessage.creatorId);
+        notifiedUsers.add(parentCreatorId);
 
         const notification: typeof notifications[0] = {
           type: 'Reply',
-          userId: parentMessage.creatorId,
+          userId: parentCreatorId,
           subjectCommunityId: null,
           subjectItemId: message.id,
           subjectUserId: user.id,

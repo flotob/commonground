@@ -33,6 +33,7 @@ import { useUserData } from 'context/UserDataProvider';
 import { convertContentToPlainText } from 'common/converters';
 import Jdenticon from 'components/atoms/Jdenticon/Jdenticon';
 import { getDisplayName } from '../../../util';
+import BotBadge from 'components/atoms/BotBadge/BotBadge';
 import ScreenAwareModal from 'components/atoms/ScreenAwareModal/ScreenAwareModal';
 import Button from 'components/atoms/Button/Button';
 
@@ -369,7 +370,8 @@ const PinnedMessage: React.FC<{
   const [, setSearchParams] = useSearchParams();
   const [unpinModalOpen, setUnpinModalOpen] = useState(false);
   const { isMobile } = useWindowSizeContext();
-  const creator = useUserData(message?.creatorId);
+  const isBot = !!message?.botId;
+  const creator = useUserData(isBot ? undefined : message?.creatorId || undefined);
 
   useEffect(() => {
     const resultPromise = data.channelManager.getMessageById(channelId, messageId, (updatedMessage) => {
@@ -437,7 +439,16 @@ const PinnedMessage: React.FC<{
       </div>
     </ScreenAwareModal>
     <div className='flex items-center overflow-hidden w-full gap-1' >
-      {!!creator && <div className='flex items-end gap-1 cg-text-md-500 cg-text-secondary'>
+      {isBot && message?.bot && <div className='flex items-center gap-1 cg-text-md-500 cg-text-secondary'>
+        <Jdenticon
+          userId={message.botId!}
+          hideStatus
+          predefinedSize='20'
+        />
+        {message.bot.displayName}
+        <BotBadge />
+      </div>}
+      {!isBot && !!creator && <div className='flex items-end gap-1 cg-text-md-500 cg-text-secondary'>
         <Jdenticon
           userId={creator.id}
           hideStatus
