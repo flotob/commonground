@@ -15,8 +15,9 @@ const BotDisplayName = Joi.string().min(1).max(100).required();
 // Bot description: optional, max 1000 chars
 const BotDescription = Joi.string().max(1000).allow('', null);
 
-// Webhook URL: optional, must be HTTPS in production
-const WebhookUrl = Joi.string().uri({ scheme: ['https', 'http'] }).max(512).allow(null);
+// Webhook URL: required for bot creation, must be valid URL
+const WebhookUrl = Joi.string().uri({ scheme: ['https', 'http'] }).max(512);
+const WebhookUrlOptional = Joi.string().uri({ scheme: ['https', 'http'] }).max(512).allow(null);
 
 // Bot permissions object
 const BotPermissions = Joi.object().pattern(
@@ -62,7 +63,7 @@ const botApi = {
     displayName: BotDisplayName,
     description: BotDescription,
     avatarId: Joi.alternatives().try(common.ImageId, Joi.equal(null)),
-    webhookUrl: WebhookUrl,
+    webhookUrl: WebhookUrl.required(),  // Required for bot creation
     permissions: BotPermissions,
   }).strict(true).required(),
 
@@ -71,7 +72,7 @@ const botApi = {
     displayName: Joi.string().min(1).max(100),
     description: BotDescription,
     avatarId: Joi.alternatives().try(common.ImageId, Joi.equal(null)),
-    webhookUrl: WebhookUrl,
+    webhookUrl: WebhookUrlOptional,  // Optional for updates
     permissions: BotPermissions,
   }).strict(true).required(),
 
@@ -97,10 +98,12 @@ const botApi = {
     communityId: common.Uuid.required(),
     botId: common.Uuid.required(),
     config: Joi.object().default({}),
-    enabledChannelIds: Joi.alternatives().try(
-      Joi.array().items(common.Uuid),
-      Joi.equal(null)
-    ).default(null),
+    // channelPermissions: { "channelId": "full_access" | "mentions_only" | "no_access" | "moderator" }
+    // Empty object means full access to all channels
+    channelPermissions: Joi.object().pattern(
+      common.Uuid,
+      Joi.string().valid('no_access', 'mentions_only', 'full_access', 'moderator')
+    ).default({}),
   }).strict(true).required(),
 
   removeBotFromCommunity: Joi.object({
@@ -112,14 +115,21 @@ const botApi = {
     communityId: common.Uuid.required(),
     botId: common.Uuid.required(),
     config: Joi.object(),
-    enabledChannelIds: Joi.alternatives().try(
-      Joi.array().items(common.Uuid),
-      Joi.equal(null)
+    // channelPermissions: { "channelId": "full_access" | "mentions_only" | "no_access" | "moderator" }
+    channelPermissions: Joi.object().pattern(
+      common.Uuid,
+      Joi.string().valid('no_access', 'mentions_only', 'full_access', 'moderator')
     ),
   }).strict(true).required(),
 
   getCommunityBots: Joi.object({
     communityId: common.Uuid.required(),
+  }).strict(true).required(),
+
+  getChannelBots: Joi.object({
+    communityId: common.Uuid.required(),
+    channelId: common.Uuid.required(),
+    search: Joi.string().max(100),  // Optional: filter by name/displayName
   }).strict(true).required(),
 
   // ==========================================

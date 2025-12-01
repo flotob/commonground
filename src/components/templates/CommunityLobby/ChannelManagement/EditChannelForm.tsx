@@ -2,7 +2,7 @@
 //
 // Additional terms: see LICENSE-ADDITIONAL-TERMS.md
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import data from "data";
 
 import Button from "components/atoms/Button/Button";
@@ -11,6 +11,7 @@ import TextAreaField from "components/molecules/inputs/TextAreaField/TextAreaFie
 import TextInputField from "components/molecules/inputs/TextInputField/TextInputField";
 import { ReactComponent as CloseIcon } from 'components/atoms/icons/16/Close-1.svg';
 import RolePermissionToggle, { PermissionType } from "components/molecules/RolePermissionToggle/RolePermissionToggle";
+import BotPermissionToggle, { BotForPermissions } from "components/molecules/BotPermissionToggle/BotPermissionToggle";
 
 import { useLoadedCommunityContext } from "context/CommunityProvider";
 import { PredefinedRole } from "common/enums";
@@ -19,6 +20,7 @@ import { useNavigationContext } from "components/SuspenseRouter/SuspenseRouter";
 import { useSnackbarContext } from "context/SnackbarContext";
 import FloatingSaveOptions from "../FloatingSaveOptions/FloatingSaveOptions";
 import errors from "common/errors";
+import botsApi from "data/api/bots";
 
 type Props = {
   communityId: string;
@@ -118,6 +120,8 @@ const emptyChannel: Models.Community.Channel = Object.freeze({
   pinnedUntil: null,
 });
 
+type BotPermissionLevel = Models.Bot.BotChannelPermissionLevel;
+
 export default function EditChannelForm(props: Props) {
   const { channel, onFinish, communityId, areaId, nextOrder } = props;
   const isEditing = !!channel;
@@ -145,6 +149,45 @@ export default function EditChannelForm(props: Props) {
   const [rolesPermissions, setRolesPermissions] = useState<Record<string, PermissionType>>(
     isEditing ? channelPermissionsToPermissionType(channel.rolePermissions) : channelPermissionsToPermissionType(defaultPermission)
   );
+
+  // Bot permissions state
+  const [communityBots, setCommunityBots] = useState<BotForPermissions[]>([]);
+  const [botPermissions, setBotPermissions] = useState<Record<string, BotPermissionLevel>>({});
+  const [initialBotPermissions, setInitialBotPermissions] = useState<Record<string, BotPermissionLevel>>({});
+
+  // Load community bots and their current permissions for this channel
+  useEffect(() => {
+    const loadBots = async () => {
+      try {
+        const response = await botsApi.getCommunityBots({ communityId });
+        if (response.bots) {
+          // Extract bot info for display
+          const bots: BotForPermissions[] = response.bots.map(b => ({
+            id: b.id,
+            name: b.name,
+            displayName: b.displayName,
+            avatarId: b.avatarId,
+          }));
+          setCommunityBots(bots);
+
+          // Extract current permissions for this channel from each bot
+          if (channel) {
+            const permissions: Record<string, BotPermissionLevel> = {};
+            for (const bot of response.bots) {
+              // Get the permission for this specific channel, default to full_access
+              permissions[bot.id] = bot.channelPermissions?.[channel.channelId] || 'full_access';
+            }
+            setBotPermissions(permissions);
+            setInitialBotPermissions(permissions);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load community bots:', e);
+      }
+    };
+    loadBots();
+  }, [communityId, channel]);
+
   const setCurrentChannelWDirty: React.Dispatch<React.SetStateAction<Models.Community.Channel>> = useCallback(action => {
     setCurrentChannel(action);
     setDirty(true);
@@ -154,6 +197,47 @@ export default function EditChannelForm(props: Props) {
     setRolesPermissions(action);
     setDirty(true);
   }, [setDirty]);
+
+  const setBotPermissionsWDirty: React.Dispatch<React.SetStateAction<Record<string, BotPermissionLevel>>> = useCallback(action => {
+    setBotPermissions(action);
+    setDirty(true);
+  }, [setDirty]);
+
+  // Helper to save bot permissions for a specific channel
+  const saveBotPermissions = useCallback(async (channelId: string) => {
+    // Find bots whose permissions changed
+    const changedBots = communityBots.filter(bot => {
+      const currentPerm = botPermissions[bot.id] || 'full_access';
+      const initialPerm = initialBotPermissions[bot.id] || 'full_access';
+      return currentPerm !== initialPerm;
+    });
+
+    // For each changed bot, we need to get their full channelPermissions and update
+    // This is a simplified approach - we update each bot individually
+    for (const bot of changedBots) {
+      try {
+        // Get the current community bot data to preserve other channel permissions
+        const response = await botsApi.getCommunityBots({ communityId });
+        const communityBot = response.bots?.find(b => b.id === bot.id);
+        
+        if (communityBot) {
+          // Merge the new permission for this channel with existing permissions
+          const newChannelPermissions = {
+            ...communityBot.channelPermissions,
+            [channelId]: botPermissions[bot.id] || 'full_access',
+          };
+
+          await botsApi.updateCommunityBot({
+            communityId,
+            botId: bot.id,
+            channelPermissions: newChannelPermissions,
+          });
+        }
+      } catch (err) {
+        console.error(`Failed to update bot ${bot.displayName} permissions:`, err);
+      }
+    }
+  }, [communityBots, botPermissions, initialBotPermissions, communityId]);
 
   const handleSaveChannel = useCallback(async () => {
     if (!isDirty) {
@@ -167,6 +251,10 @@ export default function EditChannelForm(props: Props) {
           rolePermissions: permissionTypeToChannelPermissions(roles, rolesPermissions, defaultPermission),
           url: currentChannel.url || null,
         });
+
+        // Save bot permissions for this channel
+        await saveBotPermissions(currentChannel.channelId);
+
         showSnackbar({ type: 'info', text: 'Channel updated' });
         onFinish();
       } catch (err) {
@@ -189,13 +277,17 @@ export default function EditChannelForm(props: Props) {
           order: nextOrder,
           rolePermissions: permissionTypeToChannelPermissions(roles, rolesPermissions, defaultPermission),
         });
+
+        // Note: Bot permissions for new channels default to full_access
+        // Users can edit bot permissions after channel creation
+
         showSnackbar({ type: 'info', text: 'Channel created' });
         onFinish();
       } catch (err) {
         console.error(err);
       }
     }
-  }, [areaId, communityId, currentChannel.channelId, currentChannel.communityId, currentChannel.description, currentChannel.emoji, currentChannel.title, currentChannel.url, defaultPermission, isDirty, isEditing, nextOrder, onFinish, roles, rolesPermissions, showSnackbar]);
+  }, [areaId, communityId, currentChannel.channelId, currentChannel.communityId, currentChannel.description, currentChannel.emoji, currentChannel.title, currentChannel.url, defaultPermission, isDirty, isEditing, nextOrder, onFinish, roles, rolesPermissions, saveBotPermissions, showSnackbar, channels]);
 
   const handleDeleteChannel = useCallback(async () => {
     if (isEditing) {
@@ -248,6 +340,18 @@ export default function EditChannelForm(props: Props) {
               roles={roles}
               rolesPermissions={rolesPermissions}
               setRolesPermissions={setRolesPermissionsWDirty}
+            />
+          </div>
+        </div>
+        <div className='flex flex-col gap-4'>
+          <span className='section-title'>Bot Access</span>
+          <div className='form-container cg-content-stack'>
+            <BotPermissionToggle
+              title="Configure bot access for this channel"
+              subtitle="Control which bots can interact in this channel and how"
+              bots={communityBots}
+              botPermissions={botPermissions}
+              setBotPermissions={setBotPermissionsWDirty}
             />
           </div>
         </div>

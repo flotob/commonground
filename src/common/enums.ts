@@ -208,3 +208,10 @@ export enum ReportType {
   USER = 'USER',
   MESSAGE = 'MESSAGE',
 }
+
+export enum BotChannelPermission {
+  NO_ACCESS = 'no_access',
+  MENTIONS_ONLY = 'mentions_only',
+  FULL_ACCESS = 'full_access',
+  MODERATOR = 'moderator',
+}

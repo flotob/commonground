@@ -157,7 +157,7 @@ registerPostRoute<
  * Add a bot to a community
  */
 registerPostRoute<
-  { communityId: string; botId: string; config?: Record<string, any>; enabledChannelIds?: string[] | null },
+  { communityId: string; botId: string; config?: Record<string, any>; channelPermissions?: Record<string, string> },
   void
 >(
   botRouter,
@@ -185,7 +185,7 @@ registerPostRoute<
       data.botId,
       user.id,
       data.config || {},
-      data.enabledChannelIds ?? null
+      data.channelPermissions || {}
     );
 
     return;
@@ -222,7 +222,7 @@ registerPostRoute<
  * Update a bot's configuration in a community
  */
 registerPostRoute<
-  { communityId: string; botId: string; config?: Record<string, any>; enabledChannelIds?: string[] | null },
+  { communityId: string; botId: string; config?: Record<string, any>; channelPermissions?: Record<string, string> },
   void
 >(
   botRouter,
@@ -243,7 +243,7 @@ registerPostRoute<
       data.communityId,
       data.botId,
       data.config,
-      data.enabledChannelIds
+      data.channelPermissions
     );
 
     return;
@@ -255,7 +255,7 @@ registerPostRoute<
  */
 registerPostRoute<
   { communityId: string },
-  { bots: (BotInfo & { config: Record<string, any>; enabledChannelIds: string[] | null; addedByUserId: string })[] }
+  { bots: (BotInfo & { config: Record<string, any>; channelPermissions: Record<string, string>; addedByUserId: string })[] }
 >(
   botRouter,
   "/getCommunityBots",
@@ -274,6 +274,40 @@ registerPostRoute<
     }
 
     const bots = await botHelper.getCommunityBots(data.communityId);
+    return { bots };
+  }
+);
+
+/**
+ * Get bots available in a specific channel
+ * Used for member list sidebar and mention autocomplete
+ * Requires user to be a member of the community
+ */
+registerPostRoute<
+  { communityId: string; channelId: string; search?: string },
+  { bots: { id: string; name: string; displayName: string; avatarId: string | null; description: string | null }[] }
+>(
+  botRouter,
+  "/getChannelBots",
+  validators.API.Bot.getChannelBots,
+  async (request, response, data) => {
+    const user = request.session.user;
+    if (!user) throw new Error(errors.server.LOGIN_REQUIRED);
+
+    // Check if user is a member of the community
+    const isMember = await userHelper.isUserMemberOfCommunity({
+      userId: user.id,
+      communityId: data.communityId,
+    });
+    if (!isMember) {
+      throw new Error(errors.server.NOT_ALLOWED);
+    }
+
+    const bots = await botHelper.getChannelBotsForUI(
+      data.communityId,
+      data.channelId,
+      data.search
+    );
     return { bots };
   }
 );

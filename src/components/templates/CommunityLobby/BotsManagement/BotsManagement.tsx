@@ -37,7 +37,7 @@ export interface BotInfo {
 
 // Community bot type (flat structure from API - bot fields merged with community_bot fields)
 export interface CommunityBotInfo extends BotInfo {
-  enabledChannelIds: string[] | null;
+  channelPermissions: Record<string, Models.Bot.BotChannelPermissionLevel>;
   addedByUserId: string;
   config: Record<string, any>;
 }

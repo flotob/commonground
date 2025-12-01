@@ -53,8 +53,13 @@ export class CommunityBot {
     @Column({ type: 'jsonb', nullable: false, default: '{}' })
     config!: Record<string, any>;
 
-    @Column({ type: 'uuid', array: true, nullable: true })
-    enabledChannelIds!: string[] | null;
+    /**
+     * Per-channel permissions for this bot
+     * Key: channelId, Value: permission level
+     * Missing channels = no_access (default)
+     */
+    @Column({ type: 'jsonb', nullable: false, default: '{}' })
+    channelPermissions!: Record<string, Models.Bot.BotChannelPermissionLevel>;
 
     @CreateDateColumn({ type: 'timestamptz', precision: 3 })
     createdAt!: Date;

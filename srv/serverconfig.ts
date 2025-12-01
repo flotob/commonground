@@ -6,6 +6,20 @@ import { dockerSecret } from "./util";
 import mailchimpClient from '@mailchimp/mailchimp_marketing';
 import sgMail from '@sendgrid/mail';
 import config from './common/config';
+import { BotChannelPermission } from './common/enums';
+
+// Validate bot default permission from env
+const botDefaultPermEnv = process.env.BOT_DEFAULT_CHANNEL_PERMISSION;
+const validBotPermissions: BotChannelPermission[] = [
+    BotChannelPermission.NO_ACCESS,
+    BotChannelPermission.MENTIONS_ONLY,
+    BotChannelPermission.FULL_ACCESS,
+    BotChannelPermission.MODERATOR,
+];
+const BOT_DEFAULT_CHANNEL_PERMISSION: BotChannelPermission = 
+    botDefaultPermEnv && validBotPermissions.includes(botDefaultPermEnv as BotChannelPermission)
+        ? botDefaultPermEnv as BotChannelPermission
+        : BotChannelPermission.FULL_ACCESS;
 
 const serverconfig = {
     MAILCHIMP_API_KEY: dockerSecret('mailchimp_api') || process.env.MAILCHIMP_API_KEY || 'placeholder', // test key
@@ -13,6 +27,11 @@ const serverconfig = {
     MAILCHIMP_DEFAULT_LIST_ID: dockerSecret('mailchimp_list_id') || process.env.MAILCHIMP_LIST_ID || 'placeholder', // Todo: check if this should be hidden
     SENDGRID_API_KEY: dockerSecret('sendgrid_api') || process.env.SENDGRID_API_KEY || 'placeholder',
     SESSION_COOKIE_NAME: config.DEPLOYMENT === 'prod' ? 'connect.sid' : `cg_${config.DEPLOYMENT}.sid`,
+    
+    // Bot settings
+    // Default permission level for bots in channels where no specific permission is set
+    // Valid values: 'no_access', 'mentions_only', 'full_access', 'moderator'
+    BOT_DEFAULT_CHANNEL_PERMISSION,
 }
 
 mailchimpClient.setConfig({

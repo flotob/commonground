@@ -159,6 +159,8 @@ services:
       - SENDGRID_API_KEY=${SENDGRID_API_KEY}
       - SUMSUB_SECRET_KEY=${SUMSUB_SECRET_KEY}
       - SUMSUB_APP_TOKEN=${SUMSUB_APP_TOKEN}
+      # Bot settings: default permission for bots in channels (no_access, mentions_only, full_access, moderator)
+      - BOT_DEFAULT_CHANNEL_PERMISSION=${BOT_DEFAULT_CHANNEL_PERMISSION:-mentions_only}
     depends_on:
       - db
       - redis-sessions

@@ -7,6 +7,7 @@ import * as bcrypt from "bcrypt";
 import format from "pg-format";
 import errors from "../common/errors";
 import pool from "../util/postgres";
+import serverconfig from "../serverconfig";
 
 // Generate a secure random token
 function generateToken(): string {
@@ -360,13 +361,15 @@ class BotHelper {
 
   /**
    * Add bot to a community
+   * channelPermissions: { "channelId": "full_access" | "mentions_only" | "no_access" | "moderator" }
+   * Empty object {} means full access to all channels
    */
   public async addBotToCommunity(
     communityId: string,
     botId: string,
     addedByUserId: string,
     config: Record<string, any> = {},
-    enabledChannelIds: string[] | null = null
+    channelPermissions: Record<string, string> = {}
   ): Promise<void> {
     const query = `
       INSERT INTO community_bots (
@@ -374,14 +377,14 @@ class BotHelper {
         "botId",
         "addedByUserId",
         "config",
-        "enabledChannelIds"
+        "channelPermissions"
       ) VALUES ($1, $2, $3, $4, $5)
       ON CONFLICT ("communityId", "botId") 
       DO UPDATE SET 
         "deletedAt" = NULL,
         "addedByUserId" = EXCLUDED."addedByUserId",
         "config" = EXCLUDED."config",
-        "enabledChannelIds" = EXCLUDED."enabledChannelIds",
+        "channelPermissions" = EXCLUDED."channelPermissions",
         "updatedAt" = NOW()
     `;
 
@@ -390,7 +393,7 @@ class BotHelper {
       botId,
       addedByUserId,
       JSON.stringify(config),
-      enabledChannelIds,
+      JSON.stringify(channelPermissions),
     ]);
   }
 
@@ -415,13 +418,14 @@ class BotHelper {
   }
 
   /**
-   * Update community bot config
+   * Update community bot config or channel permissions
+   * channelPermissions: { "channelId": "full_access" | "mentions_only" | "no_access" | "moderator" }
    */
   public async updateCommunityBot(
     communityId: string,
     botId: string,
     config?: Record<string, any>,
-    enabledChannelIds?: string[] | null
+    channelPermissions?: Record<string, string>
   ): Promise<void> {
     const setClauses: string[] = ['"updatedAt" = NOW()'];
     const params: any[] = [communityId, botId];
@@ -431,9 +435,9 @@ class BotHelper {
       setClauses.push(`"config" = $${paramIndex++}`);
       params.push(JSON.stringify(config));
     }
-    if (enabledChannelIds !== undefined) {
-      setClauses.push(`"enabledChannelIds" = $${paramIndex++}`);
-      params.push(enabledChannelIds);
+    if (channelPermissions !== undefined) {
+      setClauses.push(`"channelPermissions" = $${paramIndex++}`);
+      params.push(JSON.stringify(channelPermissions));
     }
 
     const query = `
@@ -454,7 +458,7 @@ class BotHelper {
    */
   public async getCommunityBots(communityId: string): Promise<(BotInfo & {
     config: Record<string, any>;
-    enabledChannelIds: string[] | null;
+    channelPermissions: Record<string, string>;
     addedByUserId: string;
   })[]> {
     const query = `
@@ -470,7 +474,7 @@ class BotHelper {
         b."createdAt",
         b."updatedAt",
         cb."config",
-        cb."enabledChannelIds",
+        cb."channelPermissions",
         cb."addedByUserId"
       FROM community_bots cb
       JOIN bots b ON b."id" = cb."botId" AND b."deletedAt" IS NULL
@@ -500,12 +504,13 @@ class BotHelper {
 
   /**
    * Check if bot has access to a specific channel
+   * Returns the permission level and bot info
    */
   public async getBotChannelAccess(
     botId: string,
     communityId: string,
     channelId: string
-  ): Promise<{ hasAccess: boolean; bot: BotInfo | null }> {
+  ): Promise<{ hasAccess: boolean; permissionLevel: string; bot: BotInfo | null }> {
     const query = `
       SELECT 
         b."id",
@@ -518,7 +523,7 @@ class BotHelper {
         b."permissions",
         b."createdAt",
         b."updatedAt",
-        cb."enabledChannelIds"
+        cb."channelPermissions"
       FROM community_bots cb
       JOIN bots b ON b."id" = cb."botId" AND b."deletedAt" IS NULL
       WHERE cb."botId" = $1 AND cb."communityId" = $2 AND cb."deletedAt" IS NULL
@@ -527,19 +532,18 @@ class BotHelper {
     const result = await pool.query(query, [botId, communityId]);
 
     if (result.rowCount === 0) {
-      return { hasAccess: false, bot: null };
+      return { hasAccess: false, permissionLevel: 'no_access', bot: null };
     }
 
     const row = result.rows[0];
-    const enabledChannelIds: string[] | null = row.enabledChannelIds;
+    const channelPermissions: Record<string, string> = row.channelPermissions || {};
 
-    // null means all channels are allowed
-    // empty array means no channels allowed
-    // array with values means only those channels allowed
-    const hasAccess = enabledChannelIds === null || enabledChannelIds.includes(channelId);
+    // Get permission for this channel, default to configured default if not specified
+    const permissionLevel = channelPermissions[channelId] || serverconfig.BOT_DEFAULT_CHANNEL_PERMISSION;
+    const hasAccess = permissionLevel !== 'no_access';
 
-    const { enabledChannelIds: _, ...botInfo } = row;
-    return { hasAccess, bot: botInfo as BotInfo };
+    const { channelPermissions: _, ...botInfo } = row;
+    return { hasAccess, permissionLevel, bot: botInfo as BotInfo };
   }
 
   /**
@@ -566,26 +570,107 @@ class BotHelper {
 
   /**
    * Get all bots in a channel (for webhook delivery)
+   * Returns webhook info for sending events to bots
+   * Only returns bots that have access (not 'no_access')
    */
   public async getBotsInChannel(
     communityId: string,
     channelId: string
-  ): Promise<{ id: string; webhookUrl: string; webhookSecret: string }[]> {
+  ): Promise<{ id: string; webhookUrl: string; webhookSecret: string; permissionLevel: string }[]> {
+    // Get all bots in the community with webhooks
     const query = `
       SELECT 
         b."id",
         b."webhookUrl",
-        b."webhookSecret"
+        b."webhookSecret",
+        cb."channelPermissions"
       FROM community_bots cb
       JOIN bots b ON b."id" = cb."botId" AND b."deletedAt" IS NULL
       WHERE cb."communityId" = $1 
         AND cb."deletedAt" IS NULL
         AND b."webhookUrl" IS NOT NULL
-        AND (cb."enabledChannelIds" IS NULL OR $2 = ANY(cb."enabledChannelIds"))
     `;
 
-    const result = await pool.query(query, [communityId, channelId]);
-    return result.rows;
+    const result = await pool.query(query, [communityId]);
+    
+    // Filter by channel permission in JS (JSONB querying can be tricky)
+    return result.rows
+      .map(row => {
+        const channelPermissions: Record<string, string> = row.channelPermissions || {};
+        const permissionLevel = channelPermissions[channelId] || serverconfig.BOT_DEFAULT_CHANNEL_PERMISSION;
+        return {
+          id: row.id,
+          webhookUrl: row.webhookUrl,
+          webhookSecret: row.webhookSecret,
+          permissionLevel,
+        };
+      })
+      .filter(bot => bot.permissionLevel !== 'no_access');
+  }
+
+  /**
+   * Get all bots in a channel for UI display (member list, mentions)
+   * Returns display info for showing bots to users
+   * Only returns bots that have access (not 'no_access')
+   */
+  public async getChannelBotsForUI(
+    communityId: string,
+    channelId: string,
+    search?: string
+  ): Promise<{
+    id: string;
+    name: string;
+    displayName: string;
+    avatarId: string | null;
+    description: string | null;
+    permissionLevel: string;
+  }[]> {
+    // Get all bots in the community
+    let query = `
+      SELECT 
+        b."id",
+        b."name",
+        b."displayName",
+        b."avatarId",
+        b."description",
+        cb."channelPermissions"
+      FROM community_bots cb
+      JOIN bots b ON b."id" = cb."botId" AND b."deletedAt" IS NULL
+      WHERE cb."communityId" = $1 
+        AND cb."deletedAt" IS NULL
+    `;
+
+    const params: string[] = [communityId];
+
+    if (search) {
+      query += `
+        AND (
+          LOWER(b."name") LIKE LOWER($2) || '%'
+          OR LOWER(b."displayName") LIKE LOWER($2) || '%'
+        )
+      `;
+      params.push(search);
+    }
+
+    query += ` ORDER BY b."displayName" ASC LIMIT 50`;
+
+    const result = await pool.query(query, params);
+    
+    // Filter by channel permission and map to output format
+    return result.rows
+      .map(row => {
+        const channelPermissions: Record<string, string> = row.channelPermissions || {};
+        const permissionLevel = channelPermissions[channelId] || serverconfig.BOT_DEFAULT_CHANNEL_PERMISSION;
+        return {
+          id: row.id,
+          name: row.name,
+          displayName: row.displayName,
+          avatarId: row.avatarId,
+          description: row.description,
+          permissionLevel,
+        };
+      })
+      .filter(bot => bot.permissionLevel !== 'no_access');
   }
 }
 

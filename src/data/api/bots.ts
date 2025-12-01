@@ -10,7 +10,7 @@ interface CreateBotRequest {
   name: string;
   displayName: string;
   description?: string;
-  webhookUrl?: string;
+  webhookUrl: string;  // Required
 }
 
 interface CreateBotResponse {
@@ -65,7 +65,7 @@ interface GetBotByIdResponse {
 interface AddBotToCommunityRequest {
   communityId: string;
   botId: string;
-  enabledChannelIds?: string[];
+  channelPermissions?: Record<string, Models.Bot.BotChannelPermissionLevel>;
 }
 
 interface AddBotToCommunityResponse {
@@ -84,7 +84,7 @@ interface RemoveBotFromCommunityResponse {
 interface UpdateCommunityBotRequest {
   communityId: string;
   botId: string;
-  enabledChannelIds?: string[] | null;
+  channelPermissions?: Record<string, Models.Bot.BotChannelPermissionLevel>;
 }
 
 interface UpdateCommunityBotResponse {
@@ -97,6 +97,25 @@ interface GetCommunityBotsRequest {
 
 interface GetCommunityBotsResponse {
   bots: CommunityBotInfo[];
+}
+
+// Channel bots (for member list & mentions)
+export interface ChannelBotInfo {
+  id: string;
+  name: string;
+  displayName: string;
+  avatarId: string | null;
+  description: string | null;
+}
+
+interface GetChannelBotsRequest {
+  communityId: string;
+  channelId: string;
+  search?: string;
+}
+
+interface GetChannelBotsResponse {
+  bots: ChannelBotInfo[];
 }
 
 class BotsApiConnector extends BaseApiConnector {
@@ -150,6 +169,14 @@ class BotsApiConnector extends BaseApiConnector {
 
   public async getCommunityBots(data: GetCommunityBotsRequest) {
     return await this.ajax<GetCommunityBotsResponse>('POST', '/getCommunityBots', data);
+  }
+
+  // ============================================
+  // Channel Bots (for member list & mentions)
+  // ============================================
+
+  public async getChannelBots(data: GetChannelBotsRequest) {
+    return await this.ajax<GetChannelBotsResponse>('POST', '/getChannelBots', data);
   }
 }
 

@@ -1,0 +1,17 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Additional terms: see LICENSE-ADDITIONAL-TERMS.md */
+
+.bot-permission-toggle-unit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.bot-permission-toggle-unit .title-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+

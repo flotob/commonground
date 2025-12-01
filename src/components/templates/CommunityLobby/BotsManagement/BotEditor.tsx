@@ -38,6 +38,11 @@ const BotEditor: React.FC<Props> = (props) => {
       return;
     }
 
+    if (isCreating && !bot.webhookUrl?.trim()) {
+      showSnackbar({ type: 'warning', text: 'Please enter a webhook URL' });
+      return;
+    }
+
     setSaving(true);
     try {
       if (isCreating) {
@@ -46,7 +51,7 @@ const BotEditor: React.FC<Props> = (props) => {
           name: bot.name.trim().toLowerCase().replace(/\s+/g, '-'),
           displayName: bot.displayName.trim(),
           description: bot.description || undefined,
-          webhookUrl: bot.webhookUrl || undefined,
+          webhookUrl: bot.webhookUrl!.trim(),  // Required for creation
         });
 
         // Auto-add bot to current community
@@ -135,7 +140,9 @@ const BotEditor: React.FC<Props> = (props) => {
       </div>
 
       <div className='flex flex-col gap-1'>
-        <label className='cg-text-sm-500 cg-text-secondary'>Webhook URL (optional)</label>
+        <label className='cg-text-sm-500 cg-text-secondary'>
+          Webhook URL {isCreating && <span className='cg-text-error'>*</span>}
+        </label>
         <input
           type='text'
           className='cg-input'
