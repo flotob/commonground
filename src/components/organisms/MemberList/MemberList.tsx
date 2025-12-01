@@ -10,6 +10,7 @@ import { useMemberListContext } from "./MemberListContext";
 import { useWindowSizeContext } from "../../../context/WindowSizeProvider";
 
 import UserTag from "../../atoms/UserTag/UserTag";
+import BotTag, { BotTagData } from "../../atoms/BotTag/BotTag";
 import Scrollable, { type PositionData } from "../../molecules/Scrollable/Scrollable";
 import { FloatingDelayGroup } from "@floating-ui/react-dom-interactions";
 import { ReactComponent as SidebarExpandIcon } from '../../../components/atoms/icons/20/SidebarExpand.svg';
@@ -17,6 +18,7 @@ import SearchField from "../../../components/atoms/SearchField/SearchField";
 import { useCommunityChannelIdContext } from "context/CommunityChannelProvider";
 import { useMultipleUserData } from "context/UserDataProvider";
 import communityApi from "data/api/community";
+import botsApi from "data/api/bots";
 
 type Props = {
 }
@@ -46,6 +48,7 @@ export default function MemberList(props: Props) {
   const { channelsById, community } = useLoadedCommunityContext();
   const [search, setSearch] = React.useState<string | undefined>();
   const [memberListData, setMemberListData] = React.useState<MemberListData | undefined>();
+  const [channelBots, setChannelBots] = React.useState<BotTagData[]>([]);
   const [offset, setOffset] = React.useState<number>(0);
   const intervalRef = React.useRef<any>(undefined);
   const retrievalDebouceRef = React.useRef<any>(undefined);
@@ -53,6 +56,7 @@ export default function MemberList(props: Props) {
 
   useEffect(() => {
     setMemberListData(undefined);
+    setChannelBots([]);
     setOffset(0);
     if (retrievalDebouceRef.current !== undefined) {
       clearTimeout(retrievalDebouceRef.current);
@@ -77,6 +81,21 @@ export default function MemberList(props: Props) {
       console.log(err);
     });
   }, [community.id, channelId, offset, search]);
+
+  // Fetch bots available in this channel
+  const updateChannelBots = useCallback(() => {
+    if (!channelId || !community) return;
+    botsApi.getChannelBots({
+      channelId: channelId,
+      communityId: community.id,
+      search,
+    }).then(res => {
+      setChannelBots(res.bots || []);
+    }).catch(err => {
+      setChannelBots([]);
+      console.log('Failed to fetch channel bots:', err);
+    });
+  }, [community.id, channelId, search]);
 
   const updateOffsetByScrollState = useCallback((scrollState: PositionData) => {
     if (scrollState.scrollTop === 0 && offset === 0) {
@@ -120,10 +139,14 @@ export default function MemberList(props: Props) {
     let interval: any;
     if (memberListIsOpen) {
       updateMemberList();
-      interval = setInterval(updateMemberList, 5000);
+      updateChannelBots();
+      interval = setInterval(() => {
+        updateMemberList();
+        updateChannelBots();
+      }, 5000);
     }
     return () => clearInterval(interval);
-  }, [updateMemberList, memberListIsOpen]);
+  }, [updateMemberList, updateChannelBots, memberListIsOpen]);
 
   useEffect(() => {
     const handleMemberListPosition = () => {
@@ -188,6 +211,7 @@ export default function MemberList(props: Props) {
               channelId={channelId}
               channelsById={channelsById}
               memberListData={memberListData}
+              channelBots={channelBots}
               search={search}
             />
           </Scrollable>
@@ -201,10 +225,11 @@ type ListByRoleProps = {
   channelId: string | undefined;
   channelsById: Readonly<Map<string, Models.Community.Channel>>;
   memberListData: MemberListData | undefined;
+  channelBots: BotTagData[];
   search: string | undefined;
 };
 
-const MemberListByRole: React.FC<ListByRoleProps> = React.memo(({ channelId, channelsById, memberListData, search }) => {
+const MemberListByRole: React.FC<ListByRoleProps> = React.memo(({ channelId, channelsById, memberListData, channelBots, search }) => {
   const memberList = memberListData?.memberList;
 
   const userIds = useMemo(() => {
@@ -214,7 +239,20 @@ const MemberListByRole: React.FC<ListByRoleProps> = React.memo(({ channelId, cha
 
   const __allMembers = useMultipleUserData(userIds);
 
-  if (!memberList) return null;
+  // Show bots even while member list is loading
+  if (!memberList) {
+    if (channelBots.length > 0) {
+      return <>
+        <div className="role-title">
+          <span>Bots</span> <span>{channelBots.length}</span>
+        </div>
+        {channelBots.map(bot => (
+          <BotTag key={bot.id} bot={bot} />
+        ))}
+      </>;
+    }
+    return null;
+  }
 
   const offset = memberListData?.offset || 0;
   const limit = WINDOW_SIZE;
@@ -394,6 +432,16 @@ const MemberListByRole: React.FC<ListByRoleProps> = React.memo(({ channelId, cha
   }
 
   return <>
+    {/* Bots section - shown at the top */}
+    {channelBots.length > 0 && <>
+      <div className="role-title">
+        <span>Bots</span> <span>{channelBots.length}</span>
+      </div>
+      {channelBots.map(bot => (
+        <BotTag key={bot.id} bot={bot} />
+      ))}
+    </>}
+
     {memberList.adminCount > 0 && <>
       <div className="role-title">
         <span>Admins</span> <span>{memberList.adminCount}</span>
