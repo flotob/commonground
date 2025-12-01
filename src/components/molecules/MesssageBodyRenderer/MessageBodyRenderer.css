@@ -23,6 +23,10 @@
   background-color: var(--surface-buttons-secondary);
 }
 
+.message-body-bot-mention {
+  @apply inline-flex items-center gap-1;
+}
+
 .own-message {
   .message-body-mention {
     background-color: var(--surface-buttons-secondary-hover);

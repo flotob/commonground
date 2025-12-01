@@ -93,6 +93,11 @@ declare namespace Common {
       userId: string;
       alias?: string;
     };
+    type BotMention = {
+      type: 'botMention';
+      botId: string;
+      alias?: string;
+    };
     type Header = {
       type: 'header';
       value: Text[];

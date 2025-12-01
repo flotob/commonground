@@ -11,12 +11,22 @@ import { linkRegexGenerator } from 'common/validators';
 
 export type TextElement = { type: 'paragraph'; children: Text[]; };
 export type MentionElement = { type: 'mention'; children: Text[]; userData: Models.User.Data; };
+export type BotMentionElement = { 
+  type: 'botMention'; 
+  children: Text[]; 
+  botData: { 
+    id: string; 
+    name: string; 
+    displayName: string; 
+    avatarId: string | null; 
+  }; 
+};
 export type HeaderElement = { type: 'header'; children: Text[]; };
 export type ImageElement = { type: 'image'; children: Text[]; imageId: string; largeImageId: string; caption: string; size: Common.Content.MediaSize; id: string; fileCandidate?: File };
 export type EmbedElement = { type: 'embed'; children: Text[]; embedId: string; size: Common.Content.MediaSize; id: string; urlCandidate?: string };
 
 export type TextType = 'ticker' | 'link' | 'tag' | 'richTextLink';
-export type CustomElement = TextElement | MentionElement | HeaderElement | ImageElement | EmbedElement;
+export type CustomElement = TextElement | MentionElement | BotMentionElement | HeaderElement | ImageElement | EmbedElement;
 export type CustomText = { text: string; type?: TextType; url?: string; bold?: true, italic?: true };
 
 type LeafContentType =
@@ -208,6 +218,8 @@ export function convertToContentFormat(inputContent: Descendant[]): AllContentTy
       // Check for mention element since mention can be inlined
       if (leaf.type as string === 'mention') {
         content.push(...extractMention(leaf as unknown as MentionElement));
+      } else if (leaf.type as string === 'botMention') {
+        content.push(...extractBotMention(leaf as unknown as BotMentionElement));
       } else {
         content.push(...extractTextLeaf(leaf));
       }
@@ -259,6 +271,14 @@ export function convertToContentFormat(inputContent: Descendant[]): AllContentTy
     }];
   }
 
+  function extractBotMention(element: BotMentionElement): AllContentType[] {
+    return [{
+      type: 'botMention',
+      botId: element.botData.id,
+      alias: element.botData.displayName || element.botData.name
+    } as any];
+  }
+
   function extractTextLeaf(text: CustomText): LeafContentType[] {
     if (!text.text) return [];
 
@@ -293,6 +313,8 @@ export function convertToContentFormat(inputContent: Descendant[]): AllContentTy
       content.push(...extractParagraph(element));
     } else if (element.type === 'mention') {
       content.push(...extractMention(element));
+    } else if (element.type === 'botMention') {
+      content.push(...extractBotMention(element));
     } else if (element.type === 'header') {
       content.push(extractHeader(element));
     } else if (element.type === 'image') {
@@ -376,6 +398,18 @@ export function convertToFieldFormat(content: (Models.BaseArticle.ContentElement
           children: [{ text: '' }]
         });
         break;
+      case 'botMention':
+        currentChildren.push({
+          type: 'botMention',
+          botData: {
+            id: (element as any).botId,
+            name: (element as any).alias || '',
+            displayName: (element as any).alias || '',
+            avatarId: null,
+          },
+          children: [{ text: '' }]
+        } as any);
+        break;
       case 'newline':
         // In order to skip adding extra paragraphs when last element added was also a complete element
         if (skipNextEmptyNewline) {
@@ -413,6 +447,21 @@ export function insertMention(editor: Editor, range: BaseRange, userData: Models
   };
   Transforms.select(editor, range);
   Transforms.insertNodes(editor, mention);
+  Transforms.move(editor);
+}
+
+export function insertBotMention(editor: Editor, range: BaseRange, botData: BotMentionElement['botData']) {
+  // We know for sure that mention inserts should always start and end on the same path
+  // Adding these avoids some random characters getting deleted
+  range.anchor.path = range.focus.path;
+
+  const botMention: BotMentionElement = {
+    type: 'botMention',
+    botData,
+    children: [{ text: '' }],
+  };
+  Transforms.select(editor, range);
+  Transforms.insertNodes(editor, botMention);
   Transforms.move(editor);
 }
 

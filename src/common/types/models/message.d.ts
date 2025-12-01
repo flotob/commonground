@@ -11,7 +11,8 @@ declare namespace Models {
       Common.Content.Link |
       Common.Content.RichTextLink |
       Common.Content.Newline |
-      Common.Content.Mention;
+      Common.Content.Mention |
+      Common.Content.BotMention;
 
     type BodyV1 = {
       version: "1",

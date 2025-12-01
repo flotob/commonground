@@ -45,6 +45,11 @@ const Mention = Joi.object({
   userId: common.Uuid.required(),
   alias: Joi.string(),
 }).strict(true);
+const BotMention = Joi.object({
+  type: Joi.equal('botMention').required(),
+  botId: common.Uuid.required(),
+  alias: Joi.string(),
+}).strict(true);
 const Header = Joi.object({
   type:Joi.equal('header').required(),
   value: Joi.array().items(Text),
@@ -70,6 +75,7 @@ export function createContentValidator(allowedTypes: (
   'richTextLink'|
   'newline'|
   'mention'|
+  'botMention'|
   'header'|
   'articleImage'|
   'articleEmbed'
@@ -92,6 +98,8 @@ export function createContentValidator(allowedTypes: (
         checker[type] = Newline.required();
       } else if (type === 'mention') {
         checker[type] = Mention.required();
+      } else if (type === 'botMention') {
+        checker[type] = BotMention.required();
       } else if (type === 'header') {
         checker[type] = Header.required();
       } else if (type === 'articleImage') {
@@ -131,7 +139,8 @@ const messageContentV1Validator = createContentValidator([
   'link',
   'richTextLink',
   'newline',
-  'mention'
+  'mention',
+  'botMention'
 ]);
 
 export {

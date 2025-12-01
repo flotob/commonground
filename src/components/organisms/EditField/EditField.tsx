@@ -11,7 +11,7 @@ import { BaseEditor, createEditor, Range, Text, Editor, Transforms, Descendant }
 import { HistoryEditor, withHistory } from 'slate-history'
 import { Slate, Editable, withReact, ReactEditor, RenderElementProps, RenderLeafProps, useSelected, useFocused, RenderPlaceholderProps } from 'slate-react';
 import { getDisplayNameString } from '../../../util';
-import { clearEditor, convertToMessageBody, currentWord, CustomElement, CustomText, emptyState, findAndSetWordType, insertMention, isCurrentNodeEmptyParagraph, isCurrentNodeParagraph, isFirstNodeOfType, MentionElement, recalculateNodeTypes, removeAttachment, updateAttachmentImageId } from './EditField.helpers';
+import { clearEditor, convertToMessageBody, currentWord, CustomElement, CustomText, emptyState, findAndSetWordType, insertMention, insertBotMention, isCurrentNodeEmptyParagraph, isCurrentNodeParagraph, isFirstNodeOfType, MentionElement, BotMentionElement, recalculateNodeTypes, removeAttachment, updateAttachmentImageId } from './EditField.helpers';
 
 import { ReactComponent as ImageIcon } from "../../atoms/icons/16/Image.svg";
 import { ReactComponent as Spinner } from '../../../components/atoms/icons/16/Spinner.svg';
@@ -22,7 +22,9 @@ import { ReactComponent as EmojiOutlineIcon } from "../../atoms/icons/24/EmojiOu
 import { ReactComponent as PaperPlaneIcon } from "../../atoms/icons/misc/PaperPlane.svg";
 
 import MentionSuggestion from './MentionSuggestion/MentionSuggestion';
+import BotMentionSuggestion from './BotMentionSuggestion/BotMentionSuggestion';
 import Scrollable from '../../molecules/Scrollable/Scrollable';
+import botsApi from 'data/api/bots';
 import { linkRegexGenerator } from '../../../common/validators';
 import HoveringToolbar from './HoveringToolbar/HoveringToolbar';
 import { Popover } from '../../atoms/Tooltip/Tooltip';
@@ -64,8 +66,8 @@ const linkRegex = linkRegexGenerator();
 const withElements = (editor: Editor) => {
   const { isInline, isVoid } = editor;
 
-  editor.isInline = (element) => element.type === 'mention' || isInline(element);
-  editor.isVoid = (element) => element.type === 'mention' || element.type === 'image' || element.type === 'embed' || isVoid(element);
+  editor.isInline = (element) => element.type === 'mention' || element.type === 'botMention' || isInline(element);
+  editor.isVoid = (element) => element.type === 'mention' || element.type === 'botMention' || element.type === 'image' || element.type === 'embed' || isVoid(element);
 
   return editor;
 }
@@ -121,6 +123,7 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
   const [mentionTargetRange, setMentionTargetRange] = React.useState<Range | undefined>();
   const [mentionIndex, setMentionIndex] = React.useState<number>(0);
   const [mentionableUserIds, setMentionableUserIds] = React.useState<string[]>([]);
+  const [mentionableBots, setMentionableBots] = React.useState<BotMentionElement['botData'][]>([]);
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
   const [lockFocus, setLockFocus] = React.useState(false);
 
@@ -146,6 +149,9 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
       return displayName.toLocaleLowerCase().startsWith(lowerSearchValue);
     }) as Models.User.Data[];
   }, [__filteredUsers, mentionSearchValue]);
+
+  // Combined count for keyboard navigation (users first, then bots)
+  const totalMentionSuggestions = filteredUsers.length + mentionableBots.length;
 
   const setCurrentValue = useCallback((value: Descendant[]) => {
     clearEditor(editor);
@@ -213,7 +219,7 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
 
   const { getInputProps, getRootProps, isDragActive, rootRef } = useDropzone({ onDrop: onFilesDrop, noClick: true })
 
-  // Update mentionable users on search string change
+  // Update mentionable users and bots on search string change
   React.useEffect(() => {
     if (mentionRetrievalDebounceRef.current !== undefined) {
       clearTimeout(mentionRetrievalDebounceRef.current);
@@ -222,7 +228,7 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
     if (mentionSearchValue && props.mentionableUsersSource) {
       const { channelId, communityId } = props.mentionableUsersSource;
       mentionRetrievalDebounceRef.current = setTimeout(() => {
-        // Debounce
+        // Debounce - fetch users
         communityApi.getChannelMemberList({
           channelId,
           communityId,
@@ -237,10 +243,29 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
         }).catch(err => {
           console.log(err);
         });
+
+        // Debounce - fetch bots
+        botsApi.getChannelBots({ channelId, communityId }).then(res => {
+          const lowerSearch = mentionSearchValue.toLowerCase();
+          const filteredBots = res.bots.filter(bot => {
+            const displayName = bot.displayName || bot.name;
+            return displayName.toLowerCase().startsWith(lowerSearch);
+          }).map(bot => ({
+            id: bot.id,
+            name: bot.name,
+            displayName: bot.displayName,
+            avatarId: bot.avatarId,
+          }));
+          setMentionableBots(filteredBots);
+        }).catch(err => {
+          console.log('Error fetching channel bots:', err);
+          setMentionableBots([]);
+        });
       }, 500);
     }
     else {
       setMentionableUserIds([]);
+      setMentionableBots([]);
     }
   }, [mentionSearchValue, props.mentionableUsersSource]);
 
@@ -527,25 +552,32 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
   }, [editor]);
 
   const handleCommandKeys = React.useCallback((event: React.KeyboardEvent) => {
-    if (mentionTargetRange && filteredUsers[mentionIndex]) {
+    const hasMentionSuggestions = mentionTargetRange && totalMentionSuggestions > 0;
+    if (hasMentionSuggestions) {
       let currentIndex = 0;
       switch (event.key) {
         case 'ArrowDown':
           event.preventDefault();
-          const prevIndex = mentionIndex >= filteredUsers.length - 1 ? 0 : mentionIndex + 1;
+          const prevIndex = mentionIndex >= totalMentionSuggestions - 1 ? 0 : mentionIndex + 1;
           setMentionIndex(prevIndex);
           currentIndex = prevIndex;
           break;
         case 'ArrowUp':
           event.preventDefault();
-          const nextIndex = mentionIndex <= 0 ? filteredUsers.length - 1 : mentionIndex - 1;
+          const nextIndex = mentionIndex <= 0 ? totalMentionSuggestions - 1 : mentionIndex - 1;
           setMentionIndex(nextIndex);
           currentIndex = nextIndex;
           break;
         case 'Tab':
         case 'Enter':
           event.preventDefault();
-          insertMention(editor, mentionTargetRange, filteredUsers[mentionIndex]);
+          // Check if selecting a user or a bot
+          if (mentionIndex < filteredUsers.length) {
+            insertMention(editor, mentionTargetRange, filteredUsers[mentionIndex]);
+          } else {
+            const botIndex = mentionIndex - filteredUsers.length;
+            insertBotMention(editor, mentionTargetRange, mentionableBots[botIndex]);
+          }
           setMentionTargetRange(undefined);
           break;
         case 'Escape':
@@ -593,7 +625,7 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
         }
       }
     }
-  }, [editor, filteredUsers, isEditing, isMobile, mentionIndex, mentionTargetRange, props.richTextMode, props.send, sendHandler, normalizeLinks]);
+  }, [editor, filteredUsers, mentionableBots, totalMentionSuggestions, isEditing, isMobile, mentionIndex, mentionTargetRange, props.richTextMode, props.send, sendHandler, normalizeLinks]);
 
   const handlePaste = React.useCallback((ev: React.ClipboardEvent<HTMLDivElement>) => {
     try {
@@ -629,7 +661,7 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
 
   // Update mention box position
   React.useEffect(() => {
-    if (mentionTargetRange && filteredUsers.length > 0) {
+    if (mentionTargetRange && totalMentionSuggestions > 0) {
       const el = mentionsRef.current;
       const domRange = ReactEditor.toDOMRange(editor, mentionTargetRange);
       const rect = domRange.getBoundingClientRect();
@@ -650,7 +682,7 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
         el.style.bottom = `${window.innerHeight - rect.top + 5}px`;
       }
     }
-  }, [filteredUsers.length, editor, mentionTargetRange, isMobile]);
+  }, [totalMentionSuggestions, editor, mentionTargetRange, isMobile]);
 
   const onEditFieldError = React.useCallback((error: Error, errorInfo: React.ErrorInfo) => {
     setRecreateOnErrorCounter(oldCounter => oldCounter + 1);
@@ -821,7 +853,7 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
           </div>}
           {loadingLinkAttachment && <LinkPreviewSkeleton />}
           {inputControls}
-          {filteredUsers.length > 0 && mentionTargetRange && <Portal>
+          {totalMentionSuggestions > 0 && mentionTargetRange && <Portal>
             <div ref={mentionsRef} style={{ position: 'absolute' }} className="message-field-mentions-box">
               <Scrollable>
                 {filteredUsers.map((userData, index) => {
@@ -831,6 +863,17 @@ const EditFieldThree: React.ForwardRefRenderFunction<EditFieldHandle, Props> = (
                     currentInput={mentionSearchValue}
                     key={userData.id}
                     userData={userData}
+                    selected={selected}
+                  />);
+                })}
+                {mentionableBots.map((botData, index) => {
+                  const globalIndex = filteredUsers.length + index;
+                  const selected = mentionIndex === globalIndex;
+                  return (<BotMentionSuggestion
+                    mentionTargetRange={mentionTargetRange}
+                    currentInput={mentionSearchValue}
+                    key={botData.id}
+                    botData={botData}
                     selected={selected}
                   />);
                 })}
@@ -921,6 +964,9 @@ const FieldElement: React.FC<RenderElementProps> = React.memo((props) => {
   if (element.type === 'mention') {
     return <Mention {...props} element={element} />;
   }
+  if (element.type === 'botMention') {
+    return <BotMention {...props} element={element} />;
+  }
   if (element.type === 'header') {
     return <h3 {...attributes}>{children}</h3>;
   }
@@ -942,6 +988,24 @@ const Mention: React.FC<RenderElementProps & { element: MentionElement }> = Reac
       {...attributes}
       contentEditable={false}
       className="mention-editable"
+      style={{
+        boxShadow: selected && focused ? '0 0 0 1px #BABABA' : 'none',
+      }}
+    >
+      {children}@{displayName}
+    </span>
+  )
+});
+
+const BotMention: React.FC<RenderElementProps & { element: BotMentionElement }> = React.memo(({ attributes, children, element }) => {
+  const selected = useSelected();
+  const focused = useFocused();
+  const displayName = element.botData?.displayName || element.botData?.name || 'Bot';
+  return (
+    <span
+      {...attributes}
+      contentEditable={false}
+      className="mention-editable bot-mention-editable"
       style={{
         boxShadow: selected && focused ? '0 0 0 1px #BABABA' : 'none',
       }}

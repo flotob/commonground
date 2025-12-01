@@ -13,6 +13,7 @@ import { useSignedUrl } from '../../../hooks/useSignedUrl';
 import { linkRegexGenerator } from "../../../common/validators";
 import { getDisplayNameString } from "../../../util";
 import UserTooltip from "../../organisms/UserTooltip/UserTooltip";
+import BotBadge from '../../atoms/BotBadge/BotBadge';
 import { useOwnUser } from 'context/OwnDataProvider';
 import { useMultipleUserData } from 'context/UserDataProvider';
 import MessageTimestamp from '../Message/MessageTimestamp/MessageTimestamp';
@@ -274,6 +275,15 @@ export function AllContentRenderer(props: {
           >
             <span key={messageKey} className="message-body-mention">@{user ? getDisplayNameString(user) : c.alias || c.userId}</span>
           </UserTooltip>
+        );
+        break;
+      }
+      case 'botMention': {
+        currentElement = (
+          <span key={messageKey} className="message-body-mention message-body-bot-mention">
+            @{(c as any).alias || (c as any).botId}
+            <BotBadge />
+          </span>
         );
         break;
       }
