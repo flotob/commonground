@@ -19,6 +19,7 @@ import ogs from 'open-graph-scraper';
 import fileHelper from "../repositories/files";
 import axios from "../util/axios";
 import articleHelper from "../repositories/articles";
+import { processBotMentionWebhooks } from "../util/botWebhooks";
 
 const t = shortUUID();
 
@@ -269,6 +270,22 @@ async function createMessage(user: User, data: API.Messages.createMessage.Reques
   };
 
   emitMessageEvents([event], access, { deviceIds: [user.deviceId] });
+
+  // Process bot mention webhooks (fire and forget)
+  if ('communityId' in access) {
+    processBotMentionWebhooks({
+      id: message.id,
+      body: message.body,
+      attachments: message.attachments,
+      createdAt: message.createdAt,
+      creatorId: user.id,
+      channelId: access.channelId,
+      communityId: access.communityId,
+      parentMessageId: message.parentMessageId,
+    }).catch(err => {
+      console.error('Error processing bot mention webhooks:', err);
+    });
+  }
 
   let notifications: (Omit<Models.Notification.ApiNotification, "id" | "createdAt" | "updatedAt" | "read"> & { userId: string })[] = [];
   const previewText = message.body.content.reduce<string[]>((agg, val) => {
